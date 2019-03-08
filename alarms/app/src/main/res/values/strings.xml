@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Alarms</string>
+    <string name="login_fingerprint_text">Touch the fingerprint sensor</string>
+    <string name="home_tab">HOME</string>
+    <string name="alarms_tab">ALARMS</string>
+    <string name="games_tab">GAMES</string>
+    <string name="profile_tab">PROFILE</string>
+
+</resources>
