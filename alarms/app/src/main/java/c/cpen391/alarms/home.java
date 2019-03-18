@@ -5,6 +5,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
 import android.support.design.widget.TabLayout;
+import android.view.MotionEvent;
+import android.view.View;
 
 /**
  * Created by Grace on 2019-03-07.
@@ -13,7 +15,7 @@ import android.support.design.widget.TabLayout;
 public class home extends AppCompatActivity {
     private TabAdapter adapter;
     private TabLayout tabLayout;
-    private ViewPager viewPager;
+    private CustomViewPager viewPager;
     private int[] tabIcons = {
             R.drawable.ic_outline_home_48px,
             R.drawable.ic_outline_alarm_48px,
@@ -24,7 +26,7 @@ public class home extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        viewPager = (ViewPager) findViewById(R.id.viewPager);
+        viewPager = (CustomViewPager) findViewById(R.id.viewPager);
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         adapter = new TabAdapter(getSupportFragmentManager(), this);
         adapter.addFragment(new TabHome(), getString(R.string.home_tab), tabIcons[0]);
@@ -34,7 +36,7 @@ public class home extends AppCompatActivity {
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
         highLightCurrentTab(0);
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        viewPager.addOnPageChangeListener(new CustomViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             }

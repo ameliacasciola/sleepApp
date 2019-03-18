@@ -16,10 +16,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextClock;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.squareup.picasso.Picasso;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -32,7 +35,8 @@ public class TabHome extends Fragment {
     private String[] cardUrls = {
             "http://crowdmedia.co/wp-content/uploads/2018/04/download-wallpaper-black-and-white-city-red-houses-skyline-ages-monochrome-wallpapers-widescreen-dark-single-c.jpg",
             "http://www.4usky.com/data/out/61/164540853-minimal-wallpapers.jpg",
-            "https://png.pngtree.com/thumb_back/fw800/back_pic/04/09/63/575815dcbddd47e.jpg"
+            "https://png.pngtree.com/thumb_back/fw800/back_pic/04/09/63/575815dcbddd47e.jpg",
+            "https://www.lescartons.fr/img/search-banner/search-banner-1-sm.jpg"
     };
     TextClock clock;
     ImageView alarmImage;
@@ -63,7 +67,9 @@ public class TabHome extends Fragment {
             @Override
             public void onResponse(Call<List<Alarm>> call, Response<List<Alarm>> response) {
                 progressDoalog.dismiss();
-                generateDataList(response.body(), rootview);
+                List<Alarm> alarmList = response.body();
+                generateDataList(alarmList, rootview);
+                displayNextAlarm(alarmList.get(0), rootview);
             }
 
             @Override
@@ -77,8 +83,6 @@ public class TabHome extends Fragment {
         searchBar.setSpeechMode(true);
         searchBar.setCardViewElevation(0);
         searchBar.setPlaceHolderColor(Color.parseColor("#A9A9A9"));
-
-
 
         ImageView imageView = (ImageView) rootview.findViewById(R.id.location_icon);
         imageView.setImageResource(R.drawable.ic_outline_location_on_24px);
@@ -95,6 +99,29 @@ public class TabHome extends Fragment {
         displayForecast(rootview);
 
         return rootview;
+    }
+
+    private void displayNextAlarm(Alarm nextAlarm, View rootview){
+        ImageView nextAlarmHeader = (ImageView) rootview.findViewById(R.id.nextAlarmImage);
+        Picasso.get()
+                .load(cardUrls[3])
+                .placeholder(R.drawable.blue_plane)
+                .into(nextAlarmHeader);
+
+        TextView alarmDescription = (TextView) rootview.findViewById(R.id.alarm_description);
+        alarmDescription.setText(nextAlarm.getAlarmDescription());
+
+        ImageView editIcon = (ImageView) rootview.findViewById(R.id.edit_icon);
+        editIcon.setImageResource(R.drawable.ic_outline_edit_24px);
+        editIcon.setColorFilter(ContextCompat.getColor(getActivity(), R.color.emerald_green), android.graphics.PorterDuff.Mode.SRC_IN);
+
+        ImageView cancelIcon = (ImageView) rootview.findViewById(R.id.cancel_icon);
+        cancelIcon.setImageResource(R.drawable.ic_outline_cancel_24px);
+        cancelIcon.setColorFilter(ContextCompat.getColor(getActivity(), R.color.red), android.graphics.PorterDuff.Mode.SRC_IN);
+
+        ImageView viewIcon = (ImageView) rootview.findViewById(R.id.view_icon);
+        viewIcon.setImageResource(R.drawable.ic_outline_pageview_24px);
+        viewIcon.setColorFilter(ContextCompat.getColor(getActivity(), R.color.gray), android.graphics.PorterDuff.Mode.SRC_IN);
     }
 
     private void displayForecast(View rootview){
@@ -116,9 +143,9 @@ public class TabHome extends Fragment {
     }
 
     /*Method to generate List of data using RecyclerView with custom adapter*/
-    private void generateDataList(List<Alarm> photoList, View rootview) {
+    private void generateDataList(List<Alarm> alarmList, View rootview) {
         recyclerView = rootview.findViewById(R.id.alarm_list);
-        adapter = new RecyclerViewAdapter(getActivity(),photoList);
+        adapter = new RecyclerViewAdapter(getActivity(),alarmList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
