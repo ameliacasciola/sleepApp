@@ -111,17 +111,17 @@ public class TabHome extends Fragment {
         TextView alarmDescription = (TextView) rootview.findViewById(R.id.alarm_description);
         alarmDescription.setText(nextAlarm.getAlarmDescription());
 
-        ImageView editIcon = (ImageView) rootview.findViewById(R.id.edit_icon);
-        editIcon.setImageResource(R.drawable.ic_outline_edit_24px);
-        editIcon.setColorFilter(ContextCompat.getColor(getActivity(), R.color.emerald_green), android.graphics.PorterDuff.Mode.SRC_IN);
-
-        ImageView cancelIcon = (ImageView) rootview.findViewById(R.id.cancel_icon);
-        cancelIcon.setImageResource(R.drawable.ic_outline_cancel_24px);
-        cancelIcon.setColorFilter(ContextCompat.getColor(getActivity(), R.color.red), android.graphics.PorterDuff.Mode.SRC_IN);
-
-        ImageView viewIcon = (ImageView) rootview.findViewById(R.id.view_icon);
-        viewIcon.setImageResource(R.drawable.ic_outline_pageview_24px);
-        viewIcon.setColorFilter(ContextCompat.getColor(getActivity(), R.color.gray), android.graphics.PorterDuff.Mode.SRC_IN);
+//        ImageView editIcon = (ImageView) rootview.findViewById(R.id.edit_icon);
+//        editIcon.setImageResource(R.drawable.ic_outline_edit_24px);
+//        editIcon.setColorFilter(ContextCompat.getColor(getActivity(), R.color.emerald_green), android.graphics.PorterDuff.Mode.SRC_IN);
+//
+//        ImageView cancelIcon = (ImageView) rootview.findViewById(R.id.cancel_icon);
+//        cancelIcon.setImageResource(R.drawable.ic_outline_cancel_24px);
+//        cancelIcon.setColorFilter(ContextCompat.getColor(getActivity(), R.color.red), android.graphics.PorterDuff.Mode.SRC_IN);
+//
+//        ImageView viewIcon = (ImageView) rootview.findViewById(R.id.view_icon);
+//        viewIcon.setImageResource(R.drawable.ic_outline_pageview_24px);
+//        viewIcon.setColorFilter(ContextCompat.getColor(getActivity(), R.color.gray), android.graphics.PorterDuff.Mode.SRC_IN);
     }
 
     private void displayForecast(View rootview){
