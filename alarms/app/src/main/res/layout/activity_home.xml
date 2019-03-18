@@ -32,8 +32,8 @@
                 android:fitsSystemWindows="true"
                 android:background="@color/white"
                 android:src="@drawable/banks"
+                android:scaleType="fitXY"
                 android:tint="@color/black"
-                android:padding="32dp"
                 app:layout_collapseMode="pin"/>
 
         </android.support.design.widget.CollapsingToolbarLayout>
