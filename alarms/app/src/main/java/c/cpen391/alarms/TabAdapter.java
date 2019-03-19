@@ -29,6 +29,7 @@ public class TabAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         return mFragmentList.get(position);
     }
+
     public void addFragment(Fragment fragment, String title, int tabIcon) {
         mFragmentList.add(fragment);
         mFragmentTitleList.add(title);
@@ -39,10 +40,12 @@ public class TabAdapter extends FragmentStatePagerAdapter {
     public CharSequence getPageTitle(int position) {
         return null;
     }
+
     @Override
     public int getCount() {
         return mFragmentList.size();
     }
+
     public View getTabView(int position) {
         View view = LayoutInflater.from(context).inflate(R.layout.custom_tab, null);
         TextView tabTextView = view.findViewById(R.id.tabTextView);
@@ -51,6 +54,7 @@ public class TabAdapter extends FragmentStatePagerAdapter {
         tabImageView.setImageResource(mFragmentIconList.get(position));
         return view;
     }
+
     public View getSelectedTabView(int position) {
         View view = LayoutInflater.from(context).inflate(R.layout.custom_tab, null);
         TextView tabTextView = view.findViewById(R.id.tabTextView);

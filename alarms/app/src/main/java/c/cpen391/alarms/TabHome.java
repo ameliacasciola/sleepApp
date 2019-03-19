@@ -2,11 +2,10 @@ package c.cpen391.alarms;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,7 +20,6 @@ import android.widget.Toast;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -53,8 +50,7 @@ public class TabHome extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Context c = getActivity().getApplicationContext();
         final View rootview = inflater.inflate(R.layout.home_page, container, false);
-        //setWeatherCard(rootview);
-        //clock = rootview.findViewById(R.id.textClock);
+
 
         progressDoalog = new ProgressDialog(getActivity());
         progressDoalog.setMessage("Loading....");
@@ -65,7 +61,7 @@ public class TabHome extends Fragment {
         Call<List<Alarm>> call = service.getAlarms();
         call.enqueue(new Callback<List<Alarm>>() {
             @Override
-            public void onResponse(Call<List<Alarm>> call, Response<List<Alarm>> response) {
+            public void onResponse(Call<List<Alarm>> call, Response< List<Alarm>> response) {
                 progressDoalog.dismiss();
                 List<Alarm> alarmList = response.body();
                 generateDataList(alarmList, rootview);
@@ -84,20 +80,11 @@ public class TabHome extends Fragment {
         searchBar.setCardViewElevation(0);
         searchBar.setPlaceHolderColor(Color.parseColor("#A9A9A9"));
 
-        ImageView imageView = (ImageView) rootview.findViewById(R.id.location_icon);
-        imageView.setImageResource(R.drawable.ic_outline_location_on_24px);
-
 
         WeatherCard mCustomLayout = (WeatherCard) rootview.findViewById(R.id.weatherCard_bg);
         Picasso.get().load(cardUrls[2]).into(mCustomLayout);
-        //weatherImage = (ImageView) rootview.findViewById(R.id.weatherImage);
-//        Picasso.get()
-//                .load(cardUrls[0])
-//                .placeholder(R.drawable.blue_plane)
-//                .into(weatherImage);
 
         displayForecast(rootview);
-
         return rootview;
     }
 
@@ -111,17 +98,15 @@ public class TabHome extends Fragment {
         TextView alarmDescription = (TextView) rootview.findViewById(R.id.alarm_description);
         alarmDescription.setText(nextAlarm.getAlarmDescription());
 
-//        ImageView editIcon = (ImageView) rootview.findViewById(R.id.edit_icon);
-//        editIcon.setImageResource(R.drawable.ic_outline_edit_24px);
-//        editIcon.setColorFilter(ContextCompat.getColor(getActivity(), R.color.emerald_green), android.graphics.PorterDuff.Mode.SRC_IN);
-//
-//        ImageView cancelIcon = (ImageView) rootview.findViewById(R.id.cancel_icon);
-//        cancelIcon.setImageResource(R.drawable.ic_outline_cancel_24px);
-//        cancelIcon.setColorFilter(ContextCompat.getColor(getActivity(), R.color.red), android.graphics.PorterDuff.Mode.SRC_IN);
-//
-//        ImageView viewIcon = (ImageView) rootview.findViewById(R.id.view_icon);
-//        viewIcon.setImageResource(R.drawable.ic_outline_pageview_24px);
-//        viewIcon.setColorFilter(ContextCompat.getColor(getActivity(), R.color.gray), android.graphics.PorterDuff.Mode.SRC_IN);
+
+        CardView nextAlarmCard = (CardView) rootview.findViewById(R.id.next_alarm);
+        nextAlarmCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), login.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void displayForecast(View rootview){

@@ -13,7 +13,7 @@
         <ImageView
             android:id="@+id/nextAlarmImage"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="140dp"
             android:scaleType="fitXY"
             android:background="@color/white"
             android:layout_alignParentTop="true"/>
@@ -26,31 +26,19 @@
             android:gravity="center_horizontal"
             android:textColor="@color/dark_gray"
             android:textStyle="bold"
-            android:textSize="70dp"
+            android:textSize="70sp"
             android:text="8:30"/>
 
-
-        <android.support.v7.widget.CardView
+        <TextView
             android:layout_width="match_parent"
+            android:id="@+id/date"
             android:layout_height="wrap_content"
-            android:id="@+id/alarm_card"
-            app:cardBackgroundColor="#D9ffffff"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginBottom="10dp"
-            card_view:cardCornerRadius="20dp"
-            android:layout_below="@id/time">
-
-            <TextView
-                style="@style/TextAppearance.AppCompat.Medium"
-                android:id="@+id/alarm_description"
-                android:layout_width="wrap_content"
-                android:padding="15dp"
-                android:layout_centerHorizontal="true"
-                android:layout_height="wrap_content"
-                android:textSize="15dp"/>
-
-        </android.support.v7.widget.CardView>
+            android:layout_below="@+id/time"
+            android:gravity="center_horizontal"
+            android:textColor="@color/gray"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:text="TUESDAY"/>
 
     </RelativeLayout>
 </android.support.v7.widget.CardView>

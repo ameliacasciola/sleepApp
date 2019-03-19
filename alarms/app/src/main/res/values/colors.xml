@@ -12,4 +12,6 @@
     <color name="emerald_green">#35C27C</color>
     <color name="red">#FF4646</color>
     <color name="dark_gray">#696969</color>
+    <color name="dark_yellow">#9b870c</color>
+    <color name="teal">#008080</color>
 </resources>

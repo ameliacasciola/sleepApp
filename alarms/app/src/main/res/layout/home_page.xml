@@ -16,33 +16,13 @@
             android:layout_height="wrap_content"
             android:background="@color/white" >
 
-            <ImageView
-                android:id="@+id/location_icon"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:paddingTop="36dp"
-                android:layout_marginStart='15dp'
-                android:layout_width="wrap_content"/>
-
-            <TextView
-                android:id="@+id/location"
-                android:textStyle="bold"
-                android:textSize="21sp"
-                android:layout_toRightOf="@+id/location_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_alignBottom="@+id/location_icon"
-                android:paddingStart="5dp"
-                android:paddingTop="34dp"
-                android:text="Vancouver" />
-
             <com.mancj.materialsearchbar.MaterialSearchBar
                 app:mt_searchBarColor="@color/search_bar"
                 android:id="@+id/search_bar"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:layout_below="@+id/location"
+                android:layout_alignParentTop="true"
+                android:paddingTop="36dp"
                 app:mt_speechMode="true"
                 app:mt_hint="Custom hint"
                 app:mt_maxSuggestionsCount="10"
@@ -99,14 +79,128 @@
                 android:layout_height="wrap_content"
                 android:text="Next Alarm" />
 
-            <include  layout="@layout/next_alarm" android:id="@+id/next_alarm"
+            <include  layout="@layout/next_alarm"
+                android:id="@+id/next_alarm"
                 android:layout_below="@+id/next_alarms_text"
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="15dp"
                 android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp"
+                android:layout_marginBottom="2dp"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"/>
+
+            <TextView
+                style="@style/TextAppearance.AppCompat.Medium"
+                android:id="@+id/alarm_date"
+                android:layout_width="wrap_content"
+                android:textStyle="bold"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/dark_yellow"
+                android:text="MARCH 19"
+                android:layout_marginStart="15dp"
+                android:layout_below="@+id/next_alarm"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"/>
+
+
+            <TextView
+                style="@style/TextAppearance.AppCompat.Medium"
+                android:id="@+id/alarm_description"
+                android:layout_width="wrap_content"
+                android:paddingRight="15dp"
+                android:paddingTop="2dp"
+                android:paddingBottom="5dp"
+                android:layout_marginStart="15dp"
+                android:layout_below="@+id/alarm_date"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"/>
+            
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="15dp"
+                android:id="@+id/volume_bar"
+                android:layout_below="@id/alarm_description"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="10dp"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:text="VOLUME"
+                    android:textColor="@color/teal"
+                    android:textSize="10sp"/>
+                <View
+                    android:layout_width="3dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_height="10dp"
+                    android:background="@color/teal" />
+                <View
+                    android:layout_width="3dp"
+                    android:layout_marginLeft="3dp"
+                    android:layout_height="10dp"
+                    android:background="@color/teal" />
+                <View
+                    android:layout_width="3dp"
+                    android:layout_marginLeft="3dp"
+                    android:layout_height="10dp"
+                    android:background="@color/teal" />
+                <View
+                    android:layout_width="3dp"
+                    android:layout_marginLeft="3dp"
+                    android:layout_height="10dp"
+                    android:background="@color/teal" />
+                <View
+                    android:layout_width="3dp"
+                    android:layout_marginLeft="3dp"
+                    android:layout_height="10dp"
+                    android:background="@color/teal" />
+                <View
+                    android:layout_width="3dp"
+                    android:layout_marginLeft="3dp"
+                    android:layout_height="10dp"
+                    android:background="@color/teal" />
+                <View
+                    android:layout_width="3dp"
+                    android:layout_marginLeft="3dp"
+                    android:layout_height="10dp"
+                    android:background="@color/teal" />
+                <View
+                    android:layout_width="3dp"
+                    android:layout_marginLeft="3dp"
+                    android:layout_height="10dp"
+                    android:background="@color/teal" />
+                <View
+                    android:layout_width="3dp"
+                    android:layout_marginLeft="3dp"
+                    android:layout_height="10dp"
+                    android:background="@color/teal" />
+                <View
+                    android:layout_width="3dp"
+                    android:layout_marginLeft="3dp"
+                    android:layout_height="10dp"
+                    android:background="@color/teal" />
+                <View
+                    android:layout_width="3dp"
+                    android:layout_marginLeft="3dp"
+                    android:layout_height="10dp"
+                    android:background="@color/teal" />
+                <View
+                    android:layout_width="3dp"
+                    android:layout_marginLeft="3dp"
+                    android:layout_height="10dp"
+                    android:background="@color/teal" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="10dp"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:layout_marginLeft="10sp"
+                    android:text="10"
+                    android:textColor="@color/teal"
+                    android:textSize="10sp"/>
+            </LinearLayout>
+
 
             <TextView
                 android:id="@+id/alarms_text"
@@ -115,7 +209,7 @@
                 android:padding="10dp"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
-                android:layout_below="@+id/next_alarm"
+                android:layout_below="@+id/volume_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="My Alarms" />

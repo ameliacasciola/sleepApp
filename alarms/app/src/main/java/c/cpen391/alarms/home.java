@@ -19,8 +19,9 @@ public class home extends AppCompatActivity {
     private int[] tabIcons = {
             R.drawable.ic_outline_home_48px,
             R.drawable.ic_outline_alarm_48px,
+            R.drawable.ic_outline_insert_chart_24px,
             R.drawable.ic_outline_games_48px,
-            R.drawable.ic_outline_person_48px
+            R.drawable.ic_outline_person_48px,
     };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +32,9 @@ public class home extends AppCompatActivity {
         adapter = new TabAdapter(getSupportFragmentManager(), this);
         adapter.addFragment(new TabHome(), getString(R.string.home_tab), tabIcons[0]);
         adapter.addFragment(new TabAlarms(), getString(R.string.alarms_tab), tabIcons[1]);
-        adapter.addFragment(new TabGames(), getString(R.string.games_tab), tabIcons[2]);
-        adapter.addFragment(new TabProfile(), getString(R.string.profile_tab), tabIcons[3]);
+        adapter.addFragment(new TabTrends(), "TRENDS", tabIcons[2]);
+        adapter.addFragment(new TabGames(), getString(R.string.games_tab), tabIcons[3]);
+        adapter.addFragment(new TabProfile(), getString(R.string.profile_tab), tabIcons[4]);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
         highLightCurrentTab(0);
