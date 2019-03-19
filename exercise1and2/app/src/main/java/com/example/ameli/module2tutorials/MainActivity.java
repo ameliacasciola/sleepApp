@@ -1,6 +1,7 @@
 package com.example.ameli.module2tutorials;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private Button tipMinus;
     private Button splitPlus;
     private Button splitMinus;
+    private Button toGraphics;
 
     private String billString;
     private double bill;
@@ -61,6 +63,15 @@ public class MainActivity extends AppCompatActivity {
         tipMinus = (Button) findViewById(R.id.tip_minus);
         splitPlus = (Button) findViewById(R.id.split_plus);
         splitMinus = (Button) findViewById(R.id.split_minus);
+        toGraphics = (Button) findViewById(R.id.go_to_graphics_button);
+
+        //set button functionality to take you to the graphics exercise
+        toGraphics.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(context, GraphicsActivity.class);
+                context.startActivity(intent);
+            }
+        });
 
 
         //Set button functionality to increase and decrease tip value
