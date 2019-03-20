@@ -45,6 +45,19 @@ public class TabHome extends Fragment {
             "https://asset.lumosity.com/resources/landing_page_templates/857/studies_mobile.png"
     };
 
+    private String[] gamesNames = {
+            "Egg Run",
+            "Get Eggy With It",
+            "The Egg Did It",
+            "Where did the Egg Go"
+    };
+
+    private String[] gamesType = {
+            "Physical Exercise",
+            "Planning",
+            "Speed",
+            "Just get the Egg"
+    };
 
     TextClock clock;
     ImageView alarmImage;
@@ -133,6 +146,12 @@ public class TabHome extends Fragment {
         for (int i = 0; i < gamesCardId.length; i++){
             View gamesCardView = rootview.findViewById(gamesCardId[i]);
             ImageView gamesImg = gamesCardView.findViewById(R.id.gameImg);
+            TextView gamesName = gamesCardView.findViewById(R.id.game_name);
+            gamesName.setText(gamesNames[i]);
+
+            TextView gameType = gamesCardView.findViewById(R.id.game_type);
+            gameType.setText(gamesType[i]);
+
             Picasso.get()
                     .load(gamesUrls[i])
                     .placeholder(R.drawable.blue_plane)
