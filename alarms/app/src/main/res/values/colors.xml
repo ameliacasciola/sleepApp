@@ -14,4 +14,10 @@
     <color name="dark_gray">#696969</color>
     <color name="dark_yellow">#9b870c</color>
     <color name="teal">#008080</color>
+    <color name="colorBlue">#367e90</color>
+    <color name="colorOpposite">#60c002</color>
+    <color name="colorWhite">#ffffff</color>
+    <color name="colorBlack">#000000</color>
+    <color name="colorLight">#7F7F7F</color>
+    <color name="colorBorder">#e6e3e2</color>
 </resources>
