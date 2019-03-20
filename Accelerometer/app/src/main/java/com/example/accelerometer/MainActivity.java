@@ -12,11 +12,12 @@ import android.widget.Toast;
 
  public class MainActivity extends AppCompatActivity implements SensorEventListener{
 
-    SensorManager sensorManager;
-
-    TextView tv_steps;
-
+    private SensorManager sensorManager;
+    private TextView tv_steps;
     boolean running = false;
+    private int step_count;
+    private int init_count;
+    private boolean first = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,8 +25,8 @@ import android.widget.Toast;
         setContentView(R.layout.activity_main);
 
         tv_steps = (TextView) findViewById(R.id.tv_steps);
-
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+
     }
 
      @Override
@@ -36,7 +37,7 @@ import android.widget.Toast;
          if (countSensor != null){
              sensorManager.registerListener(this,countSensor, SensorManager.SENSOR_DELAY_UI);
          } else {
-             Toast.makeText(this, "Sensor not found!", Toast.LENGTH_SHORT).show();
+             Toast.makeText(this, "Sensor not found!", Toast.LENGTH_LONG).show();
          }
      }
 
@@ -51,17 +52,31 @@ import android.widget.Toast;
 
      @Override
      public void onSensorChanged(SensorEvent event){
-        if(running){
-            tv_steps.setText(String.valueOf(event.values[0]));
+        if(first){
+            init_count = (int)event.values[0];
+            first = false;
         }
 
-        if(event.values[0] == 100){
-            Toast.makeText(this, "100 steps done!", Toast.LENGTH_LONG).show();
+        if(running){
+            step_count = (int)event.values[0] - init_count;
+            tv_steps.setText(String.valueOf(step_count));
+
+            if(step_count > 3 || step_count == 3){
+                Toast.makeText(this, "100 steps done!", Toast.LENGTH_LONG).show();
+                popfinishmessage();
+            }
         }
+
+
     }
 
     @Override
      public void onAccuracyChanged(Sensor sensor, int accuracy){
 
+    }
+
+    public void popfinishmessage(){
+        popupmessage popUpMessage = new popupmessage();
+        popUpMessage.show(getSupportFragmentManager(), "Finish message");
     }
 }
