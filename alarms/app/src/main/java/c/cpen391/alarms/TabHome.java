@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
@@ -21,6 +22,7 @@ import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.squareup.picasso.Picasso;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import c.cpen391.alarms.models.Alarm;
@@ -35,6 +37,15 @@ public class TabHome extends Fragment {
             "https://png.pngtree.com/thumb_back/fw800/back_pic/04/09/63/575815dcbddd47e.jpg",
             "https://www.lescartons.fr/img/search-banner/search-banner-1-sm.jpg"
     };
+
+    private String[] gamesUrls = {
+            "https://images.ctfassets.net/8mn0755ou4sj/6ebMFEbgFUGig84iowaCqW/f59614c4f2ccba1c09dbe1aa48c3d583/pirates_passage.png",
+            "https://images.ctfassets.net/8mn0755ou4sj/oU3j9ofTYO6SWKqcKksyy/2f8b51ec7b9efa12011577e77ccfaef1/braingames_lumosity.png",
+            "https://mms.businesswire.com/media/20180424005040/en/652796/5/tot_PR_TrainWorld.jpg",
+            "https://asset.lumosity.com/resources/landing_page_templates/857/studies_mobile.png"
+    };
+
+
     TextClock clock;
     ImageView alarmImage;
 
@@ -84,7 +95,15 @@ public class TabHome extends Fragment {
         WeatherCard mCustomLayout = (WeatherCard) rootview.findViewById(R.id.weatherCard_bg);
         Picasso.get().load(cardUrls[2]).into(mCustomLayout);
 
+        int[] gamesCardId = {
+                R.id.games_card,
+                R.id.games_card2,
+                R.id.games_card3,
+                R.id.games_card4
+        };
+
         displayForecast(rootview);
+        initGamesScroll(rootview, gamesCardId);
         return rootview;
     }
 
@@ -107,6 +126,18 @@ public class TabHome extends Fragment {
                 startActivity(intent);
             }
         });
+    }
+
+    private void initGamesScroll(View rootview, int[] gamesCardId){
+
+        for (int i = 0; i < gamesCardId.length; i++){
+            View gamesCardView = rootview.findViewById(gamesCardId[i]);
+            ImageView gamesImg = gamesCardView.findViewById(R.id.gameImg);
+            Picasso.get()
+                    .load(gamesUrls[i])
+                    .placeholder(R.drawable.blue_plane)
+                    .into(gamesImg);
+        }
     }
 
     private void displayForecast(View rootview){

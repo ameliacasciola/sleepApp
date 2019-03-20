@@ -102,7 +102,6 @@
                 android:layout_height="wrap_content"
                 android:textSize="15sp"/>
 
-
             <TextView
                 style="@style/TextAppearance.AppCompat.Medium"
                 android:id="@+id/alarm_description"
@@ -119,6 +118,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="15dp"
+                android:paddingBottom="5dp"
                 android:id="@+id/volume_bar"
                 android:layout_below="@id/alarm_description"
                 android:orientation="horizontal">
@@ -201,7 +201,6 @@
                     android:textSize="10sp"/>
             </LinearLayout>
 
-
             <TextView
                 android:id="@+id/alarms_text"
                 android:textStyle="bold"
@@ -220,6 +219,62 @@
                 android:id="@+id/alarm_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/games_text"
+                android:textStyle="bold"
+                android:textSize="24sp"
+                android:padding="10dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:layout_below="@+id/alarm_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Games" />
+
+            <HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:measureAllChildren="false"
+                android:layout_marginBottom="10dp"
+                android:layout_below="@+id/games_text"
+                android:scrollbars="none"
+                android:fillViewport="true">
+
+                <LinearLayout
+                    android:layout_marginLeft="7dp"
+                    android:id="@+id/innerLay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+
+                <include
+                    layout="@layout/games_card"
+                    android:layout_margin="10dp"
+                    android:id="@+id/games_card"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"/>
+                <include
+                    layout="@layout/games_card"
+                    android:id="@+id/games_card2"
+                    android:layout_margin="10dp"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"/>
+                <include
+                    layout="@layout/games_card"
+                    android:id="@+id/games_card3"
+                    android:layout_margin="10dp"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"/>
+                <include
+                    layout="@layout/games_card"
+                    android:layout_margin="10dp"
+                    android:id="@+id/games_card4"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"/>
+                </LinearLayout>
+            </HorizontalScrollView>
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>
