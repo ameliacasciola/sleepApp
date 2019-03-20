@@ -26,9 +26,11 @@ public class home extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_after_login);
+
         viewPager = (CustomViewPager) findViewById(R.id.viewPager);
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+
         adapter = new TabAdapter(getSupportFragmentManager(), this);
         adapter.addFragment(new TabHome(), getString(R.string.home_tab), tabIcons[0]);
         adapter.addFragment(new TabAlarms(), getString(R.string.alarms_tab), tabIcons[1]);
