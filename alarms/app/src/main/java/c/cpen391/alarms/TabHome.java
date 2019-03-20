@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.squareup.picasso.Picasso;
+import com.suke.widget.SwitchButton;
 
 
 import java.util.ArrayList;
@@ -117,6 +118,7 @@ public class TabHome extends Fragment {
 
         displayForecast(rootview);
         initGamesScroll(rootview, gamesCardId);
+
         return rootview;
     }
 

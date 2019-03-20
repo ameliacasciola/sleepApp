@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
+import com.suke.widget.SwitchButton;
 
 import java.util.List;
 
@@ -33,6 +34,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public final View mView;
         private ImageView coverImage;
         TextView txtTitle;
+        com.suke.widget.SwitchButton switchButton;
 
         CustomViewHolder(View itemView) {
             super(itemView);
@@ -40,6 +42,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
             txtTitle = mView.findViewById(R.id.title);
             coverImage = mView.findViewById(R.id.nextAlarmImage);
+            switchButton = (com.suke.widget.SwitchButton) mView.findViewById(R.id.switch_button);
+
         }
     }
 
@@ -56,11 +60,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         Picasso.Builder builder = new Picasso.Builder(context);
         builder.downloader(new OkHttp3Downloader(context));
-        builder.build().load(cardUrls[0])
-                .placeholder((R.drawable.ic_launcher_background))
-                .error(R.drawable.ic_launcher_background)
+        builder.build().load(R.drawable.sun)
+                .placeholder((R.drawable.blue_plane))
+                .error(R.drawable.bg_round_rect)
                 .into(holder.coverImage);
-
     }
 
     @Override

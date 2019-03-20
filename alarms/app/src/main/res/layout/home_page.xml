@@ -215,10 +215,24 @@
 
             <android.support.v7.widget.RecyclerView
                 android:layout_below="@+id/alarms_text"
-                android:layout_marginTop="5dp"
                 android:id="@+id/alarm_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
+
+            <Button
+                android:id="@+id/view_all_btn"
+                android:layout_below="@+id/alarm_list"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:textColor="@color/teal"
+                android:background="@drawable/cust_btn"
+                android:text="View All (10+)"
+                android:textStyle="bold"/>
+
 
             <TextView
                 android:id="@+id/games_text"
@@ -227,7 +241,7 @@
                 android:padding="10dp"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
-                android:layout_below="@+id/alarm_list"
+                android:layout_below="@+id/view_all_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Games" />

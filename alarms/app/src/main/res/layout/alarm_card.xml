@@ -3,8 +3,10 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_view_friend"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="15dp"
+    android:layout_height="100dp"
+    android:layout_marginLeft="15dp"
+    android:layout_marginRight="15dp"
+    android:layout_marginBottom="20dp"
     card_view:cardCornerRadius="10dp"
     card_view:cardElevation="5dp"
     >
@@ -14,24 +16,51 @@
         android:layout_height="wrap_content"
         >
 
+        <TextView
+            android:layout_width="8dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_height="match_parent"
+            android:background="@color/teal"/>
+
         <ImageView
             android:id="@+id/nextAlarmImage"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginLeft="10dp"
             android:scaleType="fitXY"
             android:background="@color/white"
-            android:layout_alignParentTop="true"/>
+            android:layout_alignParentLeft="true"/>
 
         <TextView
             android:id="@+id/title"
+            android:layout_toRightOf="@+id/nextAlarmImage"
             style="@style/TextAppearance.AppCompat.Medium"
-            android:layout_below="@id/nextAlarmImage"
+            android:layout_width="wrap_content"
+            android:layout_toLeftOf="@+id/switch_button"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:paddingTop="20dp"/>
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_toRightOf="@+id/nextAlarmImage"
+            style="@style/TextAppearance.AppCompat.Medium"
+            android:layout_below="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/switch_button"
             android:layout_marginLeft="16dp"
             android:paddingTop="20dp"
             android:lines="2"
             android:text="title" />
+
+        <com.suke.widget.SwitchButton
+            android:id="@+id/switch_button"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
     </RelativeLayout>
 
