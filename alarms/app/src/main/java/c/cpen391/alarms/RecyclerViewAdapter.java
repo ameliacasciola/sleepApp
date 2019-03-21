@@ -43,6 +43,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             txtTitle = mView.findViewById(R.id.title);
             coverImage = mView.findViewById(R.id.nextAlarmImage);
             switchButton = (com.suke.widget.SwitchButton) mView.findViewById(R.id.switch_button);
+            switchButton.setChecked(true);
 
         }
     }

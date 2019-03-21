@@ -132,7 +132,6 @@ public class TabHome extends Fragment {
         TextView alarmDescription = (TextView) rootview.findViewById(R.id.alarm_description);
         alarmDescription.setText(nextAlarm.getAlarmDescription());
 
-
         CardView nextAlarmCard = (CardView) rootview.findViewById(R.id.next_alarm);
         nextAlarmCard.setOnClickListener(new View.OnClickListener() {
             @Override

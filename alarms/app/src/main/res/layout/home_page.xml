@@ -233,7 +233,6 @@
                 android:text="View All (10+)"
                 android:textStyle="bold"/>
 
-
             <TextView
                 android:id="@+id/games_text"
                 android:textStyle="bold"
