@@ -167,6 +167,16 @@ public class TabHome extends Fragment {
                 });
             }
 
+            if(i == 0){
+                gamesCardView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getActivity(), WalkingStepsGame.class);
+                        startActivity(intent);
+                    }
+                });
+            }
+
             TextView gameType = gamesCardView.findViewById(R.id.game_type);
             gameType.setText(gamesType[i]);
 

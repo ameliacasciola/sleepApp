@@ -5,7 +5,8 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.USE_FINGERPRINT" />
     <uses-permission android:name="com.samsung.android.providers.context.permission.WRITE_USE_APP_FEATURE_SURVEY" />
-
+    <uses-feature android:name="android.hardware.Sensor.stepcounter"/>
+    <uses-feature android:name="android.hardware.Sensor.stepdetector"/>
 
     <application
         android:name=".CustomApplication"
@@ -26,8 +27,8 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".UserProfileActivity" />
-        <activity android:name=".GraphicsActivity">
-        </activity>
+        <activity android:name=".GraphicsActivity"/>
+        <activity android:name=".WalkingStepsGame"></activity>
     </application>
 
 </manifest>
