@@ -13,10 +13,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
+import c.cpen391.alarms.R;
 
 import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.squareup.picasso.Picasso;
@@ -69,6 +71,8 @@ public class TabHome extends Fragment {
     ProgressDialog progressDoalog;
     private CardView weatherCard;
     private ImageView weatherImage;
+    private CardView toGraphics;
+
 
 
     @Override
@@ -144,11 +148,24 @@ public class TabHome extends Fragment {
 
     private void initGamesScroll(View rootview, int[] gamesCardId){
 
+        toGraphics = (CardView) rootview.findViewById(R.id.games_card2);
+
         for (int i = 0; i < gamesCardId.length; i++){
             View gamesCardView = rootview.findViewById(gamesCardId[i]);
             ImageView gamesImg = gamesCardView.findViewById(R.id.gameImg);
             TextView gamesName = gamesCardView.findViewById(R.id.game_name);
             gamesName.setText(gamesNames[i]);
+
+            //go to dumb bubble game
+            if(i==1) {
+                //set button functionality to take you to the graphics exercise
+                toGraphics.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getActivity(), GraphicsActivity.class);
+                        startActivity(intent);
+                    }
+                });
+            }
 
             TextView gameType = gamesCardView.findViewById(R.id.game_type);
             gameType.setText(gamesType[i]);

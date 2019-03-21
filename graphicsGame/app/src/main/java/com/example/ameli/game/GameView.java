@@ -3,12 +3,17 @@ package com.example.ameli.game;
 import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.view.SurfaceView;
 import android.view.SurfaceHolder;
 
-public class GameView extends SurfaceView implements SurfaceHolder.Callback {
+public class GameView extends SurfaceView implements SurfaceHolder.Callback,SensorEventListener {
     private MainThread thread;
     private Character character;
+    Sensor accelerometer;
 
     public GameView(Context context) {
         super(context);
@@ -21,12 +26,20 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height){
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
     }
 
     @Override
     public void surfaceCreated(SurfaceHolder holder){
-        character = new Character(BitmapFactory.decodeResource(getResources(),R.drawable.bird2));
+        character = new Character(BitmapFactory.decodeResource(getResources(),R.drawable.ball2));
         thread.setRunning(true);
         thread.start();
     }
