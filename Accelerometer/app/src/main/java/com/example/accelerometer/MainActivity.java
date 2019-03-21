@@ -7,6 +7,8 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,10 +16,13 @@ import android.widget.Toast;
 
     private SensorManager sensorManager;
     private TextView tv_steps;
+    private TextView tv_steps_faster;
     boolean running = false;
     private int step_count;
     private int init_count;
+    private Context context = this;
     private boolean first = true;
+    private Button home;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +30,7 @@ import android.widget.Toast;
         setContentView(R.layout.activity_main);
 
         tv_steps = (TextView) findViewById(R.id.tv_steps);
+
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 
     }
@@ -59,14 +65,24 @@ import android.widget.Toast;
 
         if(running){
             step_count = (int)event.values[0] - init_count;
+
             tv_steps.setText(String.valueOf(step_count));
 
-            if(step_count > 3 || step_count == 3){
+            if(step_count > 3 || step_count == 3) {
+                setContentView(R.layout.activity_faster);
+                tv_steps_faster = (TextView) findViewById(R.id.tv_steps_faster);
+                tv_steps_faster.setText(String.valueOf(step_count));
+            }
+
+            if(step_count > 6 || step_count == 6){
                 Toast.makeText(this, "100 steps done!", Toast.LENGTH_LONG).show();
+                setContentView(R.layout.activity_done);
+                home = (Button) findViewById(R.id.home);
+
                 popfinishmessage();
+                running = false;
             }
         }
-
 
     }
 

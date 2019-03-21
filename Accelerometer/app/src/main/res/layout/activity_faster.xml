@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#539F96"
+    android:background="#59A499"
     android:gravity="center"
     android:orientation="vertical"
     tools:context=".MainActivity">
@@ -39,18 +39,17 @@
         android:textColor="@android:color/white"/>
 
     <TextView
-        android:id="@+id/tv_steps"
+        android:id="@+id/tv_steps_faster"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="0"
         android:textSize="40dp"
         android:textColor="@android:color/white"/>
 
     <pl.droidsonroids.gif.GifImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#539F96"
-        android:src="@drawable/lil_eggy_walk_cycle" />
+        android:background="#59A499"
+        android:src="@drawable/lil_eggy_run_loop" />
 
 </LinearLayout>
