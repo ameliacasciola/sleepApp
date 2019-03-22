@@ -215,18 +215,10 @@ public class LoginActivity extends AppCompatActivity {
             mUser = mGson.fromJson(userString, UserObject.class);
             if(mUser != null){
                 Toast.makeText(context, context.getString(R.string.auth_successful), Toast.LENGTH_LONG).show();
-                if(mUser.isLoginOption()){
-                    // login with fingerprint and password
-                    showPasswordAuthentication(context);
-                }
-                else{
-                    // login with only fingerprint
-                    Intent homeIntent = new Intent(context, home.class);
-                    context.startActivity(homeIntent);
-                    //Intent userIntent = new Intent(context, UserProfileActivity.class);
-                    //userIntent.putExtra("USER_BIO", userString);
-                    //context.startActivity(userIntent);
-                }
+                // login with only fingerprint
+                Intent homeIntent = new Intent(context, home.class);
+                homeIntent.putExtra("USER_BIO", userString);
+                context.startActivity(homeIntent);
             }else{
                 Toast.makeText(context, "You must register before login with fingerprint", Toast.LENGTH_LONG).show();
             }
@@ -256,7 +248,7 @@ public class LoginActivity extends AppCompatActivity {
             CancellationSignal cancellationSignal = new CancellationSignal();
             fingerprintManager.authenticate(cryptoObject, cancellationSignal, 0, this, null);
         }
-
+        /*
         private static void showPasswordAuthentication(Context context){
             final Dialog openDialog = new Dialog(context);
             openDialog.setContentView(R.layout.password_layout);
@@ -274,9 +266,6 @@ public class LoginActivity extends AppCompatActivity {
                     if(mUser.getPassword().equals(authPassword)){
                         Intent homeIntent = new Intent(view.getContext(), home.class);
                         view.getContext().startActivity(homeIntent);
-                        //Intent userIntent = new Intent(view.getContext(), UserProfileActivity.class);
-                        //userIntent.putExtra("USER_BIO", userString);
-                        //view.getContext().startActivity(userIntent);
                     }else{
                         Toast.makeText(view.getContext(), "Incorrect password! Try again", Toast.LENGTH_LONG).show();
                         return;
@@ -286,5 +275,6 @@ public class LoginActivity extends AppCompatActivity {
             });
             openDialog.show();
         }
+        */
     }
 }

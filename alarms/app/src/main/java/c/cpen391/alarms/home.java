@@ -8,6 +8,8 @@ import android.support.design.widget.TabLayout;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.google.gson.Gson;
+
 /**
  * Created by Grace on 2019-03-07.
  */
@@ -23,6 +25,7 @@ public class home extends AppCompatActivity {
             R.drawable.ic_outline_games_48px,
             R.drawable.ic_outline_person_48px,
     };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,15 +47,18 @@ public class home extends AppCompatActivity {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             }
+
             @Override
             public void onPageSelected(int position) {
                 highLightCurrentTab(position);
             }
+
             @Override
             public void onPageScrollStateChanged(int state) {
             }
         });
     }
+
     private void highLightCurrentTab(int position) {
         for (int i = 0; i < tabLayout.getTabCount(); i++) {
             TabLayout.Tab tab = tabLayout.getTabAt(i);
@@ -65,5 +71,4 @@ public class home extends AppCompatActivity {
         tab.setCustomView(null);
         tab.setCustomView(adapter.getSelectedTabView(position));
     }
-
 }
