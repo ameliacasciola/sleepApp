@@ -1,4 +1,4 @@
-package c.cpen391.alarms;
+package c.cpen391.alarms.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -10,10 +10,10 @@ import android.widget.TextView;
 
 import com.squareup.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
-import com.suke.widget.SwitchButton;
 
 import java.util.List;
 
+import c.cpen391.alarms.R;
 import c.cpen391.alarms.models.Alarm;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.CustomViewHolder> {

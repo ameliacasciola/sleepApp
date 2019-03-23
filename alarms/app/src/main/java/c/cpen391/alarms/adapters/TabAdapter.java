@@ -1,4 +1,4 @@
-package c.cpen391.alarms;
+package c.cpen391.alarms.adapters;
 
 import android.content.Context;
 import android.graphics.PorterDuff;
@@ -14,13 +14,15 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import c.cpen391.alarms.R;
+
 public class TabAdapter extends FragmentStatePagerAdapter {
     private final List<Fragment> mFragmentList = new ArrayList<>();
     private final List<String> mFragmentTitleList = new ArrayList<>();
     private final List<Integer> mFragmentIconList = new ArrayList<>();
     private Context context;
 
-    TabAdapter(FragmentManager fm,  Context context) {
+    public TabAdapter(FragmentManager fm,  Context context) {
         super(fm);
         this.context = context;
     }

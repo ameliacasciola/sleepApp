@@ -1,10 +1,12 @@
-package c.cpen391.alarms;
+package c.cpen391.alarms.tabs;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import c.cpen391.alarms.R;
 
 public class TabGames extends Fragment {
     @Override

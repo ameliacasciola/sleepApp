@@ -1,4 +1,4 @@
-package c.cpen391.alarms;
+package c.cpen391.alarms.games;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import c.cpen391.alarms.games.Circle;
 
 import static android.graphics.Color.rgb;
 

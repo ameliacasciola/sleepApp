@@ -2,7 +2,6 @@ package c.cpen391.alarms;
 
 
 import android.Manifest;
-import android.app.Dialog;
 import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.Intent;
@@ -18,17 +17,15 @@ import android.security.keystore.KeyProperties;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import c.cpen391.alarms.R;
+import c.cpen391.alarms.models.UserObject;
+
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;

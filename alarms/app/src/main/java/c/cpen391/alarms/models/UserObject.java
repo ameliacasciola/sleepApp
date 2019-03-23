@@ -1,4 +1,4 @@
-package c.cpen391.alarms;
+package c.cpen391.alarms.models;
 
 
 public class UserObject {

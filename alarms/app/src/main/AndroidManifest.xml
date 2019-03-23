@@ -26,8 +26,8 @@
         <activity android:name=".home" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".SignUpActivity" />
-        <activity android:name=".GraphicsActivity"/>
-        <activity android:name=".WalkingStepsGame"></activity>
+        <activity android:name=".games.GraphicsActivity"/>
+        <activity android:name=".games.WalkingStepsGame"></activity>
     </application>
 
 </manifest>

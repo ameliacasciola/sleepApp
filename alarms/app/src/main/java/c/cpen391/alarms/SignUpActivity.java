@@ -9,7 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import c.cpen391.alarms.R;
+
+import c.cpen391.alarms.models.UserObject;
+
 import com.google.gson.Gson;
 
 public class SignUpActivity extends AppCompatActivity {

@@ -1,10 +1,9 @@
-package c.cpen391.alarms;
+package c.cpen391.alarms.tabs;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
@@ -13,21 +12,25 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
-import c.cpen391.alarms.R;
 
 import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.squareup.picasso.Picasso;
-import com.suke.widget.SwitchButton;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
+import c.cpen391.alarms.R;
+import c.cpen391.alarms.adapters.RecyclerViewAdapter;
+import c.cpen391.alarms.api.SleepAPI;
+import c.cpen391.alarms.api.SleepClientInstance;
+import c.cpen391.alarms.custom.WeatherCard;
+import c.cpen391.alarms.games.GraphicsActivity;
+import c.cpen391.alarms.games.WalkingStepsGame;
+import c.cpen391.alarms.login;
 import c.cpen391.alarms.models.Alarm;
 import retrofit2.Call;
 import retrofit2.Callback;

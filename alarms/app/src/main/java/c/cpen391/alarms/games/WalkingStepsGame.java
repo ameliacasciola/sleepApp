@@ -1,4 +1,4 @@
-package c.cpen391.alarms;
+package c.cpen391.alarms.games;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import c.cpen391.alarms.R;
+import c.cpen391.alarms.home;
 
 public class WalkingStepsGame extends AppCompatActivity implements SensorEventListener{
 
@@ -98,7 +99,7 @@ public class WalkingStepsGame extends AppCompatActivity implements SensorEventLi
 
                 running = false;
 
-                Intent intent = new Intent(context, home.class);
+                Intent intent = new Intent(context, c.cpen391.alarms.home.class);
                 context.startActivity(intent);
 
 //                popfinishmessage();
