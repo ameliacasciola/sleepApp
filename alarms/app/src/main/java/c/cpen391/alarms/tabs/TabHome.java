@@ -83,7 +83,6 @@ public class TabHome extends Fragment {
         Context c = getActivity().getApplicationContext();
         final View rootview = inflater.inflate(R.layout.home_page, container, false);
 
-
         progressDoalog = new ProgressDialog(getActivity());
         progressDoalog.setMessage("Loading....");
         progressDoalog.show();
@@ -106,6 +105,7 @@ public class TabHome extends Fragment {
                 Toast.makeText(getActivity(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
             }
         });
+
         searchBar = (MaterialSearchBar) rootview.findViewById(R.id.search_bar);
         searchBar.setHint("Search");
         searchBar.setSpeechMode(true);

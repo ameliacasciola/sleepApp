@@ -1,17 +1,391 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="TRENDS"
-        android:textSize="36sp" />
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/chart"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:fillViewport="true"
+        android:layout_height="fill_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/title"
+                    android:textStyle="bold"
+                    android:textSize="30sp"
+                    android:paddingTop="10dp"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="30dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:text="Trends" />
+
+                <com.gigamole.navigationtabstrip.NavigationTabStrip
+                    android:id="@+id/nts_top"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_gravity="center"
+                    android:layout_below="@+id/title"
+                    app:nts_corners_radius="1dp"
+                    app:nts_inactive_color="#ff1a1e23"
+                    app:nts_size="15sp"
+                    app:nts_titles="@array/titles"
+                    app:nts_weight="3dp"/>
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/vp"
+                    android:layout_below="@+id/nts_top"
+                    android:layout_width="match_parent"
+                    android:layout_height="350dp"/>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_below="@+id/vp"
+                    android:weightSum="3"
+                    android:id="@+id/statsBar"
+                    android:orientation="horizontal">
+
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="#ffffffff">
+
+                    <android.support.v7.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                        card_view:cardCornerRadius="10dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="5dp"
+                        card_view:cardElevation="3dp">
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <ImageView
+                                android:id="@+id/oxygen_icon"
+                                android:layout_height="50dp"
+                                android:layout_alignParentLeft="true"
+                                android:layout_below="@+id/average_oxy_text"
+                                android:layout_centerVertical="true"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginBottom="10dp"
+                                android:layout_width="50dp"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:id="@+id/average_oxy_text"
+                                android:layout_alignParentTop="true"
+                                android:layout_height="wrap_content"
+                                android:textStyle="bold"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="5dp"
+                                android:text="Average Oxygen Level"
+                                android:layout_marginLeft="5dp"
+                                android:textSize="12sp"/>
+
+                            <TextView
+                                android:id="@+id/oxygen_level"
+                                android:layout_width="wrap_content"
+                                android:layout_below="@+id/average_oxy_text"
+                                android:layout_toRightOf="@+id/oxygen_icon"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:textStyle="bold"
+                                android:layout_marginLeft="10dp"
+                                android:text="89"
+                                android:textSize="30sp"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/average_oxy_text"
+                                android:layout_alignBaseline="@id/oxygen_level"
+                                android:text="%"
+                                android:textSize="15sp"
+                                android:layout_toRightOf="@+id/oxygen_level"/>
+
+                        </RelativeLayout>
+                    </android.support.v7.widget.CardView>
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="#ffffffff">
+
+                        <android.support.v7.widget.CardView
+                            android:padding="2dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="2dp"
+                            android:layout_marginBottom="5dp"
+                            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                            card_view:cardCornerRadius="10dp"
+                            card_view:cardElevation="3dp">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <ImageView
+                                    android:id="@+id/heartrate_icon"
+                                    android:layout_height="50dp"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_below="@+id/average_hr_text"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginTop="5dp"
+                                    android:layout_marginLeft="5dp"
+                                    android:layout_marginBottom="10dp"
+                                    android:layout_width="50dp"/>
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:id="@+id/average_hr_text"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_height="wrap_content"
+                                    android:textStyle="bold"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_marginBottom="5dp"
+                                    android:text="Average Heart Rate"
+                                    android:layout_marginLeft="5dp"
+                                    android:textSize="12sp"/>
+
+                                <TextView
+                                    android:id="@+id/heart_rate"
+                                    android:layout_width="wrap_content"
+                                    android:layout_below="@+id/average_hr_text"
+                                    android:layout_toRightOf="@+id/heartrate_icon"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:textStyle="bold"
+                                    android:layout_marginLeft="10dp"
+                                    android:text="67"
+                                    android:textSize="30sp"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@+id/average_hr_text"
+                                    android:layout_alignBaseline="@id/heart_rate"
+                                    android:text="bpm"
+                                    android:textSize="12sp"
+                                    android:layout_toRightOf="@+id/heart_rate"/>
+
+                            </RelativeLayout>
+
+                        </android.support.v7.widget.CardView>
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="#ffffffff">
+
+                        <android.support.v7.widget.CardView
+                            android:padding="2dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                            card_view:cardCornerRadius="10dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginTop="2dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginLeft="5dp"
+                            card_view:cardElevation="3dp">
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <ImageView
+                                    android:id="@+id/peak_icon"
+                                    android:layout_height="50dp"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_below="@+id/average_peaks_text"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginTop="5dp"
+                                    android:layout_marginLeft="5dp"
+                                    android:layout_marginBottom="10dp"
+                                    android:layout_width="50dp"/>
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:id="@+id/average_peaks_text"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_height="wrap_content"
+                                    android:textStyle="bold"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_marginBottom="5dp"
+                                    android:text="Average Heart Rate"
+                                    android:layout_marginLeft="5dp"
+                                    android:textSize="12sp"/>
+
+                                <TextView
+                                    android:id="@+id/peaks"
+                                    android:layout_width="wrap_content"
+                                    android:layout_below="@+id/average_peaks_text"
+                                    android:layout_toRightOf="@+id/peak_icon"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:textStyle="bold"
+                                    android:layout_marginLeft="15dp"
+                                    android:text="89"
+                                    android:textSize="30sp"/>
+
+
+                            </RelativeLayout>
+                        </android.support.v7.widget.CardView>
+
+                    </FrameLayout>
+                </LinearLayout>
+
+            <TextView
+                android:id="@+id/measure_title"
+                android:textStyle="bold"
+                android:textSize="25sp"
+                android:paddingTop="10dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:layout_marginBottom="10dp"
+                android:layout_width="match_parent"
+                android:layout_below="@id/statsBar"
+                android:layout_height="wrap_content"
+                android:text="Current Measurements" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/measure_title"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:weightSum="2"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.CardView
+                    android:padding="2dp"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    card_view:cardBackgroundColor="@color/heart_red"
+                    card_view:cardCornerRadius="10dp"
+                    card_view:cardElevation="3dp">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <pl.droidsonroids.gif.GifImageView
+                            android:id="@+id/heart_gif"
+                            android:layout_width="200dp"
+                            android:layout_height="170dp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="0dp"
+                            android:src="@drawable/heart_gif" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/heart_gif"
+                            android:background="@color/heart_red"
+                            android:layout_centerHorizontal="true"
+                            android:text="65"
+                            android:textSize="60dp"
+                            android:textColor="@color/white"
+                            android:id="@+id/curr_heart_rate"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/curr_heart_rate"
+                            android:layout_centerHorizontal="true"
+                            android:text="beats per minute"
+                            android:textSize="15dp"
+                            android:layout_marginBottom="10dp"
+                            android:textColor="@color/white"
+                            android:id="@+id/bpmtext"/>
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:padding="2dp"
+                    android:layout_below="@+id/measure_title"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    card_view:cardBackgroundColor="@color/breathe_blue"
+                    card_view:cardCornerRadius="10dp"
+                    card_view:cardElevation="3dp">
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <pl.droidsonroids.gif.GifImageView
+                                android:id="@+id/oxygen_gif"
+                                android:layout_width="200dp"
+                                android:layout_height="170dp"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="0dp"
+                                android:src="@drawable/breathe" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/oxygen_gif"
+                                android:background="@color/breathe_blue"
+                                android:layout_centerHorizontal="true"
+                                android:text="99"
+                                android:textSize="60dp"
+                                android:textColor="@color/white"
+                                android:id="@+id/curr_oxygen_level"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/curr_oxygen_level"
+                                android:layout_centerHorizontal="true"
+                                android:text="percent"
+                                android:textSize="15dp"
+                                android:layout_marginBottom="20dp"
+                                android:textColor="@color/white"
+                                android:id="@+id/percenttext"/>
+                        </RelativeLayout>
+                </android.support.v7.widget.CardView>
+            </LinearLayout>
+        </RelativeLayout>
+    </ScrollView>
 
 </RelativeLayout>
