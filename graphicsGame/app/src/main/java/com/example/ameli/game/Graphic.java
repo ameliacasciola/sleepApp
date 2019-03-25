@@ -8,6 +8,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.widget.Toast;
+
 import java.util.List;
 import static com.example.ameli.game.MainActivity.curLetter;
 import static com.example.ameli.game.MainActivity.doneGame;
@@ -21,18 +23,18 @@ public class Graphic {
     public static float y;
     public static int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     public static int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
-    private boolean good;
-    private boolean done;
+    public static boolean good;
+    Context context;
 
 
-    public Graphic(Bitmap map) {
+    public Graphic(Bitmap map, Context context) {
         picture = map;
         width = picture.getWidth();
         height = picture.getHeight();
         x = screenWidth/2;
         y = screenHeight - picture.getHeight();
         good = true;
-        done = false;
+        this.context = context;
     }
 
     public void draw(Canvas canvas) {
@@ -45,7 +47,8 @@ public class Graphic {
         paint.setColor(Color.WHITE);
 
         if(!good) {
-            restart(canvas);
+            Toast.makeText(context, "Whoops, you hit a wrong letter!", Toast.LENGTH_LONG).show();
+            good = true;
         }
         canvas.drawBitmap(picture, x,y, null);
 
@@ -61,6 +64,8 @@ public class Graphic {
     }
 
     public void update(float newX, float newY, List<Letter> word) {
+        screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
+        screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
 
         if(y+newY <= screenHeight - picture.getHeight() && y+newY >= 0) {
             y += newY;
@@ -81,57 +86,48 @@ public class Graphic {
             x = 0;
         }
 
-        Rect r1 = new Rect((int)x, (int)y, (int)x+width, (int)y+width);	//x1,y1,x2,y2
-            for(Letter l: word) {
-                if(r1.contains ((int) l.x, (int)l.y)) {
+        Rect r1 = new Rect((int)x, (int)y, (int)x+width, (int)y+height);	//x1,y1,x2,y2
+        if(!doneGame) {
+            for (Letter l : word) {
+                if (r1.contains((int) l.x, (int) l.y)) {
                     if (((Character) (l.c)).equals((Character) (word.get(curLetter).c))) {
                         System.out.println("GOOD! You hit: " + l.c + " You were supposed to hit: " + word.get(curLetter).c);
                         if (l.display) {
                             l.display = false;
                             curLetter++;
-                            if(curLetter == word.size()) {
+                            if (curLetter == word.size()) {
                                 //We won!
                                 //display done gif and get outta here
                                 doneGame = true;
+                                Intent intent = new Intent(context, DoneActivity.class);
+                                context.startActivity(intent);
                                 break;
                             }
                         }
                         good = true;
                         break;
-                    }
-                    else {
+                    } else {
                         //not the same and not already been seen
-                        if(l.display) {
+                        if (l.display) {
                             curLetter = 0;
-                            for(Letter let: word){
+                            for (Letter let : word) {
                                 let.display = true;
                             }
-                            x = (screenWidth-width)/2;
+                            x = (screenWidth - width) / 2;
                             y = screenHeight - height;
 
                             good = false;
 
                             //you hit a wrong letter!
-                            System.out.println("BAD: You hit: " +l.c+ " You were supposed to hit: " + word.get(curLetter).c);
+                            System.out.println("BAD: You hit: " + l.c + " You were supposed to hit: " + word.get(curLetter).c);
                             break;
 
                         }
                     }
-                 }
+                }
 
+            }
         }
-
-    }
-
-    private void restart(Canvas canvas) {
-        Paint paint = new Paint();
-        paint.setStyle(Paint.Style.FILL);
-        paint.setColor(Color.BLACK);
-        canvas.drawPaint(paint);
-
-        paint.setTextSize(80.0f);
-        paint.setColor(Color.RED);
-        canvas.drawText("WRONG LETTER!", screenWidth, screenHeight/2, paint);
 
     }
 

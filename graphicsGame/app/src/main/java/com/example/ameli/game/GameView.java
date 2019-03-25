@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.view.SurfaceView;
 import android.view.SurfaceHolder;
 import android.view.View;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -18,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static com.example.ameli.game.MainActivity.doneGame;
 
 public class GameView extends View  {
     private Graphic graphic;
@@ -29,20 +29,15 @@ public class GameView extends View  {
 
     public GameView(Context context) {
         super(context);
-        graphic = new Graphic(BitmapFactory.decodeResource(getResources(),R.drawable.ball2));
+        graphic = new Graphic(BitmapFactory.decodeResource(getResources(),R.drawable.ball2), context);
         word = getRandomWord();
         graphic.x = graphic.screenWidth/2;
         graphic.y = graphic.screenHeight - 50;
     }
 
     public void update(float newX, float newY) {
-        if(doneGame) {
-            doneGame();
-        }
-        else {
-            graphic.update(newX, newY, word);
-            invalidate();
-        }
+        graphic.update(newX, newY, word);
+        invalidate();
     }
 
     @Override
@@ -85,10 +80,6 @@ public class GameView extends View  {
         return letters;
     }
 
-    public void doneGame() {
-        Intent intent = new Intent(context, DoneActivity.class);
-        context.startActivity(intent);
-    }
 }
 
 
