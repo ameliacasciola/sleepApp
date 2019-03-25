@@ -5,7 +5,7 @@ android {
     buildToolsVersion "28.0.3"
     defaultConfig {
         applicationId "c.cpen391.alarms"
-        minSdkVersion 23
+        minSdkVersion 26
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -55,4 +55,7 @@ dependencies {
     implementation 'com.getbase:floatingactionbutton:1.10.1'
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.16'
     implementation 'com.github.zcweng:switch-button:0.0.3@aar'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    implementation 'com.github.devlight.navigationtabstrip:navigationtabstrip:1.0.4'
+
 }

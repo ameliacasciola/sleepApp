@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
+    android:background="@color/light_gray"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -232,7 +232,6 @@
                 android:background="@drawable/cust_btn"
                 android:text="View All (10+)"
                 android:textStyle="bold"/>
-
 
             <TextView
                 android:id="@+id/games_text"

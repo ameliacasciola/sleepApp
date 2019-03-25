@@ -1,4 +1,4 @@
-package c.cpen391.alarms;
+package c.cpen391.alarms.games;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+
+import c.cpen391.alarms.R;
+import c.cpen391.alarms.home;
 
 public class GraphicsActivity extends AppCompatActivity {
     private Context context = this;

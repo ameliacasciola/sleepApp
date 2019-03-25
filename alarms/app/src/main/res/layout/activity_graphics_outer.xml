@@ -5,11 +5,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="32"
-    tools:context="c.cpen391.alarms.GraphicsActivity"
+    tools:context="c.cpen391.alarms.games.GraphicsActivity"
     android:background="@color/black">
 
 
-    <c.cpen391.alarms.GraphicsView
+    <c.cpen391.alarms.games.GraphicsView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="center"

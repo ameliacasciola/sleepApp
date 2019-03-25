@@ -1,10 +1,9 @@
-package c.cpen391.alarms;
+package c.cpen391.alarms.tabs;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
@@ -13,21 +12,25 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
-import c.cpen391.alarms.R;
 
 import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.squareup.picasso.Picasso;
-import com.suke.widget.SwitchButton;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
+import c.cpen391.alarms.R;
+import c.cpen391.alarms.adapters.RecyclerViewAdapter;
+import c.cpen391.alarms.api.SleepAPI;
+import c.cpen391.alarms.api.SleepClientInstance;
+import c.cpen391.alarms.custom.WeatherCard;
+import c.cpen391.alarms.games.GraphicsActivity;
+import c.cpen391.alarms.games.WalkingStepsGame;
+import c.cpen391.alarms.login;
 import c.cpen391.alarms.models.Alarm;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -80,7 +83,6 @@ public class TabHome extends Fragment {
         Context c = getActivity().getApplicationContext();
         final View rootview = inflater.inflate(R.layout.home_page, container, false);
 
-
         progressDoalog = new ProgressDialog(getActivity());
         progressDoalog.setMessage("Loading....");
         progressDoalog.show();
@@ -103,6 +105,7 @@ public class TabHome extends Fragment {
                 Toast.makeText(getActivity(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
             }
         });
+
         searchBar = (MaterialSearchBar) rootview.findViewById(R.id.search_bar);
         searchBar.setHint("Search");
         searchBar.setSpeechMode(true);
@@ -136,7 +139,6 @@ public class TabHome extends Fragment {
         TextView alarmDescription = (TextView) rootview.findViewById(R.id.alarm_description);
         alarmDescription.setText(nextAlarm.getAlarmDescription());
 
-
         CardView nextAlarmCard = (CardView) rootview.findViewById(R.id.next_alarm);
         nextAlarmCard.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -163,6 +165,16 @@ public class TabHome extends Fragment {
                 toGraphics.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
                         Intent intent = new Intent(getActivity(), GraphicsActivity.class);
+                        startActivity(intent);
+                    }
+                });
+            }
+
+            if(i == 0){
+                gamesCardView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getActivity(), WalkingStepsGame.class);
                         startActivity(intent);
                     }
                 });

@@ -1,8 +1,9 @@
-package c.cpen391.alarms;
+package c.cpen391.alarms.api;
 
 import java.util.List;
 
 import c.cpen391.alarms.models.Alarm;
+import c.cpen391.alarms.models.SleepData;
 import okhttp3.ResponseBody;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -15,4 +16,6 @@ public interface SleepAPI {
     @GET("/alarms")
     Call<List<Alarm>> getAlarms();
 
+    @GET("/sleepdata")
+    Call<List<SleepData>> getSleepData();
 }
