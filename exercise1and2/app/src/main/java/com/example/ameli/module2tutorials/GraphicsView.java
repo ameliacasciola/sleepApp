@@ -182,7 +182,7 @@ public class GraphicsView extends View {
             timer.cancel();
             timerDone = true;
         }
-        invalidate();
+        //invalidate();
         return --timeLeft;
     }
 }
