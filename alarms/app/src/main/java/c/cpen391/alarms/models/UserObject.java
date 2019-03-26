@@ -1,14 +1,14 @@
 package c.cpen391.alarms.models;
 
 
+import android.net.Uri;
+
 public class UserObject {
 
     private String username;
     private String email;
     private String password;
-    private String address;
-    private String phone;
-    private boolean loginOption;
+    private volatile Uri uri;
 
     public UserObject(String username, String email, String password) {
         this.username = username;
@@ -27,6 +27,12 @@ public class UserObject {
     public String getPassword()
     {
         return password;
+    }
+    public Uri getUri() {
+        return uri;
+    }
+    public void putUri(Uri i) {
+        this.uri = i;
     }
 
 }
