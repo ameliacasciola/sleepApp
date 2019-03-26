@@ -27,6 +27,17 @@
                     android:layout_alignParentTop="true"
                     android:text="Trends" />
 
+                <TextView
+                    android:id="@+id/blurb"
+                    android:textSize="15sp"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_below="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="View your heart rate and oxygen data trends." />
+
                 <com.gigamole.navigationtabstrip.NavigationTabStrip
                     android:id="@+id/nts_top"
                     android:layout_width="match_parent"
@@ -34,7 +45,7 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:layout_gravity="center"
-                    android:layout_below="@+id/title"
+                    android:layout_below="@+id/blurb"
                     app:nts_corners_radius="1dp"
                     app:nts_inactive_color="#ff1a1e23"
                     app:nts_size="15sp"
@@ -303,10 +314,22 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
 
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:id="@+id/hr_name"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center_horizontal"
+                            android:textSize="25sp"
+                            android:textStyle="bold"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:text="Heart Rate"/>
+
                         <pl.droidsonroids.gif.GifImageView
                             android:id="@+id/heart_gif"
                             android:layout_width="200dp"
                             android:layout_height="170dp"
+                            android:layout_below="@id/hr_name"
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="0dp"
                             android:src="@drawable/heart_gif" />
@@ -353,10 +376,22 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
 
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:id="@+id/o_name"
+                                android:layout_marginTop="10dp"
+                                android:gravity="center_horizontal"
+                                android:textSize="25sp"
+                                android:textColor="@color/white"
+                                android:textStyle="bold"
+                                android:layout_height="wrap_content"
+                                android:text="Oxygen Level"/>
+
                             <pl.droidsonroids.gif.GifImageView
                                 android:id="@+id/oxygen_gif"
                                 android:layout_width="200dp"
                                 android:layout_height="170dp"
+                                android:layout_below="@id/o_name"
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginTop="0dp"
                                 android:src="@drawable/breathe" />
