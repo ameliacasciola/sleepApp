@@ -17,12 +17,14 @@ import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.squareup.picasso.Picasso;
 
 
 import java.util.List;
 
+import c.cpen391.alarms.CustomApplication;
 import c.cpen391.alarms.R;
 import c.cpen391.alarms.adapters.RecyclerViewAdapter;
 import c.cpen391.alarms.api.SleepAPI;
@@ -32,6 +34,7 @@ import c.cpen391.alarms.games.GraphicsActivity;
 import c.cpen391.alarms.games.WalkingStepsGame;
 import c.cpen391.alarms.login;
 import c.cpen391.alarms.models.Alarm;
+import c.cpen391.alarms.models.UserObject;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -75,6 +78,7 @@ public class TabHome extends Fragment {
     private CardView weatherCard;
     private ImageView weatherImage;
     private CardView toGraphics;
+    private TextView greetings;
 
 
 
@@ -82,6 +86,12 @@ public class TabHome extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Context c = getActivity().getApplicationContext();
         final View rootview = inflater.inflate(R.layout.home_page, container, false);
+
+        greetings = rootview.findViewById(R.id.greeting);
+        String userBio = getActivity().getIntent().getExtras().getString("USER_BIO");
+        Gson gson = ((CustomApplication)getActivity().getApplication()).getGsonObject();
+        UserObject mUserObject = gson.fromJson(userBio, UserObject.class);
+        greetings.setText("Welcome Back, " + mUserObject.getUsername());
 
         progressDoalog = new ProgressDialog(getActivity());
         progressDoalog.setMessage("Loading....");
