@@ -3,6 +3,7 @@ package c.cpen391.alarms.adapters;
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.view.menu.MenuView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,9 +19,8 @@ import com.daimajia.swipe.adapters.RecyclerSwipeAdapter;
 import com.squareup.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
+import java.util.List;
 
 import c.cpen391.alarms.R;
 import c.cpen391.alarms.models.Alarm;
@@ -28,9 +28,9 @@ import c.cpen391.alarms.models.Alarm;
 public class SwipeRecyclerViewAdapter  extends RecyclerSwipeAdapter<SwipeRecyclerViewAdapter.SimpleViewHolder> {
 
     private Context mContext;
-    private ArrayList<Alarm> alarmList;
+    private List<Alarm> alarmList;
 
-    public SwipeRecyclerViewAdapter(Context context, ArrayList<Alarm> alarms) {
+    public SwipeRecyclerViewAdapter(Context context, List<Alarm> alarms) {
         this.mContext = context;
         this.alarmList = alarms;
     }
@@ -46,7 +46,7 @@ public class SwipeRecyclerViewAdapter  extends RecyclerSwipeAdapter<SwipeRecycle
         final Alarm item = alarmList.get(position);
 
         viewHolder.time.setText((item.getAlarmDescription()) + "  -  Row Position " + position);
-        viewHolder.date.setText(item.getVolume().toString());
+        viewHolder.date.setText(item.getRelativeDay());
 
         viewHolder.editIcon.setImageResource(R.drawable.ic_outline_edit_24px);
         viewHolder.editIcon.setColorFilter(ContextCompat.getColor(mContext, R.color.gray), PorterDuff.Mode.SRC_ATOP);

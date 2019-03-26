@@ -6,12 +6,15 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextClock;
 import android.widget.TextView;
@@ -30,6 +33,7 @@ import c.cpen391.alarms.api.SleepClientInstance;
 import c.cpen391.alarms.custom.WeatherCard;
 import c.cpen391.alarms.games.GraphicsActivity;
 import c.cpen391.alarms.games.WalkingStepsGame;
+import c.cpen391.alarms.home;
 import c.cpen391.alarms.login;
 import c.cpen391.alarms.models.Alarm;
 import retrofit2.Call;
@@ -75,7 +79,6 @@ public class TabHome extends Fragment {
     private CardView weatherCard;
     private ImageView weatherImage;
     private CardView toGraphics;
-
 
 
     @Override
@@ -125,8 +128,21 @@ public class TabHome extends Fragment {
 
         displayForecast(rootview);
         initGamesScroll(rootview, gamesCardId);
-
+        initAlarmsList(rootview);
         return rootview;
+    }
+
+    private void initAlarmsList(View rootview){
+
+        Button viewAllbtn = rootview.findViewById(R.id.view_all_btn);
+        viewAllbtn.setText("View All (10+)");
+        viewAllbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((home)getActivity()).selectTab(1);
+            }
+        });
+
     }
 
     private void displayNextAlarm(Alarm nextAlarm, View rootview){
@@ -143,7 +159,7 @@ public class TabHome extends Fragment {
         nextAlarmCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), login.class);
+                Intent intent = new Intent(getActivity(), WalkingStepsGame.class);
                 startActivity(intent);
             }
         });

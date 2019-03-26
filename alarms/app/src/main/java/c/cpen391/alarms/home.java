@@ -28,6 +28,10 @@ public class home extends AppCompatActivity {
             R.drawable.ic_outline_person_48px,
     };
 
+    public void selectTab(int position){
+        adapter.getSelectedTabView(position);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
