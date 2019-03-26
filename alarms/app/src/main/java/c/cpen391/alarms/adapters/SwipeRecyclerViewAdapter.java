@@ -54,7 +54,7 @@ public class SwipeRecyclerViewAdapter  extends RecyclerSwipeAdapter<SwipeRecycle
         viewHolder.viewIcon.setColorFilter(ContextCompat.getColor(mContext, R.color.white), PorterDuff.Mode.SRC_ATOP);
         viewHolder.deleteIcon.setImageResource(R.drawable.ic_outline_cancel_24px);
         viewHolder.deleteIcon.setColorFilter(ContextCompat.getColor(mContext, R.color.white), PorterDuff.Mode.SRC_ATOP);
-        
+
         Picasso.Builder builder = new Picasso.Builder(mContext);
         builder.downloader(new OkHttp3Downloader(mContext));
         builder.build().load(R.drawable.sun)

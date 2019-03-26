@@ -1,70 +1,85 @@
 package com.example.ameli.game;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.view.SurfaceView;
 import android.view.SurfaceHolder;
+import android.view.View;
+import android.widget.Toast;
 
-public class GameView extends SurfaceView implements SurfaceHolder.Callback,SensorEventListener {
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+
+public class GameView extends View  {
+    private Graphic graphic;
+    public static List<Letter> word = new ArrayList<Letter>();
     private MainThread thread;
-    private Character character;
-    Sensor accelerometer;
+    public final Context context = getContext();
+
 
     public GameView(Context context) {
         super(context);
-
-        getHolder().addCallback(this);
-
-        thread = new MainThread(getHolder(), this);
-        setFocusable(true);
+        graphic = new Graphic(BitmapFactory.decodeResource(getResources(),R.drawable.ball2), context);
+        word = getRandomWord();
+        graphic.x = graphic.screenWidth/2;
+        graphic.y = graphic.screenHeight - 50;
     }
 
-    @Override
-    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height){
-    }
-
-    @Override
-    public void onSensorChanged(SensorEvent event) {
-    }
-
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
-    }
-
-    @Override
-    public void surfaceCreated(SurfaceHolder holder){
-        character = new Character(BitmapFactory.decodeResource(getResources(),R.drawable.ball2));
-        thread.setRunning(true);
-        thread.start();
-    }
-    @Override
-    public void surfaceDestroyed(SurfaceHolder holder){
-        boolean retry = true;
-
-        while(retry) {
-            try {
-                thread.setRunning(false);
-                thread.join();
-            }
-            catch (Exception e) { e.printStackTrace();}
-            retry = false;
-        }
-    }
-
-    public void update() {
-            character.update();
+    public void update(float newX, float newY) {
+        graphic.update(newX, newY, word);
+        invalidate();
     }
 
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
-        character.draw(canvas);
+        graphic.draw(canvas);
+    }
+
+    private List<Letter> getRandomWord() {
+        Random rand = new Random();
+        int n = rand.nextInt(1000);
+        List<Letter> letters = new ArrayList<Letter>();
+
+        try {
+            BufferedReader br = new BufferedReader(
+                    new InputStreamReader(context.getAssets().open("unsortedWords.txt")));
+            String s;
+
+            int i=0;
+            while ((s = br.readLine()) != null && i<n-1) { // read a line
+                i++;
+            }
+            char[] chars = s.toCharArray();
+            for(char c: chars) {
+                letters.add(new Letter(c));
+            }
+
+        } catch (FileNotFoundException e1) {
+            e1.printStackTrace();
+            System.out.println("ERROR!");
+
+        } catch (IOException e1) {
+            e1.printStackTrace();
+            System.out.println("ERROR!");
+        }
+        for(Letter l: letters) {
+            System.out.println(l.c);
+        }
+
+        return letters;
     }
 
 }
+
+

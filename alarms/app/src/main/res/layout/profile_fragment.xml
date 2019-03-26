@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
 
     <TextView
         android:id="@+id/user_bio"
@@ -10,5 +13,33 @@
         android:layout_centerInParent="true"
         android:text="@string/profile_tab"
         android:textSize="23sp" />
+
+    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/profilePicture"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/_50sdp"
+        android:src="@drawable/empty_pp"
+        app:civ_border_color="@color/colorAccent"
+        app:civ_border_width="3dp" />
+
+    <Button
+        android:id="@+id/browse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/profilePicture"
+        android:textColor="@color/breathe_blue"
+        android:text="Browse" />
+
+    <Button
+        android:id="@+id/logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/red"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/_400sdp"
+        android:text="Logout" />
 
 </RelativeLayout>
