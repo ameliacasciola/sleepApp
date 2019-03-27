@@ -57,14 +57,16 @@
                 android:layout_height="wrap_content"
                 android:text="What do you want to do today?" />
 
-            <include  layout="@layout/weather_card" android:id="@+id/weatherCard"
+            <include
+                android:id="@+id/weatherCard"
+                layout="@layout/weather_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/blurb"
                 android:layout_marginStart="15dp"
+                android:layout_marginTop="-181dp"
                 android:layout_marginEnd="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="15dp"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"/>
+                android:layout_marginBottom="15dp" />
 
             <TextView
                 android:id="@+id/next_alarms_text"

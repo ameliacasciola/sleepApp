@@ -16,6 +16,7 @@ public class MainActivity extends Activity implements SensorEventListener {
     public static float xPos;
     public static float yPos;
     public static int curLetter;
+    public static int score;
 
     public boolean ready = false;
     public static boolean doneGame;

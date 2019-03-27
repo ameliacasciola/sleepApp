@@ -4,15 +4,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.support.v4.content.ContextCompat;
 import android.widget.Toast;
 
 import java.util.List;
 import static com.example.ameli.game.MainActivity.curLetter;
 import static com.example.ameli.game.MainActivity.doneGame;
+import static com.example.ameli.game.MainActivity.score;
 
 public class Graphic {
 
@@ -25,16 +28,31 @@ public class Graphic {
     public static int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
     public static boolean good;
     Context context;
+    private Bitmap instrButton;
+    private Bitmap newWord;
+    public static int infoX = screenWidth - 100;
+    public static int infoY = screenHeight - 260;
+    public static int newWordX = screenWidth - 100;
+    public static int newWordY = screenHeight - 150;
+    public static int buttonSz = 80;
 
 
     public Graphic(Bitmap map, Context context) {
+        this.context = context;
+
         picture = map;
+
+        Bitmap b = BitmapFactory.decodeResource(context.getResources(),R.drawable.word);
+        newWord = Bitmap.createScaledBitmap(b, 80, 80, false);
+
+        Bitmap b1 = BitmapFactory.decodeResource(context.getResources(),R.drawable.instructions);
+        instrButton = Bitmap.createScaledBitmap(b1, 80, 80, false);
+
         width = picture.getWidth();
         height = picture.getHeight();
         x = screenWidth/2;
         y = screenHeight - picture.getHeight();
         good = true;
-        this.context = context;
     }
 
     public void draw(Canvas canvas) {
@@ -44,13 +62,13 @@ public class Graphic {
         canvas.drawPaint(paint);
 
         paint.setTextSize(80.0f);
-        paint.setColor(Color.WHITE);
+        paint.setColor(ContextCompat.getColor(context, R.color.pink));
 
         if(!good) {
             Toast.makeText(context, "Whoops, you hit a wrong letter!", Toast.LENGTH_LONG).show();
             good = true;
         }
-        canvas.drawBitmap(picture, x,y, null);
+        //canvas.drawBitmap(picture, x,y, null);
 
         if(GameView.word != null) {
             for (Letter c : GameView.word) {
@@ -58,9 +76,19 @@ public class Graphic {
                     paint.setColor(Color.GREEN);
                 }
                 canvas.drawText(Character.toString(c.c), c.x, c.y, paint);
-                paint.setColor(Color.WHITE);
+                paint.setColor(ContextCompat.getColor(context, R.color.pink));
             }
         }
+        //add a button to pick a new word
+        canvas.drawBitmap(newWord, newWordX, newWordY , null);
+
+        //add a button to get instructions
+        canvas.drawBitmap(instrButton, infoX, infoY, null);
+
+        //display score
+
+        //draw the ball
+        canvas.drawBitmap(picture, x,y, null);
     }
 
     public void update(float newX, float newY, List<Letter> word) {
@@ -115,6 +143,10 @@ public class Graphic {
                             }
                             x = (screenWidth - width) / 2;
                             y = screenHeight - height;
+
+                            if(score>0)
+                                score--;
+                            System.out.println(score);
 
                             good = false;
 
