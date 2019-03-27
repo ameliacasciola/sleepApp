@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -29,17 +30,26 @@ import c.cpen391.alarms.R;
 import c.cpen391.alarms.adapters.RecyclerViewAdapter;
 import c.cpen391.alarms.api.SleepAPI;
 import c.cpen391.alarms.api.SleepClientInstance;
+import c.cpen391.alarms.api.WeatherService;
 import c.cpen391.alarms.custom.WeatherCard;
 import c.cpen391.alarms.games.GraphicsActivity;
 import c.cpen391.alarms.games.WalkingStepsGame;
 import c.cpen391.alarms.login;
 import c.cpen391.alarms.models.Alarm;
 import c.cpen391.alarms.models.UserObject;
+import c.cpen391.alarms.models.WeatherResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class TabHome extends Fragment {
+    public static String BaseUrl = "http://api.openweathermap.org/";
+    public static String AppId = "d759bba2b2a5a9470634fd12aaba0ffd";
+    public static String lat = "49.25";
+    public static String lon = "-123.12";
+
     private String[] cardUrls = {
             "http://crowdmedia.co/wp-content/uploads/2018/04/download-wallpaper-black-and-white-city-red-houses-skyline-ages-monochrome-wallpapers-widescreen-dark-single-c.jpg",
             "http://www.4usky.com/data/out/61/164540853-minimal-wallpapers.jpg",
@@ -226,4 +236,49 @@ public class TabHome extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
     }
- }
+
+    // initialize Retrofit to call the weather service. The following code snippet will help us to call the service.
+
+    void getCurrentData() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BaseUrl)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        WeatherService service = retrofit.create(WeatherService.class);
+        Call<WeatherResponse> call = service.getCurrentWeatherData(lat, lon, AppId);
+        call.enqueue(new Callback<WeatherResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<WeatherResponse> call, @NonNull Response<WeatherResponse> response) {
+                if (response.code() == 200) {
+                    WeatherResponse weatherResponse = response.body();
+                    assert weatherResponse != null;
+
+                    String stringBuilder = "Country: " +
+                            weatherResponse.sys.country +
+                            "\n" +
+                            "Temperature: " +
+                            Integer.toString((int)(weatherResponse.main.temp - 273.15f)) +
+                            "\n" +
+                            "Temperature(Min): " +
+                            Integer.toString((int)(weatherResponse.main.temp_min - 273.15f)) +
+                            "\n" +
+                            "Temperature(Max): " +
+                            Integer.toString((int)(weatherResponse.main.temp_max - 273.15f)) +
+                            "\n" +
+                            "Humidity: " +
+                            weatherResponse.main.humidity +
+                            "\n" +
+                            "Pressure: " +
+                            weatherResponse.main.pressure;
+
+                    greetings.setText(stringBuilder);
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<WeatherResponse> call, @NonNull Throwable t) {
+                greetings.setText(t.getMessage());
+            }
+        });
+    }
+}
