@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.daimajia.swipe.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:swipe="http://schemas.android.com/apk/res-auto"
+android:id="@+id/swipe"
+android:layout_width="match_parent"
+android:layout_height="130dp"
+    android:layout_marginBottom="3dp"
+    android:paddingLeft="2dp"
+    android:layout_marginLeft="2dp"
+    android:layout_marginTop="5dp"
+    android:background="@color/white"
+swipe:leftEdgeSwipeOffset="0dp"
+swipe:rightEdgeSwipeOffset="0dp">
+
+<!--Bottom View For Right to Left-->
+
+    <LinearLayout
+        android:id="@+id/bottom_wrapper"
+        android:layout_width="240dp"
+        android:layout_margin="5dp"
+        android:background="#FFFFFFFF"
+        android:layout_marginRight="10dp"
+        android:layout_height="match_parent"
+        android:weightSum="3">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:id="@+id/alarmEdit"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:src="@drawable/ic_outline_edit_24px"
+                android:id="@+id/edit_icon"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:gravity="center_horizontal"
+                android:layout_below="@id/edit_icon"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:layout_height="wrap_content"
+                android:text="EDIT"
+                android:textColor="@color/dark_gray"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:id="@+id/alarmView"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="#003c54"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:src="@drawable/ic_outline_edit_24px"
+                android:id="@+id/view_icon"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:gravity="center_horizontal"
+                android:layout_below="@id/view_icon"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:layout_height="wrap_content"
+                android:text="VIEW"
+                android:textColor="@color/white"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:background="@drawable/rounded_layout"
+            android:id="@+id/alarmDelete"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:src="@drawable/ic_outline_edit_24px"
+                android:id="@+id/delete_icon"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:gravity="center_horizontal"
+                android:layout_below="@id/delete_icon"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:layout_height="wrap_content"
+                android:text="DELETE"
+                android:textColor="@color/white"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+<!-- Another Bottom View For Left to Right -->
+
+<LinearLayout
+    android:id="@+id/bottom_wrapper1"
+    android:layout_width="80dp"
+    android:background="#FFFFFFFF"
+    android:layout_margin="5dp"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <TextView
+        android:id="@+id/timeUntil"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:text="8 hours"
+        android:textColor="@color/dark_gray"
+        android:background="@drawable/left_rounded_layout"
+        android:gravity="center"/>
+</LinearLayout>
+
+<!-- Top View,  Row itemView of RecyclerView -->
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="5dp"
+    android:background="?android:selectableItemBackground"
+    android:elevation="5dp"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:background="@color/white"
+        card_view:cardCornerRadius="15dp"
+        card_view:cardElevation="5dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/light_gray"
+                android:layout_alignParentTop="true"
+                />
+
+            <TextView
+                android:layout_width="8dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_height="match_parent"
+                android:background="@color/teal"/>
+
+            <ImageView
+                android:id="@+id/nextAlarmImage"
+                android:layout_width="80dp"
+                android:layout_height="70dp"
+                android:layout_marginLeft="20dp"
+                android:layout_centerVertical="true"
+                android:scaleType="fitXY"
+                android:background="@color/white"
+                android:layout_alignParentLeft="true"/>
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_toRightOf="@+id/nextAlarmImage"
+                style="@style/TextAppearance.AppCompat.Medium"
+                android:layout_width="wrap_content"
+                android:layout_toLeftOf="@+id/switch_button"
+                android:layout_height="wrap_content"
+                android:textColor="@color/teal"
+                android:layout_marginLeft="16dp"
+                android:textSize="13sp"
+                android:layout_marginTop="10dp"
+                android:text="Tomorrow"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/time"
+                android:layout_toRightOf="@+id/nextAlarmImage"
+                style="@style/TextAppearance.AppCompat.Medium"
+                android:layout_below="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/gray"
+                android:text="8:30"
+                android:layout_toLeftOf="@+id/switch_button"
+                android:layout_marginLeft="16dp"/>
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_toRightOf="@+id/nextAlarmImage"
+                style="@style/TextAppearance.AppCompat.Medium"
+                android:layout_width="wrap_content"
+                android:layout_toLeftOf="@+id/switch_button"
+                android:layout_height="wrap_content"
+                android:textStyle="italic"
+                android:textSize="15sp"
+                android:layout_below="@+id/time"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="16dp"/>
+
+
+            <com.suke.widget.SwitchButton
+                android:layout_margin="15dp"
+                android:id="@+id/switch_button"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>
+
+
+</com.daimajia.swipe.SwipeLayout>

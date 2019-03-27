@@ -26,4 +26,6 @@
     <color name="dark_blue">#4A777A</color>
     <color name="heart_red">#F05049</color>
     <color name="breathe_blue">#223A66</color>
+    <color name="light_red">#CD5C5C</color>
+    <color name="light_pink">#ffd1dc</color>
 </resources>
