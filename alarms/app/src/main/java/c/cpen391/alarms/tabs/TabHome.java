@@ -49,6 +49,8 @@ public class TabHome extends Fragment {
     public static String AppId = "d759bba2b2a5a9470634fd12aaba0ffd";
     public static String lat = "49.25";
     public static String lon = "-123.12";
+    private int currentTempMin;
+    private int currentTempMax;
 
     private String[] cardUrls = {
             "http://crowdmedia.co/wp-content/uploads/2018/04/download-wallpaper-black-and-white-city-red-houses-skyline-ages-monochrome-wallpapers-widescreen-dark-single-c.jpg",
@@ -102,6 +104,8 @@ public class TabHome extends Fragment {
         Gson gson = ((CustomApplication)getActivity().getApplication()).getGsonObject();
         UserObject mUserObject = gson.fromJson(userBio, UserObject.class);
         greetings.setText("Welcome Back, " + mUserObject.getUsername());
+
+        getCurrentData();
 
         progressDoalog = new ProgressDialog(getActivity());
         progressDoalog.setMessage("Loading....");
@@ -214,18 +218,33 @@ public class TabHome extends Fragment {
         View outerBox = rootview.findViewById(R.id.weather_box1);
         ImageView weather_box1 = (ImageView) outerBox.findViewById(R.id.weather_box_icon);
         weather_box1.setImageResource(R.mipmap.cloudsun);
+        TextView date1 = outerBox.findViewById(R.id.date);
+        date1.setText("THU");
 
         View outerBox2 = rootview.findViewById(R.id.weather_box2);
         ImageView weather_box2 = (ImageView) outerBox2.findViewById(R.id.weather_box_icon);
         weather_box2.setImageResource(R.mipmap.cloudsun);
+        TextView date2 = outerBox2.findViewById(R.id.date);
+        date2.setText("FRI");
+        TextView temp_high_2 =  outerBox2.findViewById(R.id.temp_high);
+        TextView temp_low_2 = outerBox2.findViewById(R.id.temp_low);
+
 
         View outerBox3 = rootview.findViewById(R.id.weather_box3);
         ImageView weather_box3 = (ImageView) outerBox3.findViewById(R.id.weather_box_icon);
         weather_box3.setImageResource(R.mipmap.cloudsun);
+        TextView date3 = outerBox3.findViewById(R.id.date);
+        date3.setText("SAT");
+        TextView temp_high_3 =  outerBox3.findViewById(R.id.temp_high);
+        TextView temp_low_3 = outerBox3.findViewById(R.id.temp_low);
 
         View outerBox4 = rootview.findViewById(R.id.weather_box4);
         ImageView weather_box4 = (ImageView) outerBox4.findViewById(R.id.weather_box_icon);
         weather_box4.setImageResource(R.mipmap.cloudsun);
+        TextView date4 = outerBox4.findViewById(R.id.date);
+        date4.setText("SUN");
+        TextView temp_high_4 =  outerBox4.findViewById(R.id.temp_high);
+        TextView temp_low_4 = outerBox4.findViewById(R.id.temp_low);
     }
 
     /*Method to generate List of data using RecyclerView with custom adapter*/
@@ -252,32 +271,22 @@ public class TabHome extends Fragment {
                 if (response.code() == 200) {
                     WeatherResponse weatherResponse = response.body();
                     assert weatherResponse != null;
+                    currentTempMin = (int)(weatherResponse.main.temp_min - 273.15f);
+                    currentTempMax = (int)(weatherResponse.main.temp_max - 273.15f);
 
-                    String stringBuilder = "Country: " +
-                            weatherResponse.sys.country +
-                            "\n" +
-                            "Temperature: " +
-                            Integer.toString((int)(weatherResponse.main.temp - 273.15f)) +
-                            "\n" +
-                            "Temperature(Min): " +
-                            Integer.toString((int)(weatherResponse.main.temp_min - 273.15f)) +
-                            "\n" +
-                            "Temperature(Max): " +
-                            Integer.toString((int)(weatherResponse.main.temp_max - 273.15f)) +
-                            "\n" +
-                            "Humidity: " +
-                            weatherResponse.main.humidity +
-                            "\n" +
-                            "Pressure: " +
-                            weatherResponse.main.pressure;
+                    View outerBox = getView().findViewById(R.id.weather_box1);
+                    // set high and low temp
+                    TextView temp_high_1 = (TextView) outerBox.findViewById(R.id.temp_high);
+                    temp_high_1.setText(String.valueOf(currentTempMax));
 
-                    greetings.setText(stringBuilder);
+                    TextView temp_low_1 = (TextView) outerBox.findViewById(R.id.temp_low);
+                    temp_low_1.setText(String.valueOf(currentTempMin));
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<WeatherResponse> call, @NonNull Throwable t) {
-                greetings.setText(t.getMessage());
+                Toast.makeText(getActivity(), "Fail to Get Weather", Toast.LENGTH_SHORT).show();
             }
         });
     }
