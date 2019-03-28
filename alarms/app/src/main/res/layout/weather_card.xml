@@ -8,7 +8,7 @@
     card_view:cardCornerRadius="10dp"
     card_view:cardElevation="5dp">
 
-    <c.cpen391.alarms.WeatherCard
+    <c.cpen391.alarms.custom.WeatherCard
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:id = "@+id/weatherCard_bg"
@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="20dp"
-            android:text="19" />
+            android:text="4" />
 
         <TextView
             android:id="@+id/week_day"
@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/date"
             android:layout_marginLeft="5dp"
-            android:text="Tuesday" />
+            android:text="Thursday" />
 
         <TextView
             android:id="@+id/month"
@@ -50,7 +50,7 @@
             android:layout_below="@id/week_day"
             android:layout_marginLeft="5dp"
             android:layout_toRightOf="@id/date"
-            android:text="March" />
+            android:text="April" />
 
 
         <TextClock
@@ -120,5 +120,5 @@
             android:layout_width="wrap_content"/>
     </RelativeLayout>
 
-    </c.cpen391.alarms.WeatherCard>
+    </c.cpen391.alarms.custom.WeatherCard>
 </android.support.v7.widget.CardView>

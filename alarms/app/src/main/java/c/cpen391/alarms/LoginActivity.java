@@ -2,7 +2,7 @@ package c.cpen391.alarms;
 
 
 import android.Manifest;
-import android.app.Dialog;
+import android.app.Application;
 import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.Intent;
@@ -18,17 +18,15 @@ import android.security.keystore.KeyProperties;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import c.cpen391.alarms.R;
+import c.cpen391.alarms.models.UserObject;
+
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
@@ -57,10 +55,10 @@ public class LoginActivity extends AppCompatActivity {
     private FingerprintHandler fingerprintHandler;
     private static final String FINGERPRINT_KEY = "AndroidKey";
     private static final int REQUEST_USE_FINGERPRINT = 300;
-    protected static Gson mGson;
     protected static CustomSharedPreference mPref;
     private static UserObject mUser;
     private static String userString;
+    private static Application application;
 
 
     @Override
@@ -71,10 +69,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        application = this.getApplication();
+
         setTitle("Android Fingerprint Login");
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        mGson = ((CustomApplication)getApplication()).getGsonObject();
-        mPref = ((CustomApplication)getApplication()).getShared();
 
         // android version greater than marshmallow
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
@@ -211,22 +209,12 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         public void onAuthenticationSucceeded(FingerprintManager.AuthenticationResult result) {
             super.onAuthenticationSucceeded(result);
-            userString = mPref.getUserData();
-            mUser = mGson.fromJson(userString, UserObject.class);
+            mUser = ((CustomApplication) application).getSomeVariable();
             if(mUser != null){
                 Toast.makeText(context, context.getString(R.string.auth_successful), Toast.LENGTH_LONG).show();
-                if(mUser.isLoginOption()){
-                    // login with fingerprint and password
-                    showPasswordAuthentication(context);
-                }
-                else{
-                    // login with only fingerprint
-                    Intent homeIntent = new Intent(context, home.class);
-                    context.startActivity(homeIntent);
-                    //Intent userIntent = new Intent(context, UserProfileActivity.class);
-                    //userIntent.putExtra("USER_BIO", userString);
-                    //context.startActivity(userIntent);
-                }
+                // login with only fingerprint
+                Intent homeIntent = new Intent(context, home.class);
+                context.startActivity(homeIntent);
             }else{
                 Toast.makeText(context, "You must register before login with fingerprint", Toast.LENGTH_LONG).show();
             }
@@ -256,7 +244,7 @@ public class LoginActivity extends AppCompatActivity {
             CancellationSignal cancellationSignal = new CancellationSignal();
             fingerprintManager.authenticate(cryptoObject, cancellationSignal, 0, this, null);
         }
-
+        /*
         private static void showPasswordAuthentication(Context context){
             final Dialog openDialog = new Dialog(context);
             openDialog.setContentView(R.layout.password_layout);
@@ -274,9 +262,6 @@ public class LoginActivity extends AppCompatActivity {
                     if(mUser.getPassword().equals(authPassword)){
                         Intent homeIntent = new Intent(view.getContext(), home.class);
                         view.getContext().startActivity(homeIntent);
-                        //Intent userIntent = new Intent(view.getContext(), UserProfileActivity.class);
-                        //userIntent.putExtra("USER_BIO", userString);
-                        //view.getContext().startActivity(userIntent);
                     }else{
                         Toast.makeText(view.getContext(), "Incorrect password! Try again", Toast.LENGTH_LONG).show();
                         return;
@@ -286,5 +271,6 @@ public class LoginActivity extends AppCompatActivity {
             });
             openDialog.show();
         }
+        */
     }
 }

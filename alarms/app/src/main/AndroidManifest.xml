@@ -5,10 +5,13 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.USE_FINGERPRINT" />
     <uses-permission android:name="com.samsung.android.providers.context.permission.WRITE_USE_APP_FEATURE_SURVEY" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-feature android:name="android.hardware.Sensor.stepcounter"/>
     <uses-feature android:name="android.hardware.Sensor.stepdetector"/>
 
     <application
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:usesCleartextTraffic="true"
         android:name=".CustomApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -23,12 +26,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".CircularRevealActivity"
+            android:theme="@style/Theme.Transparent"
+            android:launchMode="singleTask"
+            />
         <activity android:name=".home" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".SignUpActivity" />
-        <activity android:name=".UserProfileActivity" />
-        <activity android:name=".GraphicsActivity"/>
-        <activity android:name=".WalkingStepsGame"></activity>
+        <activity android:name=".games.GraphicsActivity"/>
+        <activity android:name=".tabs.CreateAlarm"/>
+        <activity android:name=".games.WalkingStepsGame"/>
+        <activity android:name=".games.MainSpellingActivity"/>
+        <activity android:name=".games.DoneActivity"/>
+        <activity android:name=".games.InstrActivity">
+        </activity>
     </application>
 
 </manifest>

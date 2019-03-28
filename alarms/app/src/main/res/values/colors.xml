@@ -22,4 +22,11 @@
     <color name="niceBlue">#42d9f4</color>
     <color name="grey">#3d3f42</color>
     <color name="black">#000000</color>
+    <color name="light_blue">#B0E0E6</color>
+    <color name="dark_blue">#4A777A</color>
+    <color name="heart_red">#F05049</color>
+    <color name="breathe_blue">#223A66</color>
+    <color name="light_red">#CD5C5C</color>
+    <color name="light_pink">#ffd1dc</color>
+    <color name="pink">#f2a4b0</color>
 </resources>
