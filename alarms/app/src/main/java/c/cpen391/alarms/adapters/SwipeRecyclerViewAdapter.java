@@ -45,8 +45,9 @@ public class SwipeRecyclerViewAdapter  extends RecyclerSwipeAdapter<SwipeRecycle
     public void onBindViewHolder(final SimpleViewHolder viewHolder, final int position) {
         final Alarm item = alarmList.get(position);
 
-        viewHolder.time.setText((item.getAlarmDescription()) + "  -  Row Position " + position);
+        viewHolder.time.setText(item.getTime());
         viewHolder.date.setText(item.getRelativeDay());
+        viewHolder.title.setText(item.getAlarmDescription());
 
         viewHolder.editIcon.setImageResource(R.drawable.ic_outline_edit_24px);
         viewHolder.editIcon.setColorFilter(ContextCompat.getColor(mContext, R.color.gray), PorterDuff.Mode.SRC_ATOP);
@@ -187,6 +188,7 @@ public class SwipeRecyclerViewAdapter  extends RecyclerSwipeAdapter<SwipeRecycle
         SwipeLayout swipeLayout;
         TextView date;
         TextView time;
+        TextView title;
         RelativeLayout alarmDelete;
         RelativeLayout alarmEdit;
         RelativeLayout alarmView;
@@ -205,6 +207,8 @@ public class SwipeRecyclerViewAdapter  extends RecyclerSwipeAdapter<SwipeRecycle
             swipeLayout = (SwipeLayout) itemView.findViewById(R.id.swipe);
             date = (TextView) itemView.findViewById(R.id.date);
             time = (TextView) itemView.findViewById(R.id.time);
+            title = (TextView) itemView.findViewById(R.id.title);
+
             alarmDelete = (RelativeLayout) itemView.findViewById(R.id.alarmDelete);
             alarmEdit = (RelativeLayout) itemView.findViewById(R.id.alarmEdit);
             alarmView = (RelativeLayout) itemView.findViewById(R.id.alarmView);

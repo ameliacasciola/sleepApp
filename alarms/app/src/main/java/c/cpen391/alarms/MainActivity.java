@@ -27,9 +27,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         ActionBar actionBar = getSupportActionBar();
-
-        pic = findViewById(R.id.sleepicon);
-        pic.setImageResource(R.drawable.sleepicon);
+//
+//        pic.setImageResource(R.drawable.sleepicon);
 
         if(null != actionBar){
             actionBar.hide();

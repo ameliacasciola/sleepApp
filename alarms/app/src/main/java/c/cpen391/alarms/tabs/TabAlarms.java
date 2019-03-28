@@ -1,8 +1,10 @@
 package c.cpen391.alarms.tabs;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.daimajia.swipe.util.Attributes;
+import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +62,7 @@ public class TabAlarms extends Fragment {
             }
         });
 
+        initButtonList(rootview);
         return rootview;
     }
 
@@ -102,8 +106,15 @@ public class TabAlarms extends Fragment {
         });
     }
 
-//    private void initButtonList(View rootview){
-//        FloatingActionButton add_button = rootview.findViewById(R.id.add_alarm);
-//        add_button.setIcon(R.drawable.ic_baseline_add_48px);
-//    }
+    private void initButtonList(View rootview){
+        FloatingActionButton add_button = rootview.findViewById(R.id.add_alarm);
+        add_button.setIcon(R.drawable.ic_baseline_add_48px);
+        add_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), CreateAlarm.class);
+                startActivity(intent);
+            }
+        });
+    }
 }

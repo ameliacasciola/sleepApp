@@ -14,8 +14,6 @@
         android:gravity="bottom"
         android:orientation="horizontal">
 
-
-
         <Button
             android:id="@+id/sign_in"
             android:layout_width="0dp"
@@ -40,9 +38,4 @@
 
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/sleepicon"
-        android:layout_width="@dimen/_200sdp"
-        android:layout_height="@dimen/_110sdp"
-        android:layout_centerInParent="true" />
 </RelativeLayout>
