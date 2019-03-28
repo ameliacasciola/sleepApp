@@ -107,7 +107,6 @@ public class TabHome extends Fragment {
         Gson gson = ((CustomApplication)getActivity().getApplication()).getGsonObject();
         UserObject mUserObject = gson.fromJson(userBio, UserObject.class);
         greetings.setText("Welcome Back, " + mUserObject.getUsername());
-
         getCurrentData();
 
         progressDoalog = new ProgressDialog(getActivity());
