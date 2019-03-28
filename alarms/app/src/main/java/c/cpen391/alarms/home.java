@@ -34,6 +34,7 @@ public class home extends AppCompatActivity {
 
     public Fragment selectTab(int position){
         highLightCurrentTab(position);
+        viewPager.setCurrentItem(1);
         return adapter.getItem(position);
     }
 

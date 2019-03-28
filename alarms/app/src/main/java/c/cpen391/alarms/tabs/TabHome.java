@@ -177,9 +177,6 @@ public class TabHome extends Fragment {
             @Override
             public void onClick(View v) {
                 Fragment tab = ((home) getActivity()).selectTab(1);
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.tabLayout, tab)
-                        .addToBackStack(null).commit();
             }
         });
 
