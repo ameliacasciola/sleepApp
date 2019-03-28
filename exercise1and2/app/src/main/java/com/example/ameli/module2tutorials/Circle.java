@@ -10,9 +10,9 @@ public class Circle {
         this.x = x;
         this.y = y;
         this.color = color;
-        this.radius = 20;
+        this.radius = 80;
     }
     public void incrRadius() {
-        this.radius += 20;
+        this.radius += 40;
     }
 }
