@@ -30,16 +30,16 @@ public class Letter {
         Random rand = new Random();
         int xQuad  = ((Math.abs(rand.nextInt()))%(screenWidth-100))+50;
         int yQuad  = ((Math.abs(rand.nextInt()))%(screenHeight-height-100))+50;
-        Pair<Integer, Integer> newPair = new Pair(xQuad,yQuad);
-
-        while(containsPair(taken, newPair)) {
-            rand = new Random();
-            xQuad  = ((Math.abs(rand.nextInt()))%(screenWidth-100))+50;
-            yQuad  = ((Math.abs(rand.nextInt()))%(screenHeight-height-100))+50;
-            newPair = new Pair(xQuad,yQuad);
-        }
-
-        taken.add(new Pair(xQuad, yQuad));
+//        Pair<Integer, Integer> newPair = new Pair(xQuad,yQuad);
+//
+//        while(containsPair(taken, newPair)) {
+//            rand = new Random();
+//            xQuad  = ((Math.abs(rand.nextInt()))%(screenWidth-100))+50;
+//            yQuad  = ((Math.abs(rand.nextInt()))%(screenHeight-height-100))+50;
+//            newPair = new Pair(xQuad,yQuad);
+//        }
+//
+//        taken.add(new Pair(xQuad, yQuad));
 
         this.c = c;
         this.display = true;
@@ -48,14 +48,14 @@ public class Letter {
     }
 
 
-   private boolean containsPair(List<Pair<Integer, Integer>> list, Pair<Integer, Integer> pair) {
+    private boolean containsPair(List<Pair<Integer, Integer>> list, Pair<Integer, Integer> pair) {
         for(Pair p: list) {
 
             Rect r1 = new Rect((int)p.first-width, (int)p.second-height, (int)p.first+width, (int)p.second+height);	//x1,y1,x2,y2
             if (r1.contains((int) pair.first, (int) pair.second)) {
-               return true;
-           }
-       }
-       return false;
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -48,6 +48,7 @@ public class TabProfile extends Fragment {
         gson = ((CustomApplication)getActivity().getApplication()).getGsonObject();
         mUserObject = gson.fromJson(userBio, UserObject.class);
         String bio = "Name: " + mUserObject.getUsername() + "\n" +
+                "Location: Vancouver, Canada" + "\n" +
                 "email: " + mUserObject.getEmail() + "\n";
         TextView userTextValue = (TextView)rootview.findViewById(R.id.user_bio);
         userTextValue.setText(bio);
