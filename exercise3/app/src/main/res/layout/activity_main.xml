@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="32"
+    tools:context="com.example.ameli.module2tutorials.MainActivity"
+    android:background="@color/white">
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="4"
+        android:layout_weight="2"
+        android:layout_margin="4dp"
+        android:gravity="right"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:text="Bill ($):"
+            android:textSize="24dp"/>
+        <EditText
+            android:id="@+id/bill"
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:inputType="numberDecimal"
+            android:background="@color/niceBlue"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="8"
+        android:layout_weight="2"
+        android:layout_margin="4dp"
+        android:gravity="right"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:text="Tip (%):"
+            android:textSize="24dp"/>
+        <Button
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:id="@+id/tip_minus"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="-"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/tip"
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="10"
+            android:textSize="24dp"/>
+        <Button
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:id="@+id/tip_plus"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="+"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="8"
+        android:layout_weight="2"
+        android:layout_margin="4dp"
+        android:gravity="right"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:text="Split Bill:"
+            android:textSize="24dp"/>
+        <Button
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:id="@+id/split_minus"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="-"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/split"
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="1"
+            android:textSize="24dp"/>
+        <Button
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:id="@+id/split_plus"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="+"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"/>
+
+    <TextView
+        android:id="@+id/total_to_pay"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:text="Total to pay:"
+        android:textStyle="bold"
+        android:textSize="24dp"/>
+
+    <TextView
+        android:id="@+id/total_tip"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:text="Total Tip:"
+        android:textStyle="bold"
+        android:textSize="18dp"/>
+
+    <TextView
+        android:id="@+id/total_per_person"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:text="Total per person: "
+        android:textStyle="bold"
+        android:textSize="18dp"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5"
+        android:id="@+id/calculate_button"
+        android:gravity="center"
+        android:text="Calculate"
+        android:textSize="12sp"
+        android:background="@color/niceBlue"
+        android:textStyle="bold"/>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <Button
+        android:layout_gravity="center"
+        android:layout_height="0dp"
+        android:layout_width="150dp"
+        android:layout_weight="4"
+        android:id="@+id/go_to_graphics_button"
+        android:gravity="center"
+        android:text="grphics exercise"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:background="@drawable/roundedbutton"
+        android:textStyle="bold" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/history_button"
+        android:text="History"/>
+
+</LinearLayout>

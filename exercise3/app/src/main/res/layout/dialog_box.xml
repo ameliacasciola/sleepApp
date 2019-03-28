@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:padding="20dp">
+
+
+    <EditText
+        android:id="@+id/when"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Date"
+        android:inputType="date"/>
+
+    <EditText
+        android:id="@+id/where"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/when"
+        android:hint="Name of restaurant" />
+
+    <EditText
+        android:id="@+id/howmuch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/where"
+        android:hint="Total cost"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/tip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_below="@id/howmuch"
+        android:hint="Tip"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/numberpeople"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_below="@id/tip"
+        android:hint="Number of people"
+        android:inputType="number" />
+
+    <TextView
+        android:id="@+id/rate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/numberpeople"
+        android:layout_marginTop="17dp"
+        android:text="Rating:"
+        android:textSize="20dp" />
+
+    <RatingBar
+        android:id="@+id/ratingbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rate"
+        android:layout_centerHorizontal="true"
+        android:numStars="5"
+        android:stepSize="1"/>
+
+    <TextView
+        android:id="@+id/trytry"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ratingbar"
+        android:layout_marginTop="17dp"
+        android:textSize="20dp" />
+
+</RelativeLayout>
