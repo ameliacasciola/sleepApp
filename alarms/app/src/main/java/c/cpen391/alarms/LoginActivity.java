@@ -2,6 +2,7 @@ package c.cpen391.alarms;
 
 
 import android.Manifest;
+import android.app.Application;
 import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.Intent;
@@ -54,10 +55,10 @@ public class LoginActivity extends AppCompatActivity {
     private FingerprintHandler fingerprintHandler;
     private static final String FINGERPRINT_KEY = "AndroidKey";
     private static final int REQUEST_USE_FINGERPRINT = 300;
-    protected static Gson mGson;
     protected static CustomSharedPreference mPref;
     private static UserObject mUser;
     private static String userString;
+    private static Application application;
 
 
     @Override
@@ -68,10 +69,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        application = this.getApplication();
+
         setTitle("Android Fingerprint Login");
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        mGson = ((CustomApplication)getApplication()).getGsonObject();
-        mPref = ((CustomApplication)getApplication()).getShared();
 
         // android version greater than marshmallow
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
@@ -208,13 +209,11 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         public void onAuthenticationSucceeded(FingerprintManager.AuthenticationResult result) {
             super.onAuthenticationSucceeded(result);
-            userString = mPref.getUserData();
-            mUser = mGson.fromJson(userString, UserObject.class);
+            mUser = ((CustomApplication) application).getSomeVariable();
             if(mUser != null){
                 Toast.makeText(context, context.getString(R.string.auth_successful), Toast.LENGTH_LONG).show();
                 // login with only fingerprint
                 Intent homeIntent = new Intent(context, home.class);
-                homeIntent.putExtra("USER_BIO", userString);
                 context.startActivity(homeIntent);
             }else{
                 Toast.makeText(context, "You must register before login with fingerprint", Toast.LENGTH_LONG).show();

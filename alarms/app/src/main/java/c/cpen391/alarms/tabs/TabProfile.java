@@ -44,9 +44,7 @@ public class TabProfile extends Fragment {
         browse = (Button) rootview.findViewById(R.id.browse);
         logout = (Button) rootview.findViewById(R.id.logout);
 
-        userBio = getActivity().getIntent().getExtras().getString("USER_BIO");
-        gson = ((CustomApplication)getActivity().getApplication()).getGsonObject();
-        mUserObject = gson.fromJson(userBio, UserObject.class);
+        mUserObject = ((CustomApplication) getActivity().getApplicationContext()).getSomeVariable();
         String bio = "Name: " + mUserObject.getUsername() + "\n" +
                 "Location: Vancouver, Canada" + "\n" +
                 "email: " + mUserObject.getEmail() + "\n";
@@ -104,6 +102,7 @@ public class TabProfile extends Fragment {
                 bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), filePath);
                 proPic.setImageBitmap(bitmap);
                 mUserObject.putUri(filePath);
+                ((CustomApplication) getActivity().getApplicationContext()).setSomeVariable(mUserObject);
                 Toast.makeText(getActivity(), "Image Uploaded", Toast.LENGTH_SHORT).show();
             } catch (IOException e) {
                 e.printStackTrace();

@@ -103,9 +103,7 @@ public class TabHome extends Fragment {
         final View rootview = inflater.inflate(R.layout.home_page, container, false);
 
         greetings = rootview.findViewById(R.id.greeting);
-        String userBio = getActivity().getIntent().getExtras().getString("USER_BIO");
-        Gson gson = ((CustomApplication)getActivity().getApplication()).getGsonObject();
-        UserObject mUserObject = gson.fromJson(userBio, UserObject.class);
+        UserObject mUserObject = ((CustomApplication) c).getSomeVariable();
         greetings.setText("Welcome Back, " + mUserObject.getUsername());
         getCurrentData();
 

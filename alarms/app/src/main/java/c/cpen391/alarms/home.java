@@ -1,5 +1,6 @@
 package c.cpen391.alarms;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
@@ -11,6 +12,7 @@ import c.cpen391.alarms.tabs.TabGames;
 import c.cpen391.alarms.tabs.TabHome;
 import c.cpen391.alarms.tabs.TabProfile;
 import c.cpen391.alarms.tabs.TabTrends;
+
 
 /**
  * Created by Grace on 2019-03-07.
