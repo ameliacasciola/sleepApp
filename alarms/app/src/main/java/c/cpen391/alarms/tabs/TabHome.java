@@ -36,6 +36,7 @@ import c.cpen391.alarms.api.SleepClientInstance;
 import c.cpen391.alarms.api.WeatherService;
 import c.cpen391.alarms.custom.WeatherCard;
 import c.cpen391.alarms.games.GraphicsActivity;
+import c.cpen391.alarms.games.MainSpellingActivity;
 import c.cpen391.alarms.games.WalkingStepsGame;
 import c.cpen391.alarms.home;
 import c.cpen391.alarms.login;
@@ -94,6 +95,7 @@ public class TabHome extends Fragment {
     private CardView weatherCard;
     private ImageView weatherImage;
     private CardView toGraphics;
+    private CardView toSpelling;
     private TextView greetings;
 
 
@@ -189,6 +191,8 @@ public class TabHome extends Fragment {
     private void initGamesScroll(View rootview, int[] gamesCardId){
 
         toGraphics = (CardView) rootview.findViewById(R.id.games_card2);
+        toSpelling = (CardView) rootview.findViewById(R.id.games_card3);
+
 
         for (int i = 0; i < gamesCardId.length; i++){
             View gamesCardView = rootview.findViewById(gamesCardId[i]);
@@ -196,9 +200,19 @@ public class TabHome extends Fragment {
             TextView gamesName = gamesCardView.findViewById(R.id.game_name);
             gamesName.setText(gamesNames[i]);
 
-            //go to dumb bubble game
+            //go to accelerometer game
+            if(i == 0){
+                gamesCardView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getActivity(), WalkingStepsGame.class);
+                        startActivity(intent);
+                    }
+                });
+            }
+
+            //go to bubble game
             if(i==1) {
-                //set button functionality to take you to the graphics exercise
                 toGraphics.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
                         Intent intent = new Intent(getActivity(), GraphicsActivity.class);
@@ -207,11 +221,10 @@ public class TabHome extends Fragment {
                 });
             }
 
-            if(i == 0){
-                gamesCardView.setOnClickListener(new View.OnClickListener() {
-                    @Override
+            if(i==2) {
+                toSpelling.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
-                        Intent intent = new Intent(getActivity(), WalkingStepsGame.class);
+                        Intent intent = new Intent(getActivity(), MainSpellingActivity.class);
                         startActivity(intent);
                     }
                 });
