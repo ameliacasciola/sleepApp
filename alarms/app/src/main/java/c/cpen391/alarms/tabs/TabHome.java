@@ -1,5 +1,6 @@
 package c.cpen391.alarms.tabs;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -7,10 +8,12 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -26,7 +29,14 @@ import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.squareup.picasso.Picasso;
 
 
+import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.format.TextStyle;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import c.cpen391.alarms.CustomApplication;
 import c.cpen391.alarms.R;
@@ -95,8 +105,13 @@ public class TabHome extends Fragment {
     private ImageView weatherImage;
     private CardView toGraphics;
     private TextView greetings;
+    private Context myContext;
 
-
+    @Override
+    public void onAttach(Context context) {
+        myContext= context;
+        super.onAttach(context);
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Context c = getActivity().getApplicationContext();
@@ -156,13 +171,15 @@ public class TabHome extends Fragment {
     }
 
     private void initAlarmsList(View rootview){
-
         Button viewAllbtn = rootview.findViewById(R.id.view_all_btn);
         viewAllbtn.setText("View All (10+)");
         viewAllbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((home)getActivity()).selectTab(1);
+                Fragment tab = ((home) getActivity()).selectTab(1);
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.tabLayout, tab)
+                        .addToBackStack(null).commit();
             }
         });
 
@@ -260,8 +277,28 @@ public class TabHome extends Fragment {
         date4.setText("SUN");
         TextView temp_high_4 =  outerBox4.findViewById(R.id.temp_high);
         TextView temp_low_4 = outerBox4.findViewById(R.id.temp_low);
+
+        setCurrentDay(rootview);
     }
 
+    private void setCurrentDay(View rootview){
+        View weatherCard = rootview.findViewById(R.id.weatherCard);
+        TextView week_day = weatherCard.findViewById(R.id.week_day);
+        LocalDate date = LocalDate.now();
+        DayOfWeek dow = date.getDayOfWeek();
+        week_day.setText(dow.getDisplayName(TextStyle.FULL, Locale.ENGLISH));
+
+        Date c = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("dd");
+        String month_date = df.format(c);
+        TextView curr_month = weatherCard.findViewById(R.id.date);
+        curr_month.setText(month_date);
+
+        String month = new SimpleDateFormat("MMMM").format(c);
+        TextView month_text = weatherCard.findViewById(R.id.month);
+        month_text.setText(month);
+
+    }
     /*Method to generate List of data using RecyclerView with custom adapter*/
     private void generateDataList(List<Alarm> alarmList, View rootview) {
         recyclerView = rootview.findViewById(R.id.alarm_list);

@@ -1,9 +1,11 @@
 package c.cpen391.alarms;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
 import android.support.design.widget.TabLayout;
+import android.util.Log;
 
 import c.cpen391.alarms.adapters.TabAdapter;
 import c.cpen391.alarms.tabs.TabAlarms;
@@ -28,8 +30,9 @@ public class home extends AppCompatActivity {
             R.drawable.ic_outline_person_48px,
     };
 
-    public void selectTab(int position){
-        adapter.getSelectedTabView(position);
+    public Fragment selectTab(int position){
+        highLightCurrentTab(position);
+        return adapter.getItem(position);
     }
 
     @Override
