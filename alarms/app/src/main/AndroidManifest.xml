@@ -36,7 +36,11 @@
         <activity android:name=".SignUpActivity" />
         <activity android:name=".games.GraphicsActivity"/>
         <activity android:name=".tabs.CreateAlarm"/>
-        <activity android:name=".games.WalkingStepsGame"></activity>
+        <activity android:name=".games.WalkingStepsGame"/>
+        <activity android:name=".games.MainSpellingActivity"/>
+        <activity android:name=".games.DoneActivity"/>
+        <activity android:name=".games.InstrActivity">
+        </activity>
     </application>
 
 </manifest>

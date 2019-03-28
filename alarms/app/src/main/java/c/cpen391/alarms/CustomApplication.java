@@ -1,31 +1,23 @@
 package c.cpen391.alarms;
 
 import android.app.Application;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+
+import c.cpen391.alarms.models.UserObject;
 
 public class CustomApplication extends Application {
 
-    private Gson gson;
-    private GsonBuilder builder;
-    private CustomSharedPreference shared;
+    private UserObject uo;
 
-    @Override
-    public void onCreate() {
+    public void onCreate(){
         super.onCreate();
-        builder = new GsonBuilder();
-        gson = builder.create();
-        shared = new CustomSharedPreference(getApplicationContext());
     }
 
-    public CustomSharedPreference getShared()
-    {
-        return shared;
+    public UserObject getSomeVariable() {
+        return uo;
     }
 
-    public Gson getGsonObject()
-    {
-        return gson;
+    public void setSomeVariable(UserObject someVariable) {
+        this.uo = someVariable;
     }
 
 }

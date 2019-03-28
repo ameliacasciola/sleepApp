@@ -40,11 +40,9 @@ public class SignUpActivity extends AppCompatActivity {
                 {
                     Toast.makeText(SignUpActivity.this, "All input fields must be filled", Toast.LENGTH_LONG).show();
                 }else{
-                    Gson gson = ((CustomApplication)getApplication()).getGsonObject();
                     UserObject userData = new UserObject(usernameValue, emailValue, passwordValue);
-                    String userDataString = gson.toJson(userData);
-                    CustomSharedPreference pref = ((CustomApplication)getApplication()).getShared();
-                    pref.setUserData(userDataString);
+                    // set
+                    ((CustomApplication) getApplication()).setSomeVariable(userData);
                     username.setText("");
                     email.setText("");
                     password.setText("");
