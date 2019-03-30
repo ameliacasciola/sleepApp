@@ -57,7 +57,6 @@ public class LoginActivity extends AppCompatActivity {
     private static final int REQUEST_USE_FINGERPRINT = 300;
     protected static CustomSharedPreference mPref;
     private static UserObject mUser;
-    private static String userString;
     private static Application application;
 
 

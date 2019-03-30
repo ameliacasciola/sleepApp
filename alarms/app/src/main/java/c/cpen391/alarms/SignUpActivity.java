@@ -32,8 +32,7 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText username;
     private EditText email;
     private EditText password;
-    private int userID;
-    private String userNAME;
+    protected static CustomSharedPreference mPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +43,8 @@ public class SignUpActivity extends AppCompatActivity {
         email = (EditText)findViewById(R.id.email);
         password = (EditText)findViewById(R.id.password);
         Button signUpButton = (Button) findViewById(R.id.sign_up_button);
+
+        mPref = ((CustomApplication)getApplication()).getShared();
 
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,25 +63,14 @@ public class SignUpActivity extends AppCompatActivity {
                     email.setText("");
                     password.setText("");
                     createPostAPICalling(usernameValue,null, passwordValue,null,null);
-                    profilePostAPICalling(null, "Vancouver, Canada", null);
-
-                    Intent loginIntent = new Intent(SignUpActivity.this, LoginActivity.class);
-                    startActivity(loginIntent);
                 }
             }
         });
     }
 
-    public void profilePostAPICalling(String bio, String location, URL image) {
-        SharedPreferences id = getSharedPreferences("UserID", Activity.MODE_PRIVATE);
-        int myID = id.getInt("USERID", -1);
-        String myName = id.getString("USERNAME", "NONE");
-
-        email.setText(myName + Integer.toString(myID));
-
-
+    public void profilePostAPICalling(int id, String name, String bio, String location, URL image) {
         Call<ResponseBody> call = SleepClientInstance.getRetrofitInstance().create(SleepAPI.class)
-                .profilePost(myID, bio, null, location, image);
+                .profilePost(id, bio, name, location, image);
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -89,6 +79,9 @@ public class SignUpActivity extends AppCompatActivity {
                     Toast.makeText(SignUpActivity.this, "Create Profile API Failure", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
+                Intent loginIntent = new Intent(SignUpActivity.this, LoginActivity.class);
+                startActivity(loginIntent);
             }
 
             @Override
@@ -111,17 +104,10 @@ public class SignUpActivity extends AppCompatActivity {
                     return;
                 }
                 Post postResponse = response.body();
-                userID = postResponse.getid();
-                userNAME = postResponse.getUsername();
+                mPref.setUserID(postResponse.getid());
+                mPref.setUserName(postResponse.getUsername());
 
-                username.setText(userNAME + Integer.toString(userID));
-
-                //saving userid
-                SharedPreferences userid = getSharedPreferences("UserID", Activity.MODE_PRIVATE);
-                SharedPreferences.Editor editor = userid.edit();
-                editor.putInt("USERID", userID);
-                editor.putString("USERNAME", userNAME);
-                editor.apply();
+                profilePostAPICalling(postResponse.getid(), postResponse.getUsername(), null, "Vancouver, Canada", null);
             }
 
             @Override

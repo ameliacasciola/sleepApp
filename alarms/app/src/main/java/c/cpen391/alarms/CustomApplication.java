@@ -7,9 +7,11 @@ import c.cpen391.alarms.models.UserObject;
 public class CustomApplication extends Application {
 
     private UserObject uo;
+    private CustomSharedPreference shared;
 
     public void onCreate(){
         super.onCreate();
+        shared = new CustomSharedPreference(getApplicationContext());
     }
 
     public UserObject getSomeVariable() {
@@ -18,6 +20,11 @@ public class CustomApplication extends Application {
 
     public void setSomeVariable(UserObject someVariable) {
         this.uo = someVariable;
+    }
+
+    public CustomSharedPreference getShared()
+    {
+        return shared;
     }
 
 }

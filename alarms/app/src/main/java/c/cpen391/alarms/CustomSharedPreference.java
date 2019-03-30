@@ -17,14 +17,24 @@ public class CustomSharedPreference {
     }
 
     //Save user information
-    public void setUserData(String userData)
+    public void setUserID(int userID)
     {
-        sharedPref.edit().putString("USER", userData).apply();
+        sharedPref.edit().putInt("USERID", userID).apply();
     }
 
-    public String getUserData()
+    public int getUserID()
     {
-        return sharedPref.getString("USER", "");
+        return sharedPref.getInt("USERID", -1);
+    }
+
+    public void setUserName(String userName)
+    {
+        sharedPref.edit().putString("USERNAME", userName).apply();
+    }
+
+    public String getUserName()
+    {
+        return sharedPref.getString("USERNAME", "");
     }
 
 }
