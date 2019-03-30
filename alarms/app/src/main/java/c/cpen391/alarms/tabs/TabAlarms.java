@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.daimajia.swipe.util.Attributes;
 import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -113,6 +114,7 @@ public class TabAlarms extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), CreateAlarm.class);
+                //intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent);
             }
         });

@@ -26,7 +26,11 @@
     <color name="dark_blue">#4A777A</color>
     <color name="heart_red">#F05049</color>
     <color name="breathe_blue">#223A66</color>
+    <color name="transparent">#80000000</color>
     <color name="light_red">#CD5C5C</color>
     <color name="light_pink">#ffd1dc</color>
     <color name="pink">#f2a4b0</color>
+    <color name="lightgray2">#F5F5F5</color>
+    <color name="plum">#DDA0DD</color>
+    <color name="purple">#9370DB</color>
 </resources>

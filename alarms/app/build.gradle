@@ -42,7 +42,6 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    implementation ('com.ramotion.paperonboarding:paper-onboarding:1.1.1'){ exclude group: 'com.android.support:appcompat-vXXXX'}
     implementation 'devlight.io:navigationtabbar:1.2.5'
     implementation 'com.android.support:design:27+'
     implementation 'com.android.support:support-v4:27+'
@@ -60,4 +59,7 @@ dependencies {
     implementation 'com.github.devlight.navigationtabstrip:navigationtabstrip:1.0.4'
     implementation 'com.android.support:recyclerview-v7:21.0.0'
     implementation "com.daimajia.swipelayout:library:1.2.0@aar"
+    implementation 'com.sothree.slidinguppanel:library:3.4.0'
+    implementation 'com.wrapp.floatlabelededittext:library:0.0.6'
+//    implementation 'com.wdullaer:materialdatetimepicker:4.1.2'
 }

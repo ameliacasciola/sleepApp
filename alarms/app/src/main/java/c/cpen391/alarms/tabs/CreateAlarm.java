@@ -1,59 +1,97 @@
 package c.cpen391.alarms.tabs;
 
-import android.animation.Animator;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.ViewAnimationUtils;
-import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.widget.FrameLayout;
+import android.widget.Button;
 
 import c.cpen391.alarms.R;
+import c.cpen391.alarms.custom.AlarmDetailsSlidePageFragment;
+import c.cpen391.alarms.custom.SpotifySlidePageFragment;
+import c.cpen391.alarms.models.Alarm;
 
 public class CreateAlarm extends AppCompatActivity {
+
+    private static final int NUM_PAGES = 3;
+
+    /**
+     * The pager widget, which handles animation and allows swiping horizontally to access previous
+     * and next wizard steps.
+     */
+    private ViewPager mPager;
+
+    /**
+     * The pager adapter, which provides the pages to the view pager widget.
+     */
+    private PagerAdapter pagerAdapter;
+
+    private Alarm newAlarm;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_alarm);
-        final FrameLayout rootLayout = findViewById(R.id.root_layout);
+        initSubmit();
+        // Instantiate a ViewPager and a PagerAdapter.
+        mPager = (ViewPager) findViewById(R.id.pager);
+        pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+        mPager.setAdapter(pagerAdapter);
+    }
 
-        if (savedInstanceState == null) {
-            rootLayout.setVisibility(View.INVISIBLE);
-
-            ViewTreeObserver viewTreeObserver = rootLayout.getViewTreeObserver();
-            if (viewTreeObserver.isAlive()) {
-                viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                    @Override
-                    public void onGlobalLayout() {
-                        circularRevealActivity();
-                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-                            rootLayout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                        } else {
-                            rootLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                        }
-                    }
-                });
+    private void initSubmit(){
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_top);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mPager.getCurrentItem() == 0) {
+            // If the user is currently looking at the first step, allow the system to handle the
+            // Back button. This calls finish() on this activity and pops the back stack.
+            super.onBackPressed();
+        } else {
+            // Otherwise, select the previous step.
+            mPager.setCurrentItem(mPager.getCurrentItem() - 1);
         }
     }
-    private void circularRevealActivity() {
-        final FrameLayout rootLayout = findViewById(R.id.root_layout);
 
-        int cx = rootLayout.getWidth() - 10;
-        int cy = rootLayout.getHeight() - 20;
+    /**
+     * A simple pager adapter that represents 5 AlarmDetailsSlidePageFragment objects, in
+     * sequence.
+     */
+    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
+        public ScreenSlidePagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
 
-        float finalRadius = Math.max(rootLayout.getWidth(), rootLayout.getHeight());
+        @Override
+        public Fragment getItem(int position) {
+            switch(position){
+                case 0: return new AlarmDetailsSlidePageFragment();
+                case 1: return new SpotifySlidePageFragment();
+                default: return new AlarmDetailsSlidePageFragment();
+            }
+        }
 
-        // create the animator for this view (the start radius is zero)
-        Animator circularReveal = ViewAnimationUtils.createCircularReveal(rootLayout, cx, cy, 0, finalRadius);
-        circularReveal.setDuration(1000);
-
-        // make the view visible and start the animation
-        rootLayout.setVisibility(View.VISIBLE);
-        circularReveal.start();
+        @Override
+        public int getCount() {
+            return NUM_PAGES;
+        }
     }
+
 }
