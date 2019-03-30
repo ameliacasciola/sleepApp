@@ -5,6 +5,7 @@ import java.util.List;
 
 import c.cpen391.alarms.models.Alarm;
 import c.cpen391.alarms.models.Post;
+import c.cpen391.alarms.models.Profile;
 import c.cpen391.alarms.models.SleepData;
 import okhttp3.ResponseBody;
 import retrofit2.http.Body;
@@ -22,8 +23,8 @@ public interface SleepAPI {
     @GET("/sleepdata")
     Call<List<SleepData>> getSleepData();
 
-    @GET("/users/{id}/")
-    Call<Post> getUserInfo();
+    @GET("/profile/{id}/")
+    Call<Profile> getProfileInfo(@Path("id") String id);
 
     @POST("/users/")
     Call<Post> createPost(@Body Post post);

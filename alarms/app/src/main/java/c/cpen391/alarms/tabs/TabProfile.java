@@ -17,14 +17,25 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.util.List;
 
 import c.cpen391.alarms.CustomApplication;
 import c.cpen391.alarms.CustomSharedPreference;
 import c.cpen391.alarms.MainActivity;
 import c.cpen391.alarms.R;
+import c.cpen391.alarms.SignUpActivity;
+import c.cpen391.alarms.api.SleepAPI;
+import c.cpen391.alarms.api.SleepClientInstance;
 import c.cpen391.alarms.home;
+import c.cpen391.alarms.models.Alarm;
+import c.cpen391.alarms.models.Post;
+import c.cpen391.alarms.models.Profile;
 import c.cpen391.alarms.models.UserObject;
 import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -48,28 +59,47 @@ public class TabProfile extends Fragment {
 
         mUserObject = ((CustomApplication) getActivity().getApplicationContext()).getSomeVariable();
 
+        TextView userTextValue = (TextView)rootview.findViewById(R.id.user_bio);
+
         String bio;
 
         if(mUserObject != null) {
             bio = "Name: " + mUserObject.getUsername() + "\n" +
                     "Location: Vancouver, Canada" + "\n" +
                     "email: " + mUserObject.getEmail() + "\n";
-        } else { // fetch from db
+            userTextValue.setText(bio);
 
-        }
-        TextView userTextValue = (TextView)rootview.findViewById(R.id.user_bio);
-        userTextValue.setText(bio);
-
-        Uri temp = mUserObject.getUri();
-        if(temp != null) {
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), temp);
-                proPic.setImageBitmap(bitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
+            Uri temp = mUserObject.getUri();
+            if(temp != null) {
+                try {
+                    bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), temp);
+                    proPic.setImageBitmap(bitmap);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                proPic.setImageResource(R.drawable.empty_pp);
             }
-        } else {
-            proPic.setImageResource(R.drawable.empty_pp);
+        } else { // fetch from db
+            mPref = ((CustomApplication)getActivity().getApplicationContext()).getShared();
+            SleepAPI service = SleepClientInstance.getRetrofitInstance().create(SleepAPI.class);
+            Call<Profile> call = service.getProfileInfo(Integer.toString(mPref.getUserID()));
+            call.enqueue(new Callback<Profile>() {
+                @Override
+                public void onResponse(Call<Profile> call, Response<Profile> response) {
+                    if(!response.isSuccessful()) {
+                        Toast.makeText(getActivity().getApplicationContext(), "Profile no Response", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    TextView userTextValue = (TextView)rootview.findViewById(R.id.user_bio);
+                    userTextValue.setText(response.body().toString());
+                }
+
+                @Override
+                public void onFailure(Call<Profile> call, Throwable t) {
+                    Toast.makeText(getActivity(), "Profile User API Failure", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
 
         browse.setOnClickListener(new View.OnClickListener() {
