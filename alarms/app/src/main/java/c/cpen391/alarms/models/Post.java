@@ -16,7 +16,7 @@ public class Post {
     @SerializedName("lastName")
     private String lastName;
 
-    private Integer id;
+    private int id;
 
     public Post(String username, String email, String password, String firstName, String lastName) {
         this.username = username;
@@ -26,7 +26,7 @@ public class Post {
         this.lastName = lastName;
     }
 
-    public Integer getid() {
+    public int getid() {
         return id;
     }
 

@@ -1,8 +1,11 @@
 package c.cpen391.alarms;
 
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -22,11 +25,16 @@ import retrofit2.Response;
 
 import com.google.gson.Gson;
 
+import java.net.URL;
+
 public class SignUpActivity extends AppCompatActivity {
     private static final String TAG = SignUpActivity.class.getSimpleName();
     private EditText username;
     private EditText email;
     private EditText password;
+    private int userID;
+    private String userNAME;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,15 +61,44 @@ public class SignUpActivity extends AppCompatActivity {
                     username.setText("");
                     email.setText("");
                     password.setText("");
-                    sendPost(usernameValue,null,passwordValue,null,null);
-                    //Intent loginIntent = new Intent(SignUpActivity.this, LoginActivity.class);
-                    //startActivity(loginIntent);
+                    createPostAPICalling(usernameValue,null, passwordValue,null,null);
+                    profilePostAPICalling(null, "Vancouver, Canada", null);
+
+                    Intent loginIntent = new Intent(SignUpActivity.this, LoginActivity.class);
+                    startActivity(loginIntent);
                 }
             }
         });
     }
 
-    public void sendPost(String name, String email, String password, String first, String last) {
+    public void profilePostAPICalling(String bio, String location, URL image) {
+        SharedPreferences id = getSharedPreferences("UserID", Activity.MODE_PRIVATE);
+        int myID = id.getInt("USERID", -1);
+        String myName = id.getString("USERNAME", "NONE");
+
+        email.setText(myName + Integer.toString(myID));
+
+
+        Call<ResponseBody> call = SleepClientInstance.getRetrofitInstance().create(SleepAPI.class)
+                .profilePost(myID, bio, null, location, image);
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if(!response.isSuccessful()) {
+                    Toast.makeText(SignUpActivity.this, "Create Profile API Failure", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(SignUpActivity.this, "Create Profile Failure", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void createPostAPICalling(String name, String email, String password, String first, String last) {
         Post post = new Post(name, email, password, first, last);
         Call<Post> call = SleepClientInstance.getRetrofitInstance().create(SleepAPI.class)
                 .createPost(post);
@@ -70,12 +107,21 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Post> call, Response<Post> response) {
                 if(!response.isSuccessful()) {
-                    Toast.makeText(SignUpActivity.this, "Response Failure", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUpActivity.this, "Create User API Failure", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 Post postResponse = response.body();
-                username.setText(postResponse.toString());
-                Toast.makeText(SignUpActivity.this, "Success", Toast.LENGTH_LONG).show();
+                userID = postResponse.getid();
+                userNAME = postResponse.getUsername();
+
+                username.setText(userNAME + Integer.toString(userID));
+
+                //saving userid
+                SharedPreferences userid = getSharedPreferences("UserID", Activity.MODE_PRIVATE);
+                SharedPreferences.Editor editor = userid.edit();
+                editor.putInt("USERID", userID);
+                editor.putString("USERNAME", userNAME);
+                editor.apply();
             }
 
             @Override
