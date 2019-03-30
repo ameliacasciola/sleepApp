@@ -11,7 +11,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import c.cpen391.alarms.api.SleepAPI;
+import c.cpen391.alarms.api.SleepClientInstance;
+import c.cpen391.alarms.models.Post;
 import c.cpen391.alarms.models.UserObject;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import com.google.gson.Gson;
 
@@ -46,9 +53,34 @@ public class SignUpActivity extends AppCompatActivity {
                     username.setText("");
                     email.setText("");
                     password.setText("");
-                    Intent loginIntent = new Intent(SignUpActivity.this, LoginActivity.class);
-                    startActivity(loginIntent);
+                    sendPost(usernameValue,null,passwordValue,null,null);
+                    //Intent loginIntent = new Intent(SignUpActivity.this, LoginActivity.class);
+                    //startActivity(loginIntent);
                 }
+            }
+        });
+    }
+
+    public void sendPost(String name, String email, String password, String first, String last) {
+        Post post = new Post(name, email, password, first, last);
+        Call<Post> call = SleepClientInstance.getRetrofitInstance().create(SleepAPI.class)
+                .createPost(post);
+
+        call.enqueue(new Callback<Post>() {
+            @Override
+            public void onResponse(Call<Post> call, Response<Post> response) {
+                if(!response.isSuccessful()) {
+                    Toast.makeText(SignUpActivity.this, "Response Failure", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Post postResponse = response.body();
+                username.setText(postResponse.toString());
+                Toast.makeText(SignUpActivity.this, "Success", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(Call<Post> call, Throwable t) {
+                Toast.makeText(SignUpActivity.this, "Sign Up Failure", Toast.LENGTH_SHORT).show();
             }
         });
     }

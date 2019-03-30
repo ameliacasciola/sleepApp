@@ -3,8 +3,10 @@ package c.cpen391.alarms.api;
 import java.util.List;
 
 import c.cpen391.alarms.models.Alarm;
+import c.cpen391.alarms.models.Post;
 import c.cpen391.alarms.models.SleepData;
 import okhttp3.ResponseBody;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -18,4 +20,7 @@ public interface SleepAPI {
 
     @GET("/sleepdata")
     Call<List<SleepData>> getSleepData();
+
+    @POST("/users/")
+    Call<Post> createPost(@Body Post post);
 }
