@@ -2,8 +2,10 @@ package c.cpen391.alarms.tabs;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -57,7 +60,6 @@ public class TabProfile extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootview = inflater.inflate(R.layout.profile_fragment, container, false);
 
-        proPic = (CircleImageView) rootview.findViewById(R.id.profilePicture);
         browse = (Button) rootview.findViewById(R.id.browse);
         logout = (Button) rootview.findViewById(R.id.logout);
 
@@ -80,26 +82,17 @@ public class TabProfile extends Fragment {
                                     + "Location: " + mProfile.getLocation());
 
                 // grab image
+                proPic = (CircleImageView) rootview.findViewById(R.id.profilePicture);
+                String temp = mProfile.getImage().toString();
+                Picasso.get().load(temp).placeholder(R.drawable.empty_pp).into(proPic);
             }
             @Override
             public void onFailure(Call<Profile> call, Throwable t) {
                 Toast.makeText(getActivity(), "Profile User API Failure", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        /*
-         Uri temp = mUserObject.getUri();
-            if(temp != null) {
-                try {
-                    bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), temp);
-                    proPic.setImageBitmap(bitmap);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } else {
+                proPic = (CircleImageView) rootview.findViewById(R.id.profilePicture);
                 proPic.setImageResource(R.drawable.empty_pp);
             }
-        */
+        });
 
         browse.setOnClickListener(new View.OnClickListener() {
             @Override
