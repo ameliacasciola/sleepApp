@@ -2,7 +2,10 @@ package c.cpen391.alarms.tabs;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
@@ -15,8 +18,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.List;
 
 import c.cpen391.alarms.CustomApplication;
@@ -53,54 +60,39 @@ public class TabProfile extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootview = inflater.inflate(R.layout.profile_fragment, container, false);
 
-        proPic = (CircleImageView) rootview.findViewById(R.id.profilePicture);
         browse = (Button) rootview.findViewById(R.id.browse);
         logout = (Button) rootview.findViewById(R.id.logout);
 
         mUserObject = ((CustomApplication) getActivity().getApplicationContext()).getSomeVariable();
 
-        TextView userTextValue = (TextView)rootview.findViewById(R.id.user_bio);
-
-        String bio;
-
-        if(mUserObject != null) {
-            bio = "Name: " + mUserObject.getUsername() + "\n" +
-                    "Location: Vancouver, Canada" + "\n" +
-                    "email: " + mUserObject.getEmail() + "\n";
-            userTextValue.setText(bio);
-
-            Uri temp = mUserObject.getUri();
-            if(temp != null) {
-                try {
-                    bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), temp);
-                    proPic.setImageBitmap(bitmap);
-                } catch (IOException e) {
-                    e.printStackTrace();
+        mPref = ((CustomApplication)getActivity().getApplicationContext()).getShared();
+        SleepAPI service = SleepClientInstance.getRetrofitInstance().create(SleepAPI.class);
+        Call<Profile> call = service.getProfileInfo(Integer.toString(mPref.getUserID()));
+        call.enqueue(new Callback<Profile>() {
+            @Override
+            public void onResponse(Call<Profile> call, Response<Profile> response) {
+                if(!response.isSuccessful()) {
+                    Toast.makeText(getActivity().getApplicationContext(), "Profile no Response", Toast.LENGTH_SHORT).show();
+                    return;
                 }
-            } else {
+                TextView userTextValue = (TextView)rootview.findViewById(R.id.user_bio);
+                Profile mProfile = response.body();
+                userTextValue.setText("Name: " + mProfile.getName() + "\n"
+                                    + "Bio: " + mProfile.getBio() + "\n"
+                                    + "Location: " + mProfile.getLocation());
+
+                // grab image
+                proPic = (CircleImageView) rootview.findViewById(R.id.profilePicture);
+                String temp = mProfile.getImage().toString();
+                Picasso.get().load(temp).placeholder(R.drawable.empty_pp).into(proPic);
+            }
+            @Override
+            public void onFailure(Call<Profile> call, Throwable t) {
+                Toast.makeText(getActivity(), "Profile User API Failure", Toast.LENGTH_SHORT).show();
+                proPic = (CircleImageView) rootview.findViewById(R.id.profilePicture);
                 proPic.setImageResource(R.drawable.empty_pp);
             }
-        } else { // fetch from db
-            mPref = ((CustomApplication)getActivity().getApplicationContext()).getShared();
-            SleepAPI service = SleepClientInstance.getRetrofitInstance().create(SleepAPI.class);
-            Call<Profile> call = service.getProfileInfo(Integer.toString(mPref.getUserID()));
-            call.enqueue(new Callback<Profile>() {
-                @Override
-                public void onResponse(Call<Profile> call, Response<Profile> response) {
-                    if(!response.isSuccessful()) {
-                        Toast.makeText(getActivity().getApplicationContext(), "Profile no Response", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    TextView userTextValue = (TextView)rootview.findViewById(R.id.user_bio);
-                    userTextValue.setText(response.body().toString());
-                }
-
-                @Override
-                public void onFailure(Call<Profile> call, Throwable t) {
-                    Toast.makeText(getActivity(), "Profile User API Failure", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
+        });
 
         browse.setOnClickListener(new View.OnClickListener() {
             @Override
