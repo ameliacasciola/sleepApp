@@ -73,6 +73,8 @@ public class LoginActivity extends AppCompatActivity {
         setTitle("Android Fingerprint Login");
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+        mPref = ((CustomApplication)getApplication()).getShared();
+
         // android version greater than marshmallow
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
         {
@@ -209,7 +211,10 @@ public class LoginActivity extends AppCompatActivity {
         public void onAuthenticationSucceeded(FingerprintManager.AuthenticationResult result) {
             super.onAuthenticationSucceeded(result);
             mUser = ((CustomApplication) application).getSomeVariable();
-            if(mUser != null){
+            int userID = mPref.getUserID();
+            String userName = mPref.getUserName();
+
+            if(mUser != null || userID != -1 || userName != "NONE"){
                 Toast.makeText(context, context.getString(R.string.auth_successful), Toast.LENGTH_LONG).show();
                 // login with only fingerprint
                 Intent homeIntent = new Intent(context, home.class);

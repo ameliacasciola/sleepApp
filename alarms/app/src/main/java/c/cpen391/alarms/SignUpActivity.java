@@ -69,6 +69,8 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     public void profilePostAPICalling(int id, String name, String bio, String location, URL image) {
+        mPref.setUserID(id);
+        mPref.setUserName(name);
         Call<ResponseBody> call = SleepClientInstance.getRetrofitInstance().create(SleepAPI.class)
                 .profilePost(id, bio, name, location, image);
 
@@ -104,8 +106,6 @@ public class SignUpActivity extends AppCompatActivity {
                     return;
                 }
                 Post postResponse = response.body();
-                mPref.setUserID(postResponse.getid());
-                mPref.setUserName(postResponse.getUsername());
 
                 profilePostAPICalling(postResponse.getid(), postResponse.getUsername(), null, "Vancouver, Canada", null);
             }

@@ -22,6 +22,9 @@ public interface SleepAPI {
     @GET("/sleepdata")
     Call<List<SleepData>> getSleepData();
 
+    @GET("/users/{id}/")
+    Call<Post> getUserInfo();
+
     @POST("/users/")
     Call<Post> createPost(@Body Post post);
 

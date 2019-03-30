@@ -39,6 +39,7 @@ import java.util.List;
 import java.util.Locale;
 
 import c.cpen391.alarms.CustomApplication;
+import c.cpen391.alarms.CustomSharedPreference;
 import c.cpen391.alarms.R;
 import c.cpen391.alarms.adapters.RecyclerViewAdapter;
 import c.cpen391.alarms.api.SleepAPI;
@@ -60,6 +61,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class TabHome extends Fragment {
+    protected static CustomSharedPreference mPref;
     public static String BaseUrl = "http://api.openweathermap.org/";
     public static String AppId = "d759bba2b2a5a9470634fd12aaba0ffd";
     public static String lat = "49.25";
@@ -121,7 +123,14 @@ public class TabHome extends Fragment {
 
         greetings = rootview.findViewById(R.id.greeting);
         UserObject mUserObject = ((CustomApplication) c).getSomeVariable();
-        greetings.setText("Welcome Back, " + mUserObject.getUsername());
+        mPref = ((CustomApplication)getActivity().getApplicationContext()).getShared();
+        if(mUserObject != null) { // use object from signup just now
+            greetings.setText("Welcome Back, " + mUserObject.getUsername());
+        } else { // use saved data from storage (restarting app)
+            greetings.setText("Welcome Back, " + mPref.getUserName());
+        }
+
+
         getCurrentData();
 
         progressDoalog = new ProgressDialog(getActivity());

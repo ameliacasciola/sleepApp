@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 import java.io.IOException;
 
 import c.cpen391.alarms.CustomApplication;
+import c.cpen391.alarms.CustomSharedPreference;
 import c.cpen391.alarms.MainActivity;
 import c.cpen391.alarms.R;
 import c.cpen391.alarms.home;
@@ -35,6 +36,7 @@ public class TabProfile extends Fragment {
     private String userBio;
     private Gson gson;
     private UserObject mUserObject;
+    protected static CustomSharedPreference mPref;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -45,9 +47,16 @@ public class TabProfile extends Fragment {
         logout = (Button) rootview.findViewById(R.id.logout);
 
         mUserObject = ((CustomApplication) getActivity().getApplicationContext()).getSomeVariable();
-        String bio = "Name: " + mUserObject.getUsername() + "\n" +
-                "Location: Vancouver, Canada" + "\n" +
-                "email: " + mUserObject.getEmail() + "\n";
+
+        String bio;
+
+        if(mUserObject != null) {
+            bio = "Name: " + mUserObject.getUsername() + "\n" +
+                    "Location: Vancouver, Canada" + "\n" +
+                    "email: " + mUserObject.getEmail() + "\n";
+        } else { // fetch from db
+
+        }
         TextView userTextValue = (TextView)rootview.findViewById(R.id.user_bio);
         userTextValue.setText(bio);
 

@@ -34,7 +34,7 @@ public class CustomSharedPreference {
 
     public String getUserName()
     {
-        return sharedPref.getString("USERNAME", "");
+        return sharedPref.getString("USERNAME", "NONE");
     }
 
 }
