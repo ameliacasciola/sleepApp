@@ -213,7 +213,7 @@
                 android:layout_height="wrap_content"
                 android:text="My Alarms" />
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:layout_below="@+id/alarms_text"
                 android:id="@+id/alarm_list"
                 android:layout_width="match_parent"

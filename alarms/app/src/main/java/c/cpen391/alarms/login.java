@@ -1,11 +1,7 @@
 package c.cpen391.alarms;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-
-
-
-import java.util.ArrayList;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class login extends AppCompatActivity {
 

@@ -6,15 +6,13 @@ import android.hardware.SensorManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import c.cpen391.alarms.R;
-import c.cpen391.alarms.home;
 
 public class WalkingStepsGame extends AppCompatActivity implements SensorEventListener{
 
