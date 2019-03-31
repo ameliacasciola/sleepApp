@@ -30,9 +30,8 @@ public interface SleepAPI {
     @GET("/alarms")
     Call<List<Alarm>> getAlarms(@Query("username") int userID);
 
-    @DELETE("/alarms/")
-    Call<ResponseBody> deleteAlarm(@Query("username") int userID,
-                                   @Query("id") int alarmID);
+    @DELETE("/alarms/{id}/")
+    Call<ResponseBody> deleteAlarm(@Path("id") int alarmID);
 
     @GET("/sleepdata")
     Call<List<SleepData>> getSleepData(@Query("start_date") String start_date, @Query("end_date") String end_date, @Query("date") String date);

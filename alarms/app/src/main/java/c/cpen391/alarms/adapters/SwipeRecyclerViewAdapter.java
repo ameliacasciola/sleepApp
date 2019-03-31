@@ -172,7 +172,7 @@ public class SwipeRecyclerViewAdapter  extends RecyclerSwipeAdapter<SwipeRecycle
                 mPref = ((CustomApplication)mContext.getApplicationContext()).getShared();
                 SleepAPI service = SleepClientInstance.getRetrofitInstance().create(SleepAPI.class);
                 final String temp = Integer.toString(alarmList.get(position).getID());
-                Call<ResponseBody> call = service.deleteAlarm(mPref.getUserID(), alarmList.get(position).getID());
+                Call<ResponseBody> call = service.deleteAlarm(alarmList.get(position).getID());
                 call.enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
