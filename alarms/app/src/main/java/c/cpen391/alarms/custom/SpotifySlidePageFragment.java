@@ -21,8 +21,10 @@ import c.cpen391.alarms.R;
 import c.cpen391.alarms.api.AlarmPost;
 import c.cpen391.alarms.api.SleepAPI;
 import c.cpen391.alarms.api.SleepClientInstance;
+import c.cpen391.alarms.home;
 import c.cpen391.alarms.models.Alarm;
 import c.cpen391.alarms.tabs.CreateAlarm;
+import c.cpen391.alarms.tabs.TabAlarms;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -76,6 +78,9 @@ public class SpotifySlidePageFragment extends Fragment {
                 } else{
                     sendPost();
                     ((CreateAlarm)getActivity()).closeAlarm();
+
+                    Intent refresh = new Intent(getContext(), home.class);
+                    getContext().startActivity(refresh);
                 }
             }
         });
