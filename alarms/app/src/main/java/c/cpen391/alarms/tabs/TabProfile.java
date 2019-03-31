@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,6 +49,8 @@ public class TabProfile extends Fragment {
     private Bitmap bitmap;
     private String userBio;
     private Gson gson;
+    private EditText bioedit;
+    private Button bioupdate;
     protected static CustomSharedPreference mPref;
 
     @Override
@@ -57,6 +60,8 @@ public class TabProfile extends Fragment {
         proPic = (CircleImageView) rootview.findViewById(R.id.profilePicture);
         browse = (Button) rootview.findViewById(R.id.browse);
         logout = (Button) rootview.findViewById(R.id.logout);
+        bioedit = (EditText) rootview.findViewById(R.id.bioedit);
+        bioupdate = (Button) rootview.findViewById(R.id.bioupdate);
 
         mPref = ((CustomApplication)getActivity().getApplicationContext()).getShared();
         SleepAPI service = SleepClientInstance.getRetrofitInstance().create(SleepAPI.class);
@@ -71,12 +76,13 @@ public class TabProfile extends Fragment {
                 TextView userTextValue = (TextView)rootview.findViewById(R.id.user_bio);
                 Profile mProfile = response.body();
                 userTextValue.setText("Name: " + mProfile.getName() + "\n"
-                                    + "Bio: " + mProfile.getBio() + "\n"
                                     + "Location: " + mProfile.getLocation());
 
                 // grab image
                 String string = mProfile.getImage().toString();
                 Picasso.get().load(string).placeholder(R.drawable.empty_pp).into(proPic);
+
+                bioedit.setText(mProfile.getBio());
             }
             @Override
             public void onFailure(Call<Profile> call, Throwable t) {
@@ -102,6 +108,14 @@ public class TabProfile extends Fragment {
             }
         });
 
+        bioupdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                uploadBio(bioedit.getText().toString());
+                bioedit.setFocusable(false);
+                bioedit.setFocusable(true);
+            }
+        });
 
         return rootview;
     }
@@ -183,6 +197,30 @@ public class TabProfile extends Fragment {
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Toast.makeText(getActivity().getApplicationContext(), "Upload Profile Picture Failure", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+    private void uploadBio(String bio) {
+        mPref = ((CustomApplication)getActivity().getApplicationContext()).getShared();
+
+        Call<ResponseBody> call = SleepClientInstance.getRetrofitInstance().create(SleepAPI.class)
+                .updateBio(bio, Integer.toString(mPref.getUserID()));
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if(!response.isSuccessful()) {
+                    Toast.makeText(getActivity().getApplicationContext(), "Update Bio No Response", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Toast.makeText(getActivity().getApplicationContext(), "Bio Updated", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(getActivity().getApplicationContext(), "Update Bio Failure", Toast.LENGTH_SHORT).show();
             }
         });
     }

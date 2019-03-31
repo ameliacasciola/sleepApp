@@ -52,4 +52,11 @@ public interface SleepAPI {
     Call<ResponseBody> uploadImage(
             @Part MultipartBody.Part file,
             @PartMap Map<String, RequestBody> data);
+
+    @FormUrlEncoded
+    @PATCH("/profile/{id}/")
+    Call<ResponseBody> updateBio(
+            @Field("bio") String bio,
+            @Path("id") String id
+    );
 }
