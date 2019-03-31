@@ -97,6 +97,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
         ImageView fingerprintImage = (ImageView)findViewById(R.id.fingerprint_image);
+
         fingerprintImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

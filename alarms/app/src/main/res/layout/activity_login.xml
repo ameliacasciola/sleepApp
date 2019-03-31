@@ -3,20 +3,29 @@
     android:id="@+id/activity_finger_print"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@null"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
     android:orientation="vertical"
     android:gravity="center"
-    android:padding="24dp">
+    android:padding="5dp">
+
     <ImageView
         android:id="@+id/fingerprint_image"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="150dp"
+        android:layout_marginBottom="30dp"
+        android:layout_height="150dp"
         android:contentDescription="@string/app_name"
         android:src="@drawable/ic_fp_40px"/>
+
     <TextView
         android:layout_width="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorBlack"
-        android:text="@string/login_with_fingerprint"
+        android:textColor="@color/dark_gray"
+        android:text="Place your finger on the device now"
         android:textStyle="bold"
-        android:layout_marginTop="@dimen/_24sdp"/>
+        android:textSize="30sp"
+        android:layout_marginTop="40dp"/>
 </LinearLayout>
