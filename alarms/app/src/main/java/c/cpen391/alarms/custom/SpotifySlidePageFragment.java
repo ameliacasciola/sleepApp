@@ -80,6 +80,7 @@ public class SpotifySlidePageFragment extends Fragment {
                     sendPost();
                     ((CreateAlarm)getActivity()).closeAlarm();
 
+                    // refresh, jump
                     Intent refresh = new Intent(getContext(), home.class);
                     getContext().startActivity(refresh);
                 }

@@ -62,6 +62,10 @@ public class Alarm
         this.active = active;
     }
 
+    public boolean getActive() {
+        return active;
+    }
+
     public void setTime(String alarmTime){
         this.alarmTime = alarmTime;
     }

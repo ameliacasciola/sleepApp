@@ -53,6 +53,13 @@ public interface SleepAPI {
             @Field("total_points") int points
     );
 
+    @FormUrlEncoded
+    @PATCH("/alarms/{id}/")
+    Call<ResponseBody> updateOnOff(
+            @Field("active") Boolean active,
+            @Path("id") int id
+    );
+
     @POST("/alarms/")
     Call<AlarmPost> alarmPost(@Body AlarmPost post);
 
