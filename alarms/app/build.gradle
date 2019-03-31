@@ -64,4 +64,5 @@ dependencies {
     implementation 'com.appeaser.sublimepickerlibrary:sublimepickerlibrary:2.1.2'
     implementation 'com.github.elevenetc:textsurface:0.9.1'
     implementation 'com.roughike:swipe-selector:1.0.6'
+    implementation 'com.github.elevenetc:textsurface:0.9.1'
 }

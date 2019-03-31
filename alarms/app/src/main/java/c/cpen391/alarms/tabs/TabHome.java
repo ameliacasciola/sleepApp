@@ -134,8 +134,8 @@ public class TabHome extends Fragment {
             public void onResponse(Call<List<Alarm>> call, Response< List<Alarm>> response) {
                 progressDoalog.dismiss();
                 List<Alarm> alarmList = response.body();
-                generateDataList(alarmList, rootview);
                 displayNextAlarm(alarmList.get(0), rootview);
+                generateDataList(alarmList.subList(1, 3), rootview);
             }
 
             @Override
