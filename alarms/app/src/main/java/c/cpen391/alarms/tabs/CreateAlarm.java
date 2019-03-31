@@ -1,5 +1,6 @@
 package c.cpen391.alarms.tabs;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -17,7 +18,7 @@ import c.cpen391.alarms.models.Alarm;
 
 public class CreateAlarm extends AppCompatActivity {
 
-    private static final int NUM_PAGES = 3;
+    private static final int NUM_PAGES = 2;
 
     /**
      * The pager widget, which handles animation and allows swiping horizontally to access previous
@@ -30,7 +31,7 @@ public class CreateAlarm extends AppCompatActivity {
      */
     private PagerAdapter pagerAdapter;
 
-    private Alarm newAlarm;
+    public Alarm newAlarm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +42,12 @@ public class CreateAlarm extends AppCompatActivity {
         mPager = (ViewPager) findViewById(R.id.pager);
         pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(pagerAdapter);
+
+        newAlarm = new Alarm();
+    }
+
+    public Alarm getAlarm(){
+        return newAlarm;
     }
 
     private void initSubmit(){
@@ -57,6 +64,11 @@ public class CreateAlarm extends AppCompatActivity {
         });
     }
 
+
+    public void setTab(int position){
+        mPager.setCurrentItem(position);
+    }
+
     @Override
     public void onBackPressed() {
         if (mPager.getCurrentItem() == 0) {
@@ -69,8 +81,12 @@ public class CreateAlarm extends AppCompatActivity {
         }
     }
 
+    public void closeAlarm(){
+        super.onBackPressed();
+    }
+
     /**
-     * A simple pager adapter that represents 5 AlarmDetailsSlidePageFragment objects, in
+     *  pager adapter that represents 2 ScreenSlidePagerAdapter objects, in
      * sequence.
      */
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {

@@ -38,4 +38,16 @@ public interface SleepAPI {
             @Field("location") String location,
             @Field("image") URL image
     );
+
+    @POST("/alarms/")
+    Call<AlarmPost> alarmPost(@Body AlarmPost post);
+
+    @FormUrlEncoded
+    @POST("/alarms/")
+    Call<ResponseBody> alarmPost(@Field("description") String title,
+                        @Field("alarm_time") String body,
+                        @Field("game_name") String gameName,
+                        @Field("volume") Integer userId,
+                        @Field("active") boolean active,
+                        @Field("username") Integer userid);
 }

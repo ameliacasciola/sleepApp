@@ -61,4 +61,7 @@ dependencies {
     implementation "com.daimajia.swipelayout:library:1.2.0@aar"
     implementation 'com.sothree.slidinguppanel:library:3.4.0'
     implementation 'com.wrapp.floatlabelededittext:library:0.0.6'
+    implementation 'com.appeaser.sublimepickerlibrary:sublimepickerlibrary:2.1.2'
+    implementation 'com.github.elevenetc:textsurface:0.9.1'
+    implementation 'com.roughike:swipe-selector:1.0.6'
 }
