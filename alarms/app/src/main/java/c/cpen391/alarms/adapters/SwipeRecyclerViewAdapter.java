@@ -2,10 +2,13 @@ package c.cpen391.alarms.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import androidx.core.content.ContextCompat;
 import androidx.appcompat.view.menu.MenuView;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +29,7 @@ import c.cpen391.alarms.CustomSharedPreference;
 import c.cpen391.alarms.R;
 import c.cpen391.alarms.api.SleepAPI;
 import c.cpen391.alarms.api.SleepClientInstance;
+import c.cpen391.alarms.home;
 import c.cpen391.alarms.models.Alarm;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -165,13 +169,18 @@ public class SwipeRecyclerViewAdapter  extends RecyclerSwipeAdapter<SwipeRecycle
             @Override
             public void onClick(View view) {
                 //delete alarm from database
-                mPref = ((CustomApplication) mContext).getShared();
+                mPref = ((CustomApplication)mContext.getApplicationContext()).getShared();
                 SleepAPI service = SleepClientInstance.getRetrofitInstance().create(SleepAPI.class);
+                final String temp = Integer.toString(alarmList.get(position).getID());
                 Call<ResponseBody> call = service.deleteAlarm(mPref.getUserID(), alarmList.get(position).getID());
                 call.enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        Toast.makeText(mContext, "Delete Alarm Success", Toast.LENGTH_SHORT).show();
+                        if(!response.isSuccessful()) {
+                            Toast.makeText(mContext, "Delete Alarm No Response", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(mContext, "Delete Alarm Success", Toast.LENGTH_SHORT).show();
+                        }
                     }
 
                     @Override

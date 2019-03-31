@@ -63,7 +63,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(CustomViewHolder holder, int position) {
         holder.txtTitle.setText(dataList.get(position).getAlarmDescription());
         holder.time.setText(dataList.get(position).getTime());
-        holder.date.setText(dataList.get(position).getDay());
+        holder.date.setText(dataList.get(position).getRelativeDay());
 
         Picasso.Builder builder = new Picasso.Builder(context);
         builder.downloader(new OkHttp3Downloader(context));

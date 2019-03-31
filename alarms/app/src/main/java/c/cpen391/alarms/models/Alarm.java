@@ -89,7 +89,7 @@ public class Alarm
     public String getDay(){
         String dt = alarmTime;
         ZonedDateTime zdt = ZonedDateTime.parse(dt);
-        String newFormat = zdt.format(DateTimeFormatter.ofPattern("EEEE MM"));
+        String newFormat = zdt.format(DateTimeFormatter.ofPattern("EEEE dd"));
         return newFormat;
     }
 

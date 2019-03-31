@@ -30,7 +30,7 @@ public interface SleepAPI {
     @GET("/alarms")
     Call<List<Alarm>> getAlarms(@Query("username") int userID);
 
-    @DELETE("/alarms")
+    @DELETE("/alarms/")
     Call<ResponseBody> deleteAlarm(@Query("username") int userID,
                                    @Query("id") int alarmID);
 
@@ -50,7 +50,8 @@ public interface SleepAPI {
             @Field("bio") String bio,
             @Field("name") String name,
             @Field("location") String location,
-            @Field("image") URL image
+            @Field("image") URL image,
+            @Field("total_points") int points
     );
 
     @POST("/alarms/")

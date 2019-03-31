@@ -16,13 +16,24 @@ public class Profile {
     private String location;
     @SerializedName("image")
     private URL image;
+    @SerializedName("total_points")
+    private int points;
 
-    public Profile(int user, String bio, String name, String location, URL image) {
+    public Profile(int user, String bio, String name, String location, URL image, int points) {
         this.user = user;
         this.bio = bio;
         this.name = name;
         this.location = location;
         this.image = image;
+        this.points = points;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
     }
 
     public int getUser() {

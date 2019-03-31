@@ -78,6 +78,7 @@ public class TabProfile extends Fragment {
                 TextView userTextValue = (TextView)rootview.findViewById(R.id.user_bio);
                 Profile mProfile = response.body();
                 userTextValue.setText("Name: " + mProfile.getName() + "\n"
+                                    + "Hiscore: " + Integer.toString(mProfile.getPoints()) + "\n"
                                     + "Location: " + mProfile.getLocation());
 
 
