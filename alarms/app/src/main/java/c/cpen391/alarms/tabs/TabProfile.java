@@ -1,6 +1,7 @@
 package c.cpen391.alarms.tabs;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,8 +17,12 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
+import androidx.loader.content.CursorLoader;
 import c.cpen391.alarms.CustomApplication;
 import c.cpen391.alarms.CustomSharedPreference;
 import c.cpen391.alarms.MainActivity;
@@ -25,8 +30,11 @@ import c.cpen391.alarms.R;
 import c.cpen391.alarms.api.SleepAPI;
 import c.cpen391.alarms.api.SleepClientInstance;
 import c.cpen391.alarms.models.Profile;
-import c.cpen391.alarms.models.UserObject;
 import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -40,17 +48,15 @@ public class TabProfile extends Fragment {
     private Bitmap bitmap;
     private String userBio;
     private Gson gson;
-    private UserObject mUserObject;
     protected static CustomSharedPreference mPref;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootview = inflater.inflate(R.layout.profile_fragment, container, false);
 
+        proPic = (CircleImageView) rootview.findViewById(R.id.profilePicture);
         browse = (Button) rootview.findViewById(R.id.browse);
         logout = (Button) rootview.findViewById(R.id.logout);
-
-        mUserObject = ((CustomApplication) getActivity().getApplicationContext()).getSomeVariable();
 
         mPref = ((CustomApplication)getActivity().getApplicationContext()).getShared();
         SleepAPI service = SleepClientInstance.getRetrofitInstance().create(SleepAPI.class);
@@ -69,14 +75,12 @@ public class TabProfile extends Fragment {
                                     + "Location: " + mProfile.getLocation());
 
                 // grab image
-                proPic = (CircleImageView) rootview.findViewById(R.id.profilePicture);
-                String temp = mProfile.getImage().toString();
-                Picasso.get().load(temp).placeholder(R.drawable.empty_pp).into(proPic);
+                String string = mProfile.getImage().toString();
+                Picasso.get().load(string).placeholder(R.drawable.empty_pp).into(proPic);
             }
             @Override
             public void onFailure(Call<Profile> call, Throwable t) {
                 Toast.makeText(getActivity(), "Profile User API Failure", Toast.LENGTH_SHORT).show();
-                proPic = (CircleImageView) rootview.findViewById(R.id.profilePicture);
                 proPic.setImageResource(R.drawable.empty_pp);
             }
         });
@@ -116,15 +120,70 @@ public class TabProfile extends Fragment {
         if(requestCode == 1 && resultCode == RESULT_OK && data != null && data.getData() != null)
         {
             Uri filePath = data.getData();
+
+            mPref = ((CustomApplication)getActivity().getApplicationContext()).getShared();
+            mPref.setPic(filePath);
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), filePath);
                 proPic.setImageBitmap(bitmap);
-                mUserObject.putUri(filePath);
-                ((CustomApplication) getActivity().getApplicationContext()).setSomeVariable(mUserObject);
+
+                //get image path:
+                String[] projection = {MediaStore.Images.Media.DATA};
+                CursorLoader loader = new CursorLoader(getContext(), filePath, projection, null, null, null);
+                Cursor cursor = loader.loadInBackground();
+                int column_idx = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                cursor.moveToFirst();
+                String result = cursor.getString(column_idx);
+                cursor.close();
+
+                // upload to db
+                uploadIMG(filePath);
+
                 Toast.makeText(getActivity(), "Image Uploaded", Toast.LENGTH_SHORT).show();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    private RequestBody createPartFromString(String descriptionString) {
+        return RequestBody.create(MultipartBody.FORM, descriptionString);
+    }
+
+    private void uploadIMG(Uri filePath) {
+        mPref = ((CustomApplication)getActivity().getApplicationContext()).getShared();
+
+        Map<String, RequestBody> partmap = new HashMap<>();
+        partmap.put("user", createPartFromString(Integer.toString(mPref.getUserID())));
+        partmap.put("bio", createPartFromString("YOLO"));
+        partmap.put("name", createPartFromString(mPref.getUserName()));
+        partmap.put("location", createPartFromString("Vancouver, Canada"));
+
+        File file = new File(filePath.toString());
+
+        RequestBody requestBody = RequestBody.create(MediaType.parse(
+                getContext().getContentResolver().getType(filePath)), file);
+
+        // MultipartBody.Part is used to send also the actual file name
+        MultipartBody.Part body =
+                MultipartBody.Part.createFormData("file", file.getName(), requestBody);
+
+        Call<ResponseBody> call = SleepClientInstance.getRetrofitInstance().create(SleepAPI.class)
+                .uploadImage(body, partmap);
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if(!response.isSuccessful()) {
+                    Toast.makeText(getActivity().getApplicationContext(), "Upload Profile Picture No Response", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(getActivity().getApplicationContext(), "Upload Profile Picture Failure", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

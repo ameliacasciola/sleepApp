@@ -30,14 +30,14 @@ tools:context=".MainActivity">
         android:id="@+id/browse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:layout_marginLeft="@dimen/_20sdp"
+        android:layout_marginTop="@dimen/_250sdp"
+        android:layout_centerHorizontal="true"
         android:background="@xml/button_browse_background"
         android:foreground="?android:attr/selectableItemBackground"
         android:textColor="#4C038D"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:text="Browse" />
+        android:text="Upload" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -69,7 +69,7 @@ tools:context=".MainActivity">
         android:id="@+id/logout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_400sdp"
+        android:layout_marginTop="@dimen/_450sdp"
         android:layout_centerHorizontal="true"
         android:background="@xml/button_browse_background"
         android:foreground="?android:attr/selectableItemBackground"
