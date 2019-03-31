@@ -135,7 +135,9 @@ public class TabHome extends Fragment {
                 progressDoalog.dismiss();
                 List<Alarm> alarmList = response.body();
                 displayNextAlarm(alarmList.get(0), rootview);
-                generateDataList(alarmList.subList(1, 3), rootview);
+                if (alarmList.size() > 2){
+                    generateDataList(alarmList.subList(1, 3), rootview);
+                }
             }
 
             @Override

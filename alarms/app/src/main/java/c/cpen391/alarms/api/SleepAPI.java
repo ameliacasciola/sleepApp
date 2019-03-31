@@ -23,13 +23,14 @@ import retrofit2.http.Part;
 import retrofit2.http.PartMap;
 import retrofit2.http.Path;
 import retrofit2.Call;
+import retrofit2.http.Query;
 
 public interface SleepAPI {
     @GET("/alarms")
     Call<List<Alarm>> getAlarms();
 
     @GET("/sleepdata")
-    Call<List<SleepData>> getSleepData();
+    Call<List<SleepData>> getSleepData(@Query("start_date") String start_date, @Query("end_date") String end_date, @Query("date") String date);
 
     @GET("/profile/{id}/")
     Call<Profile> getProfileInfo(@Path("id") String id);

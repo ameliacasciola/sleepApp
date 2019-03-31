@@ -1,5 +1,7 @@
 package c.cpen391.alarms.models;
 
+import android.util.Log;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.time.LocalDate;
@@ -51,6 +53,7 @@ public class SleepData {
 
     public String getTime(){
         String dt = date;
+        Log.e("DATE", date);
         ZonedDateTime zdt = ZonedDateTime.parse(dt);
         String newFormat = zdt.format(DateTimeFormatter.ofPattern("hh:mm"));
         return newFormat;
