@@ -107,7 +107,7 @@ public class TabAlarms extends Fragment {
 
     private void initButtonList(View rootview){
         FloatingActionButton add_button = rootview.findViewById(R.id.add_alarm);
-        add_button.setIcon(R.drawable.ic_baseline_add_48px);
+        add_button.setIcon(R.drawable.baseline_add_white_18dp);
         add_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

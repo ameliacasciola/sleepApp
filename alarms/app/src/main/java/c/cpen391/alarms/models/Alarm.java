@@ -25,16 +25,41 @@ public class Alarm
     @SerializedName("active")
     public Boolean active;
 
-    public Alarm(Integer alarmID, String alarmDescription, String alarmTime, Integer volume, Boolean active){
+    @SerializedName("game_name")
+    public String gameName;
+
+    public Alarm(Integer alarmID, String alarmDescription, String alarmTime, Integer volume, Boolean active, String gameName){
         this.alarmId = alarmID;
         this.alarmDescription = alarmDescription;
         this.alarmTime = alarmTime;
         this.volume = volume;
         this.active = active;
+        this.gameName = gameName;
+    }
+
+    public Alarm(){
+        this.alarmId = 0;
+        this.alarmDescription="";
+        this.alarmTime=null;
+        this.volume = 0;
+        this.active = false;
+        this.gameName = "";
     }
 
     public String getAlarmDescription(){
         return alarmDescription;
+    }
+
+    public void setAlarmDescription(String alarmDescription){
+        this.alarmDescription = alarmDescription;
+    }
+
+    public void setActive(boolean active){
+        this.active = active;
+    }
+
+    public void setTime(String alarmTime){
+        this.alarmTime = alarmTime;
     }
 
     public Integer getVolume(){
@@ -45,6 +70,8 @@ public class Alarm
         this.volume = volume;
     }
 
+    public void setGameName(String gamename) {this.gameName = gamename;}
+
     public String getFormattedDate(){
         String dt = alarmTime;
         ZonedDateTime zdt = ZonedDateTime.parse(dt);
@@ -52,6 +79,9 @@ public class Alarm
         return newFormat;
     }
 
+    public String getGame(){
+        return this.gameName;
+    }
     public String getDay(){
         String dt = alarmTime;
         ZonedDateTime zdt = ZonedDateTime.parse(dt);
@@ -64,6 +94,10 @@ public class Alarm
         ZonedDateTime zdt = ZonedDateTime.parse(dt);
         String newFormat = zdt.format(DateTimeFormatter.ofPattern("hh:mm"));
         return newFormat;
+    }
+
+    public String getAlarmTime(){
+        return this.alarmTime;
     }
 
     public String getRelativeDay() {

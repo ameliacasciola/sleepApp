@@ -53,13 +53,6 @@
             android:visibility="gone" />
     </LinearLayout>
 
-    <!--<com.getbase.floatingactionbutton.FloatingActionsMenu-->
-        <!--android:id="@+id/add_menu"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--fab:fab_addButtonColorNormal="@color/red"-->
-        <!--fab:fab_addButtonColorPressed="@color/gray"-->
-        <!--fab:fab_expandDirection="up"-->
 
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/add_alarm"
@@ -68,7 +61,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_height="wrap_content"
-            fab:fab_colorNormal="@color/red"
+            fab:fab_colorNormal="@color/purple"
             fab:fab_title="Create a new alarm"
             android:layout_marginBottom="16dp"
             android:layout_marginRight="16dp"
