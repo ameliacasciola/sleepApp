@@ -13,7 +13,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import c.cpen391.alarms.R;
 
@@ -22,6 +24,7 @@ public class TabAdapter extends FragmentStatePagerAdapter {
     private final List<String> mFragmentTitleList = new ArrayList<>();
     private final List<Integer> mFragmentIconList = new ArrayList<>();
     private Context context;
+
 
     public TabAdapter(FragmentManager fm,  Context context) {
         super(fm);

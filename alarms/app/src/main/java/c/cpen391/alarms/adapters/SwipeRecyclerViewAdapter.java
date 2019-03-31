@@ -21,6 +21,7 @@ import com.daimajia.swipe.SwipeLayout;
 import com.daimajia.swipe.adapters.RecyclerSwipeAdapter;
 import com.squareup.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
+import com.suke.widget.SwitchButton;
 
 import java.util.List;
 
@@ -74,6 +75,32 @@ public class SwipeRecyclerViewAdapter  extends RecyclerSwipeAdapter<SwipeRecycle
                 .placeholder((R.drawable.blue_plane))
                 .error(R.drawable.bg_round_rect)
                 .into(viewHolder.coverImage);
+
+        final boolean tempBoo = alarmList.get(position).getActive();
+        viewHolder.switchButton.setChecked(tempBoo);
+
+        // On Off button
+        viewHolder.switchButton.setOnCheckedChangeListener(new SwitchButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(SwitchButton buttonView, boolean isChecked) {
+                SleepAPI service = SleepClientInstance.getRetrofitInstance().create(SleepAPI.class);
+                Call<ResponseBody> call = service.updateOnOff(!tempBoo, alarmList.get(position).getID());
+                call.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if(response.isSuccessful()) {
+                            // refresh, jump
+                            Intent refresh = new Intent(mContext, home.class);
+                            mContext.startActivity(refresh);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Toast.makeText(mContext, "Cannot Set On/Off Switch", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
 
         viewHolder.swipeLayout.setShowMode(SwipeLayout.ShowMode.PullOut);
 
@@ -252,7 +279,6 @@ public class SwipeRecyclerViewAdapter  extends RecyclerSwipeAdapter<SwipeRecycle
             deleteIcon = (ImageView) itemView.findViewById(R.id.delete_icon);
 
             switchButton = (com.suke.widget.SwitchButton) itemView.findViewById(R.id.switch_button);
-            switchButton.setChecked(true);
 
             coverImage = itemView.findViewById(R.id.nextAlarmImage);
 
