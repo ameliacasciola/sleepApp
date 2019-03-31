@@ -196,7 +196,7 @@ public class TabHome extends Fragment {
                 .into(nextAlarmHeader);
 
         TextView date1 = rootview.findViewById(R.id.alarm_date);
-        TextView date2 = rootview.findViewById(R.id.date);
+        TextView date2 = rootview.findViewById(R.id.dateinnxalarm);
         TextView time = rootview.findViewById(R.id.time);
         TextView alarmDescription = (TextView) rootview.findViewById(R.id.alarm_description);
 
@@ -208,7 +208,6 @@ public class TabHome extends Fragment {
         } else {
             alarmDescription.setText("NO ALARM");
             date1.setText("NO ALARM");
-            date2.setText("");
             time.setText("NO ALARM");
         }
 
