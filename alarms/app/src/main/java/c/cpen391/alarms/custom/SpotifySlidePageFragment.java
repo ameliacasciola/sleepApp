@@ -81,7 +81,7 @@ public class SpotifySlidePageFragment extends Fragment {
 
                 if (newAlarm.getAlarmTime() == null){
                     Toast.makeText(getContext(), "Please fill in all fields.", Toast.LENGTH_SHORT).show();
-                } else if(alarmFlag == 1) { // edit flag
+                } else if(alarmFlag == 1) { // edit, view flag
                     editPost();
                     mPref.setAlarmFlag(0);
 

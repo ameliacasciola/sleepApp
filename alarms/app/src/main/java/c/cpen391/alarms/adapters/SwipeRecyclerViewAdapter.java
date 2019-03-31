@@ -180,10 +180,11 @@ public class SwipeRecyclerViewAdapter  extends RecyclerSwipeAdapter<SwipeRecycle
             @Override
             public void onClick(View view) {
                 mPref = ((CustomApplication)mContext.getApplicationContext()).getShared();
-                mPref.setAlarmFlag(2);
+                mPref.setAlarmFlag(1);
+                mPref.setAlarmID(alarmList.get(position).getID());
 
-
-                Toast.makeText(view.getContext(), "Clicked on View " + viewHolder.time.getText().toString(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(mContext, CreateAlarm.class);
+                mContext.startActivity(intent);
             }
         });
 
