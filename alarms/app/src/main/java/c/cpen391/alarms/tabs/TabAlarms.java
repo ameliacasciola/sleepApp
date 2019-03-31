@@ -19,6 +19,8 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
 
+import c.cpen391.alarms.CustomApplication;
+import c.cpen391.alarms.CustomSharedPreference;
 import c.cpen391.alarms.R;
 import c.cpen391.alarms.adapters.SwipeRecyclerViewAdapter;
 import c.cpen391.alarms.api.SleepAPI;
@@ -34,23 +36,28 @@ public class TabAlarms extends Fragment {
     private TextView tvEmptyView;
     private RecyclerView mRecyclerView;
     ProgressDialog progressDoalog;
+    protected static CustomSharedPreference mPref;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootview =  inflater.inflate(R.layout.alarms_fragment, container, false);
         //initButtonList(rootview);
+
+        mPref = ((CustomApplication)getActivity().getApplicationContext()).getShared();
         progressDoalog = new ProgressDialog(getActivity());
         progressDoalog.setMessage("Loading....");
         progressDoalog.show();
 
         /*Create handle for the RetrofitInstance interface*/
+        // get alarms from database
         SleepAPI service = SleepClientInstance.getRetrofitInstance().create(SleepAPI.class);
-        Call<List<Alarm>> call = service.getAlarms();
+        Call<List<Alarm>> call = service.getAlarms(mPref.getUserID());
         call.enqueue(new Callback<List<Alarm>>() {
             @Override
             public void onResponse(Call<List<Alarm>> call, Response< List<Alarm>> response) {
                 progressDoalog.dismiss();
                 List<Alarm> alarmList = response.body();
+
                 initList(rootview, alarmList);
             }
 

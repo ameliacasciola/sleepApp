@@ -47,7 +47,6 @@ public class SpotifySlidePageFragment extends Fragment {
                 R.layout.spotify_screen_slide, container, false);
         initGamesSwipeSelector(rootView);
         newAlarm = ((CreateAlarm)getActivity()).getAlarm();
-        mPref = ((CustomApplication)getActivity().getApplicationContext()).getShared();
         setSubmitBtn(rootView);
         return rootView;
     }
@@ -83,8 +82,8 @@ public class SpotifySlidePageFragment extends Fragment {
     }
 
     public void sendPost() {
-        // TODO: Add user id once getter is added
-        AlarmPost post = new AlarmPost(newAlarm.getAlarmDescription(), newAlarm.getAlarmTime(),  newAlarm.getVolume(), newAlarm.getGame(),true, 1);
+        mPref = ((CustomApplication)getActivity().getApplicationContext()).getShared();
+        AlarmPost post = new AlarmPost(newAlarm.getAlarmDescription(), newAlarm.getAlarmTime(),  newAlarm.getVolume(), newAlarm.getGame(),true, mPref.getUserID());
         Call<AlarmPost> alarmCall = SleepClientInstance.getRetrofitInstance().create(SleepAPI.class).alarmPost(post);
 
         alarmCall.enqueue(new Callback<AlarmPost>() {

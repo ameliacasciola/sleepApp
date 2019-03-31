@@ -90,17 +90,16 @@
                 android:layout_width="match_parent"/>
 
             <TextView
-                style="@style/TextAppearance.AppCompat.Medium"
                 android:id="@+id/alarm_date"
+                style="@style/TextAppearance.AppCompat.Medium"
                 android:layout_width="wrap_content"
-                android:textStyle="bold"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/next_alarm"
+                android:layout_marginStart="15dp"
                 android:layout_marginTop="5dp"
                 android:textColor="@color/dark_yellow"
-                android:text="MARCH 19"
-                android:layout_marginStart="15dp"
-                android:layout_below="@+id/next_alarm"
-                android:layout_height="wrap_content"
-                android:textSize="15sp"/>
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
             <TextView
                 style="@style/TextAppearance.AppCompat.Medium"

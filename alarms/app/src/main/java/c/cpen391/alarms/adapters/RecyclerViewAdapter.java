@@ -34,6 +34,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public final View mView;
         private ImageView coverImage;
         TextView txtTitle;
+        TextView date;
+        TextView time;
         com.suke.widget.SwitchButton switchButton;
 
         CustomViewHolder(View itemView) {
@@ -41,6 +43,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             mView = itemView;
 
             txtTitle = mView.findViewById(R.id.title);
+            date = mView.findViewById(R.id.date);
+            time = mView.findViewById(R.id.time);
             coverImage = mView.findViewById(R.id.nextAlarmImage);
             switchButton = (com.suke.widget.SwitchButton) mView.findViewById(R.id.switch_button);
             switchButton.setChecked(true);
@@ -58,6 +62,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(CustomViewHolder holder, int position) {
         holder.txtTitle.setText(dataList.get(position).getAlarmDescription());
+        holder.time.setText(dataList.get(position).getTime());
+        holder.date.setText(dataList.get(position).getDay());
 
         Picasso.Builder builder = new Picasso.Builder(context);
         builder.downloader(new OkHttp3Downloader(context));

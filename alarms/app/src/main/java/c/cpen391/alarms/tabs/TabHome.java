@@ -127,15 +127,23 @@ public class TabHome extends Fragment {
         progressDoalog.show();
 
         /*Create handle for the RetrofitInstance interface*/
+        // grab next alarm for this user from database
         SleepAPI service = SleepClientInstance.getRetrofitInstance().create(SleepAPI.class);
-        Call<List<Alarm>> call = service.getAlarms();
+        Call<List<Alarm>> call = service.getAlarms(mPref.getUserID());
         call.enqueue(new Callback<List<Alarm>>() {
             @Override
             public void onResponse(Call<List<Alarm>> call, Response< List<Alarm>> response) {
                 progressDoalog.dismiss();
                 List<Alarm> alarmList = response.body();
-                generateDataList(alarmList, rootview);
-                displayNextAlarm(alarmList.get(0), rootview);
+
+                if(alarmList.isEmpty()) {
+                    // alarmList empty
+                    displayNextAlarm(null, rootview);
+                }
+                else {
+                    generateDataList(alarmList, rootview);
+                    displayNextAlarm(alarmList.get(0), rootview);
+                }
             }
 
             @Override
@@ -187,10 +195,27 @@ public class TabHome extends Fragment {
                 .placeholder(R.drawable.blue_plane)
                 .into(nextAlarmHeader);
 
+        TextView date1 = rootview.findViewById(R.id.alarm_date);
+        TextView date2 = rootview.findViewById(R.id.date);
+        TextView time = rootview.findViewById(R.id.time);
         TextView alarmDescription = (TextView) rootview.findViewById(R.id.alarm_description);
-        alarmDescription.setText(nextAlarm.getAlarmDescription());
+
+        if(nextAlarm != null) {
+            date1.setText(nextAlarm.getFormattedDate());
+            date2.setText(nextAlarm.getDay());
+            time.setText(nextAlarm.getTime());
+            alarmDescription.setText(nextAlarm.getAlarmDescription());
+        } else {
+            alarmDescription.setText("NO ALARM");
+            date1.setText("NO ALARM");
+            date2.setText("");
+            time.setText("NO ALARM");
+        }
+
 
         CardView nextAlarmCard = (CardView) rootview.findViewById(R.id.next_alarm);
+
+        // jump to TabAlarm
         nextAlarmCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

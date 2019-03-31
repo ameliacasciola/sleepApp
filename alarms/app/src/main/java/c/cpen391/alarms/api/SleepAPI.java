@@ -23,10 +23,11 @@ import retrofit2.http.Part;
 import retrofit2.http.PartMap;
 import retrofit2.http.Path;
 import retrofit2.Call;
+import retrofit2.http.Query;
 
 public interface SleepAPI {
     @GET("/alarms")
-    Call<List<Alarm>> getAlarms();
+    Call<List<Alarm>> getAlarms(@Query("username") int userID);
 
     @GET("/sleepdata")
     Call<List<SleepData>> getSleepData();

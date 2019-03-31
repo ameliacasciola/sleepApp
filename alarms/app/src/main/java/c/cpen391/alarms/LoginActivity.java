@@ -74,7 +74,11 @@ public class LoginActivity extends AppCompatActivity {
 
         mPref = ((CustomApplication)getApplication()).getShared();
 
+
+        Intent homeIntent = new Intent(this, home.class);
+        this.startActivity(homeIntent);
         // android version greater than marshmallow
+        /*
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
         {
             fingerprintManager = (FingerprintManager) getSystemService(FINGERPRINT_SERVICE);
@@ -93,7 +97,7 @@ public class LoginActivity extends AppCompatActivity {
             } else {
                 Toast.makeText(this, "fingerprintManager is null", Toast.LENGTH_SHORT).show();
             }
-        }
+        }*/
 
 
         ImageView fingerprintImage = (ImageView)findViewById(R.id.fingerprint_image);
