@@ -63,6 +63,8 @@ public class TabProfile extends Fragment {
         bioedit = (EditText) rootview.findViewById(R.id.bioedit);
         bioupdate = (Button) rootview.findViewById(R.id.bioupdate);
 
+
+        // GET info from database everytime
         mPref = ((CustomApplication)getActivity().getApplicationContext()).getShared();
         SleepAPI service = SleepClientInstance.getRetrofitInstance().create(SleepAPI.class);
         Call<Profile> call = service.getProfileInfo(Integer.toString(mPref.getUserID()));
@@ -78,11 +80,12 @@ public class TabProfile extends Fragment {
                 userTextValue.setText("Name: " + mProfile.getName() + "\n"
                                     + "Location: " + mProfile.getLocation());
 
+
+                // grab photo from local storage
                 Bitmap bm = mPref.getPic();
                 if(bm != null) {
                     proPic.setImageBitmap(bm);
-                } else {
-                    // grab image from db
+                } else { // grab image from db
                     String string = mProfile.getImage().toString();
                     Picasso.get().load(string).placeholder(R.drawable.empty_pp).into(proPic);
                 }
@@ -95,6 +98,7 @@ public class TabProfile extends Fragment {
             }
         });
 
+        // browse and insert image
         browse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,6 +106,8 @@ public class TabProfile extends Fragment {
             }
         });
 
+
+        // logout button
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,6 +118,8 @@ public class TabProfile extends Fragment {
             }
         });
 
+
+        // bio update button
         bioupdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -124,6 +132,7 @@ public class TabProfile extends Fragment {
         return rootview;
     }
 
+    // browse and choose from photo album
     private void chooseFile() {
         Intent i = new Intent(
                 Intent.ACTION_PICK,
@@ -142,6 +151,7 @@ public class TabProfile extends Fragment {
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), filePath);
 
+                // save browsed bitmap in local storage
                 mPref = ((CustomApplication)getActivity().getApplicationContext()).getShared();
                 mPref.setPic(bitmap);
                 proPic.setImageBitmap(bitmap);
@@ -155,7 +165,7 @@ public class TabProfile extends Fragment {
                 String result = cursor.getString(column_idx);
                 cursor.close();
 
-                // upload to db
+                // upload to db (not working temporarily)
                 uploadIMG(filePath);
 
                 Toast.makeText(getActivity(), "Image Uploaded", Toast.LENGTH_SHORT).show();
@@ -169,6 +179,7 @@ public class TabProfile extends Fragment {
         return RequestBody.create(MultipartBody.FORM, descriptionString);
     }
 
+    // trying to upload image to database
     private void uploadIMG(Uri filePath) {
         mPref = ((CustomApplication)getActivity().getApplicationContext()).getShared();
 
@@ -207,6 +218,7 @@ public class TabProfile extends Fragment {
     }
 
 
+    // upload user bio to database
     private void uploadBio(String bio) {
         mPref = ((CustomApplication)getActivity().getApplicationContext()).getShared();
 
