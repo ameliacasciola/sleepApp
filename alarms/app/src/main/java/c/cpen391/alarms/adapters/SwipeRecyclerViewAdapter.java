@@ -32,6 +32,7 @@ import c.cpen391.alarms.api.SleepAPI;
 import c.cpen391.alarms.api.SleepClientInstance;
 import c.cpen391.alarms.home;
 import c.cpen391.alarms.models.Alarm;
+import c.cpen391.alarms.tabs.CreateAlarm;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -178,6 +179,9 @@ public class SwipeRecyclerViewAdapter  extends RecyclerSwipeAdapter<SwipeRecycle
         viewHolder.alarmView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mPref = ((CustomApplication)mContext.getApplicationContext()).getShared();
+                mPref.setAlarmFlag(2);
+
 
                 Toast.makeText(view.getContext(), "Clicked on View " + viewHolder.time.getText().toString(), Toast.LENGTH_SHORT).show();
             }
@@ -186,8 +190,12 @@ public class SwipeRecyclerViewAdapter  extends RecyclerSwipeAdapter<SwipeRecycle
         viewHolder.alarmEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mPref = ((CustomApplication)mContext.getApplicationContext()).getShared();
+                mPref.setAlarmFlag(1);
+                mPref.setAlarmID(alarmList.get(position).getID());
 
-                Toast.makeText(view.getContext(), "Clicked on Edit  " + viewHolder.time.getText().toString(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(mContext, CreateAlarm.class);
+                mContext.startActivity(intent);
             }
         });
 

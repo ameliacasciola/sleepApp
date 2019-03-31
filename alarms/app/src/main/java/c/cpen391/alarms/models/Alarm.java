@@ -100,7 +100,7 @@ public class Alarm
     public String getTime(){
         String dt = alarmTime;
         ZonedDateTime zdt = ZonedDateTime.parse(dt);
-        String newFormat = zdt.format(DateTimeFormatter.ofPattern("hh:mm"));
+        String newFormat = zdt.format(DateTimeFormatter.ofPattern("hh:mm a"));
         return newFormat;
     }
 

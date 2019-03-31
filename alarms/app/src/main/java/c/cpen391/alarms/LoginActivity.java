@@ -74,7 +74,6 @@ public class LoginActivity extends AppCompatActivity {
 
         mPref = ((CustomApplication)getApplication()).getShared();
 
-
         Intent homeIntent = new Intent(this, home.class);
         this.startActivity(homeIntent);
         // android version greater than marshmallow

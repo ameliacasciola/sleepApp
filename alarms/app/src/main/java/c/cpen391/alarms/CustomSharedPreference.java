@@ -22,6 +22,28 @@ public class CustomSharedPreference {
         return sharedPref;
     }
 
+    // alarm edit or view
+    public void setAlarmFlag(int flag)
+    {
+        sharedPref.edit().putInt("ALARMFLAG", flag).apply();
+    }
+
+    public int getAlarmFlag()
+    {
+        return sharedPref.getInt("ALARMFLAG", -1);
+    }
+
+    // alarm id
+    public void setAlarmID(int id)
+    {
+        sharedPref.edit().putInt("ALARMID", id).apply();
+    }
+
+    public int getAlarmID()
+    {
+        return sharedPref.getInt("ALARMID", -1);
+    }
+
     //Save user information
     public void setUserID(int userID)
     {
