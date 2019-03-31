@@ -1,5 +1,6 @@
 package c.cpen391.alarms.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.PorterDuff;
 import androidx.core.content.ContextCompat;
@@ -20,13 +21,22 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import c.cpen391.alarms.CustomApplication;
+import c.cpen391.alarms.CustomSharedPreference;
 import c.cpen391.alarms.R;
+import c.cpen391.alarms.api.SleepAPI;
+import c.cpen391.alarms.api.SleepClientInstance;
 import c.cpen391.alarms.models.Alarm;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SwipeRecyclerViewAdapter  extends RecyclerSwipeAdapter<SwipeRecyclerViewAdapter.SimpleViewHolder> {
 
     private Context mContext;
     private List<Alarm> alarmList;
+    protected static CustomSharedPreference mPref;
 
     public SwipeRecyclerViewAdapter(Context context, List<Alarm> alarms) {
         this.mContext = context;
@@ -154,6 +164,22 @@ public class SwipeRecyclerViewAdapter  extends RecyclerSwipeAdapter<SwipeRecycle
         viewHolder.alarmDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //delete alarm from database
+                mPref = ((CustomApplication) mContext).getShared();
+                SleepAPI service = SleepClientInstance.getRetrofitInstance().create(SleepAPI.class);
+                Call<ResponseBody> call = service.deleteAlarm(mPref.getUserID(), alarmList.get(position).getID());
+                call.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        Toast.makeText(mContext, "Delete Alarm Success", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Toast.makeText(mContext, "Delete Alarm Failure", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
                 mItemManger.removeShownLayouts(viewHolder.swipeLayout);
                 alarmList.remove(position);
                 notifyItemRemoved(position);

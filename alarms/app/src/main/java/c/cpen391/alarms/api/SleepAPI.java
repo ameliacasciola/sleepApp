@@ -12,6 +12,7 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -28,6 +29,10 @@ import retrofit2.http.Query;
 public interface SleepAPI {
     @GET("/alarms")
     Call<List<Alarm>> getAlarms(@Query("username") int userID);
+
+    @DELETE("/alarms")
+    Call<ResponseBody> deleteAlarm(@Query("username") int userID,
+                                   @Query("id") int alarmID);
 
     @GET("/sleepdata")
     Call<List<SleepData>> getSleepData(@Query("start_date") String start_date, @Query("end_date") String end_date, @Query("date") String date);

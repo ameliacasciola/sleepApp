@@ -46,6 +46,10 @@ public class Alarm
         this.gameName = "";
     }
 
+    public Integer getID() {
+        return alarmId;
+    }
+
     public String getAlarmDescription(){
         return alarmDescription;
     }
