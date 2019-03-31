@@ -2,6 +2,7 @@ package c.cpen391.alarms;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
 
 public class CustomSharedPreference {
 
@@ -35,6 +36,18 @@ public class CustomSharedPreference {
     public String getUserName()
     {
         return sharedPref.getString("USERNAME", "NONE");
+    }
+
+    public Uri getPic() {
+        if(sharedPref.getString("USERPIC", "NONE") == "NONE") {
+            return null;
+        } else {
+            return Uri.parse(sharedPref.getString("USERPIC", "NONE"));
+        }
+    }
+
+    public void setPic(Uri pic) {
+        sharedPref.edit().putString("USERPIC", pic.toString()).apply();
     }
 
 }

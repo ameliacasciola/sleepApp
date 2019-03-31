@@ -116,13 +116,8 @@ public class TabHome extends Fragment {
         final View rootview = inflater.inflate(R.layout.home_page, container, false);
 
         greetings = rootview.findViewById(R.id.greeting);
-        UserObject mUserObject = ((CustomApplication) c).getSomeVariable();
         mPref = ((CustomApplication)getActivity().getApplicationContext()).getShared();
-        if(mUserObject != null) { // use object from signup just now
-            greetings.setText("Welcome Back, " + mUserObject.getUsername());
-        } else { // use saved data from storage (restarting app)
-            greetings.setText("Welcome Back, " + mPref.getUserName());
-        }
+        greetings.setText("Welcome Back, " + mPref.getUserName());
 
 
         getCurrentData();
