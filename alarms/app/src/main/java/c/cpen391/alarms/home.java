@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.tabs.TabLayout;
 
 import c.cpen391.alarms.adapters.TabAdapter;
+import c.cpen391.alarms.custom.CustomViewPager;
 import c.cpen391.alarms.tabs.TabAlarms;
 import c.cpen391.alarms.tabs.TabGames;
 import c.cpen391.alarms.tabs.TabHome;

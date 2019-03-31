@@ -9,13 +9,13 @@
     tools:context=".home"
     android:orientation="vertical">
 
-    <c.cpen391.alarms.CustomViewPager
+    <c.cpen391.alarms.custom.CustomViewPager
         android:id="@+id/viewPager"
         android:layout_weight="1"
         android:layout_width="match_parent"
         android:fitsSystemWindows="false"
         android:layout_height="match_parent">
-    </c.cpen391.alarms.CustomViewPager>
+    </c.cpen391.alarms.custom.CustomViewPager>
 
     <View
         android:layout_width="match_parent"

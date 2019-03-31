@@ -4,6 +4,8 @@ import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import c.cpen391.alarms.R;
@@ -25,8 +27,12 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class TrendGraph extends Fragment {
@@ -38,18 +44,32 @@ public class TrendGraph extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootview = inflater.inflate(R.layout.trends_graph, container, false);
 
+        int duration = getArguments().getInt("duration");
+
         progressDoalog = new ProgressDialog(getActivity());
         progressDoalog.setMessage("Loading....");
         progressDoalog.show();
 
         /*Create handle for the RetrofitInstance interface*/
         SleepAPI service = SleepClientInstance.getRetrofitInstance().create(SleepAPI.class);
-        Call<List<SleepData>> call = service.getSleepData();
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Call<List<SleepData>> call;
+        Date date = new Date();
+
+        if (duration == 0){
+            call = service.getSleepData(dateFormat.format(date), dateFormat.format(getTomorrow()), null);
+        } else if (duration == 1){
+            call = service.getSleepData(dateFormat.format(getLastWeek()), dateFormat.format(getTomorrow()), null);
+        } else {
+            call = service.getSleepData(null, null, null);
+        }
+
         call.enqueue(new Callback<List<SleepData>>() {
             @Override
             public void onResponse(Call<List<SleepData>> call, Response< List<SleepData>> response) {
                 progressDoalog.dismiss();
-                List<SleepData> sleepDataList = response.body();
+                List<SleepData> sleepDataList= response.body();
                 initTrendsGraph(sleepDataList, rootview);
             }
 
@@ -63,6 +83,17 @@ public class TrendGraph extends Fragment {
         return rootview;
     }
 
+    private Date getLastWeek() {
+        final Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -7);
+        return cal.getTime();
+    }
+
+    private Date getTomorrow() {
+        final Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, +1);
+        return cal.getTime();
+    }
 
     private void setData(LineChart chart, List<SleepData> sleepDataList){
         List<Entry> entries = new ArrayList<Entry>();

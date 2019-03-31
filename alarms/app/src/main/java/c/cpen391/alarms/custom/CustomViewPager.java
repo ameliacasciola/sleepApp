@@ -1,4 +1,4 @@
-package c.cpen391.alarms;
+package c.cpen391.alarms.custom;
 
 import android.content.Context;
 import androidx.viewpager.widget.ViewPager;

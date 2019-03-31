@@ -30,7 +30,7 @@ public interface SleepAPI {
     Call<List<Alarm>> getAlarms(@Query("username") int userID);
 
     @GET("/sleepdata")
-    Call<List<SleepData>> getSleepData();
+    Call<List<SleepData>> getSleepData(@Query("start_date") String start_date, @Query("end_date") String end_date, @Query("date") String date);
 
     @GET("/profile/{id}/")
     Call<Profile> getProfileInfo(@Path("id") String id);
