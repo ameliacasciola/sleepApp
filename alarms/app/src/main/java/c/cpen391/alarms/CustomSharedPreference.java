@@ -2,7 +2,12 @@ package c.cpen391.alarms;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.util.Base64;
+
+import java.io.ByteArrayOutputStream;
 
 public class CustomSharedPreference {
 
@@ -38,16 +43,33 @@ public class CustomSharedPreference {
         return sharedPref.getString("USERNAME", "NONE");
     }
 
-    public Uri getPic() {
+    public Bitmap getPic() {
         if(sharedPref.getString("USERPIC", "NONE") == "NONE") {
             return null;
         } else {
-            return Uri.parse(sharedPref.getString("USERPIC", "NONE"));
+            return decodeBase64(sharedPref.getString("USERPIC", "NONE"));
         }
     }
 
-    public void setPic(Uri pic) {
-        sharedPref.edit().putString("USERPIC", pic.toString()).apply();
+    public void setPic(Bitmap bm) {
+        sharedPref.edit().putString("USERPIC", encodeTobase64(bm)).commit();
+    }
+
+    // method for base64 to bitmap
+    public static Bitmap decodeBase64(String input) {
+        byte[] decodedByte = Base64.decode(input, 0);
+        return BitmapFactory
+                .decodeByteArray(decodedByte, 0, decodedByte.length);
+    }
+
+    // method for bitmap to base64
+    public static String encodeTobase64(Bitmap image) {
+        Bitmap immage = image;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        immage.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] b = baos.toByteArray();
+        String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
+        return imageEncoded;
     }
 
 }

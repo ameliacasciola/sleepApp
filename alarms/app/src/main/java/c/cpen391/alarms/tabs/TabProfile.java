@@ -78,10 +78,14 @@ public class TabProfile extends Fragment {
                 userTextValue.setText("Name: " + mProfile.getName() + "\n"
                                     + "Location: " + mProfile.getLocation());
 
-                // grab image
-                String string = mProfile.getImage().toString();
-                Picasso.get().load(string).placeholder(R.drawable.empty_pp).into(proPic);
-
+                Bitmap bm = mPref.getPic();
+                if(bm != null) {
+                    proPic.setImageBitmap(bm);
+                } else {
+                    // grab image from db
+                    String string = mProfile.getImage().toString();
+                    Picasso.get().load(string).placeholder(R.drawable.empty_pp).into(proPic);
+                }
                 bioedit.setText(mProfile.getBio());
             }
             @Override
@@ -135,10 +139,11 @@ public class TabProfile extends Fragment {
         {
             Uri filePath = data.getData();
 
-            mPref = ((CustomApplication)getActivity().getApplicationContext()).getShared();
-            mPref.setPic(filePath);
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), filePath);
+
+                mPref = ((CustomApplication)getActivity().getApplicationContext()).getShared();
+                mPref.setPic(bitmap);
                 proPic.setImageBitmap(bitmap);
 
                 //get image path:
