@@ -131,4 +131,36 @@ public class Alarm
         }
     }
 
+    public String getTimeUtil() {
+        Date alarmDate = Date.from(ZonedDateTime.parse(alarmTime).toInstant());
+
+        Calendar cal1 = Calendar.getInstance(); // alarmTime
+        Calendar cal2 = Calendar.getInstance(); // today
+
+        Calendar tmr = Calendar.getInstance(); // tmr
+        tmr.add(Calendar.DAY_OF_YEAR, +1);
+
+        cal1.setTime(alarmDate);
+
+        boolean sameDay = cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR) &&
+                cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR);
+        if (sameDay){ // today
+            int dest = (cal1.get(Calendar.HOUR_OF_DAY))*60 + (cal1.get(Calendar.MINUTE));
+            int src = (cal2.get(Calendar.HOUR_OF_DAY))*60 + (cal2.get(Calendar.MINUTE));
+
+            return Integer.toString((dest-src)/60) + " Hr "
+                    + Integer.toString((dest-src)%60) + " min";
+
+        } else if (tmr.get(Calendar.YEAR) == cal1.get(Calendar.YEAR) &&
+                tmr.get(Calendar.DAY_OF_YEAR) == cal1.get(Calendar.DAY_OF_YEAR)){ // tmr
+            int dest = (cal1.get(Calendar.HOUR_OF_DAY))*60 + (cal1.get(Calendar.MINUTE)) +24*60;
+            int src = (cal2.get(Calendar.HOUR_OF_DAY))*60 + (cal2.get(Calendar.MINUTE));
+
+            return Integer.toString((dest-src)/60) + " Hr "
+                    + Integer.toString((dest-src)%60) + " min";
+        } else {
+            return Integer.toString(cal1.get(Calendar.DAY_OF_YEAR)-cal2.get(Calendar.DAY_OF_YEAR)) + " Days";
+        }
+    }
+
 }
