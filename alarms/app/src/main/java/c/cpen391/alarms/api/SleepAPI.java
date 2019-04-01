@@ -95,4 +95,20 @@ public interface SleepAPI {
             @Field("bio") String bio,
             @Path("id") String id
     );
+
+    @FormUrlEncoded
+    @PATCH("/profile/{id}/")
+    Call<ResponseBody> updateProfileScore(
+            @Field("total_points") int total,
+            @Path("id") int id);
+
+
+
+    @FormUrlEncoded
+    @POST("/scores/")
+    Call<ResponseBody> scorePost(
+            @Field("user_id") int id,
+            @Field("game") String game,
+            @Field("score") int score);
+
 }

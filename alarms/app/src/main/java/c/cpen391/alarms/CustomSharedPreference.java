@@ -23,6 +23,17 @@ public class CustomSharedPreference {
     }
 
     // alarm edit or view
+    public void setScore(int score)
+    {
+        sharedPref.edit().putInt("SCORE", score).apply();
+    }
+
+    public int getScore()
+    {
+        return sharedPref.getInt("SCORE", -1);
+    }
+
+    // alarm edit or view
     public void setAlarmFlag(int flag)
     {
         sharedPref.edit().putInt("ALARMFLAG", flag).apply();

@@ -67,6 +67,7 @@ public class SignUpActivity extends AppCompatActivity {
     public void profilePostAPICalling(int id, String name, String bio, String location, URL image) {
         mPref.setUserID(id);
         mPref.setUserName(name);
+        mPref.setScore(0);
         Call<ResponseBody> call = SleepClientInstance.getRetrofitInstance().create(SleepAPI.class)
                 .profilePost(id, bio, name, location, image, 0);
 
