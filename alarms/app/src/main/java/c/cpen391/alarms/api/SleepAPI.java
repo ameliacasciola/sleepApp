@@ -68,8 +68,19 @@ public interface SleepAPI {
     Call<AlarmPost> alarmPost(@Body AlarmPost post);
 
     @FormUrlEncoded
+    @PATCH("/alarms/{id}/")
+    Call<ResponseBody> alarmEdit(
+                            @Field("description") String description,
+                            @Field("alarm_time") String alarm_time,
+                            @Field("volume") int volume,
+                            @Field("active") boolean active,
+                            @Field("game_name") String gameName,
+                            @Path("id") int id);
+
+    @FormUrlEncoded
     @POST("/alarms/")
-    Call<ResponseBody> alarmPost(@Field("description") String title,
+    Call<ResponseBody> alarmPost(
+                        @Field("description") String title,
                         @Field("alarm_time") String body,
                         @Field("game_name") String gameName,
                         @Field("volume") Integer userId,
@@ -88,4 +99,20 @@ public interface SleepAPI {
             @Field("bio") String bio,
             @Path("id") String id
     );
+
+    @FormUrlEncoded
+    @PATCH("/profile/{id}/")
+    Call<ResponseBody> updateProfileScore(
+            @Field("total_points") int total,
+            @Path("id") int id);
+
+
+
+    @FormUrlEncoded
+    @POST("/scores/")
+    Call<ResponseBody> scorePost(
+            @Field("user_id") int id,
+            @Field("game") String game,
+            @Field("score") int score);
+
 }

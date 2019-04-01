@@ -203,7 +203,7 @@ public class TabHome extends Fragment {
 
         if(nextAlarm != null) {
             date1.setText(nextAlarm.getFormattedDate());
-            date2.setText(nextAlarm.getDay());
+            date2.setText(nextAlarm.getRelativeDay());
             time.setText(nextAlarm.getTime());
             alarmDescription.setText(nextAlarm.getAlarmDescription());
         } else {

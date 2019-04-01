@@ -21,6 +21,7 @@ import com.daimajia.swipe.SwipeLayout;
 import com.daimajia.swipe.adapters.RecyclerSwipeAdapter;
 import com.squareup.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
+import com.suke.widget.SwitchButton;
 
 import java.util.List;
 
@@ -31,6 +32,7 @@ import c.cpen391.alarms.api.SleepAPI;
 import c.cpen391.alarms.api.SleepClientInstance;
 import c.cpen391.alarms.home;
 import c.cpen391.alarms.models.Alarm;
+import c.cpen391.alarms.tabs.CreateAlarm;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -68,12 +70,40 @@ public class SwipeRecyclerViewAdapter  extends RecyclerSwipeAdapter<SwipeRecycle
         viewHolder.deleteIcon.setImageResource(R.drawable.ic_outline_cancel_24px);
         viewHolder.deleteIcon.setColorFilter(ContextCompat.getColor(mContext, R.color.white), PorterDuff.Mode.SRC_ATOP);
 
+        viewHolder.timeUntil.setText(alarmList.get(position).getTimeUtil());
+
         Picasso.Builder builder = new Picasso.Builder(mContext);
         builder.downloader(new OkHttp3Downloader(mContext));
         builder.build().load(R.drawable.sun)
                 .placeholder((R.drawable.blue_plane))
                 .error(R.drawable.bg_round_rect)
                 .into(viewHolder.coverImage);
+
+        final boolean tempBoo = alarmList.get(position).getActive();
+        viewHolder.switchButton.setChecked(tempBoo);
+
+        // On Off button
+        viewHolder.switchButton.setOnCheckedChangeListener(new SwitchButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(SwitchButton buttonView, boolean isChecked) {
+                SleepAPI service = SleepClientInstance.getRetrofitInstance().create(SleepAPI.class);
+                Call<ResponseBody> call = service.updateOnOff(!tempBoo, alarmList.get(position).getID());
+                call.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if(response.isSuccessful()) {
+                            // refresh, jump
+                            Intent refresh = new Intent(mContext, home.class);
+                            mContext.startActivity(refresh);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Toast.makeText(mContext, "Cannot Set On/Off Switch", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
 
         viewHolder.swipeLayout.setShowMode(SwipeLayout.ShowMode.PullOut);
 
@@ -151,16 +181,24 @@ public class SwipeRecyclerViewAdapter  extends RecyclerSwipeAdapter<SwipeRecycle
         viewHolder.alarmView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mPref = ((CustomApplication)mContext.getApplicationContext()).getShared();
+                mPref.setAlarmFlag(1);
+                mPref.setAlarmID(alarmList.get(position).getID());
 
-                Toast.makeText(view.getContext(), "Clicked on View " + viewHolder.time.getText().toString(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(mContext, CreateAlarm.class);
+                mContext.startActivity(intent);
             }
         });
 
         viewHolder.alarmEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mPref = ((CustomApplication)mContext.getApplicationContext()).getShared();
+                mPref.setAlarmFlag(1);
+                mPref.setAlarmID(alarmList.get(position).getID());
 
-                Toast.makeText(view.getContext(), "Clicked on Edit  " + viewHolder.time.getText().toString(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(mContext, CreateAlarm.class);
+                mContext.startActivity(intent);
             }
         });
 
@@ -252,7 +290,6 @@ public class SwipeRecyclerViewAdapter  extends RecyclerSwipeAdapter<SwipeRecycle
             deleteIcon = (ImageView) itemView.findViewById(R.id.delete_icon);
 
             switchButton = (com.suke.widget.SwitchButton) itemView.findViewById(R.id.switch_button);
-            switchButton.setChecked(true);
 
             coverImage = itemView.findViewById(R.id.nextAlarmImage);
 

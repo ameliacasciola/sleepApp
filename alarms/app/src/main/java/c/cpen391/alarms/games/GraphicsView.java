@@ -1,14 +1,17 @@
 package c.cpen391.alarms.games;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,12 +19,22 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import c.cpen391.alarms.CustomApplication;
+import c.cpen391.alarms.CustomSharedPreference;
+import c.cpen391.alarms.api.SleepAPI;
+import c.cpen391.alarms.api.SleepClientInstance;
 import c.cpen391.alarms.games.Circle;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static android.graphics.Color.rgb;
 
 
 public class GraphicsView extends View {
+    protected static CustomSharedPreference mPref;
+    private Context mContext;
     private List<Circle> circles;
     private List<Circle> popped;
     private Timer timer;
@@ -37,6 +50,7 @@ public class GraphicsView extends View {
 
     public GraphicsView(Context context) {
         super(context);
+        mContext = context;
         circles = new ArrayList<Circle>();
         popped = new ArrayList<Circle>();
 
@@ -60,6 +74,7 @@ public class GraphicsView extends View {
         super(context);
         circles = new ArrayList<Circle>();
         popped = new ArrayList<Circle>();
+        mPref = ((CustomApplication)context.getApplicationContext()).getShared();
 
         int delay = 1000;
         int period = 1000;
@@ -146,6 +161,8 @@ public class GraphicsView extends View {
             paint.setColor(Color.WHITE);
             canvas.drawText("GAME OVER", max_x/2 - 200, max_y/2, paint);
             canvas.drawText("Score: "+ curScore, max_x/2 - 200, max_y/2+100, paint);
+
+            updateScoreFunc();
         }
 
         else {
@@ -186,5 +203,46 @@ public class GraphicsView extends View {
         }
         invalidate();
         return --timeLeft;
+    }
+
+    private void updateScoreFunc() {
+        //completion of get eggy with it game, gets points
+        // upload to ../scores
+        SleepAPI service = SleepClientInstance.getRetrofitInstance().create(SleepAPI.class);
+        Call<ResponseBody> call = service.scorePost(mPref.getUserID(), "Get Eggy With It", curScore);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if(response.isSuccessful()) {
+                    Log.e("POST", "post submitted to API." + response.body().toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.e("POST", "Unable to submit post to API.");
+            }
+        });
+
+        int temp = mPref.getScore()+curScore;
+        // update profile total_score
+        Call<ResponseBody> score = SleepClientInstance.getRetrofitInstance().create(SleepAPI.class)
+                .updateProfileScore(temp, mPref.getUserID());
+
+        mPref.setScore(temp);
+
+        score.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if(response.isSuccessful()) {
+                    Log.e("PATCH", "patch submitted to API." + response.body().toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.e("PATCH", "Unable to submit patch to API.");
+            }
+        });
     }
 }
