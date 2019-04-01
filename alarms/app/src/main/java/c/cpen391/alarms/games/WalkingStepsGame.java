@@ -41,6 +41,7 @@ public class WalkingStepsGame extends AppCompatActivity implements SensorEventLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.steps_game_main);
+        mPref = ((CustomApplication)getApplicationContext()).getShared();
 
         tv_steps = (TextView) findViewById(R.id.tv_steps);
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -103,7 +104,6 @@ public class WalkingStepsGame extends AppCompatActivity implements SensorEventLi
 
                 //completion of steping game, gets 100 points
                 // upload to ../scores
-                mPref = ((CustomApplication)context).getShared();
                 SleepAPI service = SleepClientInstance.getRetrofitInstance().create(SleepAPI.class);
                 Call<ResponseBody> call = service.scorePost(mPref.getUserID(), "Egg Run", 100);
                 call.enqueue(new Callback<ResponseBody>() {
@@ -120,9 +120,12 @@ public class WalkingStepsGame extends AppCompatActivity implements SensorEventLi
                     }
                 });
 
+                int temp = mPref.getScore()+100;
                 // update profile total_score
                 Call<ResponseBody> score = SleepClientInstance.getRetrofitInstance().create(SleepAPI.class)
-                        .updateProfileScore(mPref.getScore()+100, mPref.getUserID());
+                        .updateProfileScore(temp, mPref.getUserID());
+
+                mPref.setScore(temp);
 
                 score.enqueue(new Callback<ResponseBody>() {
                     @Override
