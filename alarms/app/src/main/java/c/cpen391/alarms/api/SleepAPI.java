@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import c.cpen391.alarms.models.Alarm;
+import c.cpen391.alarms.models.HighScore;
 import c.cpen391.alarms.models.Post;
 import c.cpen391.alarms.models.Profile;
 import c.cpen391.alarms.models.SleepData;
@@ -38,6 +39,9 @@ public interface SleepAPI {
 
     @GET("/profile/{id}/")
     Call<Profile> getProfileInfo(@Path("id") String id);
+
+    @GET("/high_scores/")
+    Call<List<HighScore>> getHighScores();
 
     @POST("/users/")
     Call<Post> createPost(@Body Post post);

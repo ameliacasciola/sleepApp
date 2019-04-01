@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.graphics.PorterDuff;
 import android.hardware.fingerprint.FingerprintManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.core.content.ContextCompat;
 import c.cpen391.alarms.models.UserObject;
 
 import java.io.IOException;
@@ -101,7 +103,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
         ImageView fingerprintImage = (ImageView)findViewById(R.id.fingerprint_image);
-
+        fingerprintImage.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
         fingerprintImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

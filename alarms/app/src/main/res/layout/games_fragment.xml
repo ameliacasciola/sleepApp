@@ -1,15 +1,307 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<com.sothree.slidinguppanel.SlidingUpPanelLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sothree="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/leaderboard"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:gravity="bottom"
+    sothree:umanoPanelHeight="50dp"
+    sothree:umanoShadowHeight="0dp"
+    sothree:umanoParallaxOffset="100dp"
+    sothree:umanoDragView="@+id/dragView"
+    sothree:umanoOverlay="true">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="@string/games_tab"
-        android:textSize="25sp" />
+    <!-- MAIN CONTENT -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-</RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/games"
+                android:textStyle="bold"
+                android:textSize="30sp"
+                android:paddingTop="10dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:layout_marginTop="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:text="Games" />
+
+            <TextView
+                android:id="@+id/physical_title"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:paddingTop="12dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/games"
+                android:text="Physical Games" />
+
+            <TextView
+                android:id="@+id/pblurb"
+                android:textSize="15sp"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:layout_marginBottom="10dp"
+                android:layout_below="@+id/physical_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="These games will get your blood pumping." />
+
+
+            <HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:id="@+id/physical_scroll"
+                android:layout_height="wrap_content"
+                android:measureAllChildren="false"
+                android:layout_marginBottom="10dp"
+                android:layout_below="@+id/pblurb"
+                android:scrollbars="none"
+                android:fillViewport="true">
+
+                <LinearLayout
+                    android:layout_marginLeft="7dp"
+                    android:id="@+id/innerLayPhysical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+
+                    <include
+                        layout="@layout/games_card"
+                        android:layout_margin="10dp"
+                        android:id="@+id/mgame_card"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"/>
+                    <include
+                        layout="@layout/games_card"
+                        android:id="@+id/mgame_card2"
+                        android:layout_margin="10dp"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"/>
+                    <include
+                        layout="@layout/games_card"
+                        android:id="@+id/mgame_card3"
+                        android:layout_margin="10dp"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"/>
+                    <include
+                        layout="@layout/games_card"
+                        android:layout_margin="10dp"
+                        android:id="@+id/mgame_card4"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"/>
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <TextView
+                android:id="@+id/mental_title"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:paddingTop="5dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/physical_scroll"
+                android:text="Mental Games" />
+
+            <TextView
+                android:id="@+id/mblurb"
+                android:textSize="15sp"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:layout_marginBottom="10dp"
+                android:layout_below="@+id/mental_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="These games will exercise your brain." />
+
+            <HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:measureAllChildren="false"
+                android:layout_marginBottom="10dp"
+                android:layout_below="@+id/mblurb"
+                android:scrollbars="none"
+                android:fillViewport="true">
+
+                <LinearLayout
+                    android:layout_marginLeft="7dp"
+                    android:id="@+id/innerLayMental"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+
+                    <include
+                        layout="@layout/games_card"
+                        android:layout_margin="10dp"
+                        android:id="@+id/games_card"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"/>
+                    <include
+                        layout="@layout/games_card"
+                        android:id="@+id/games_card2"
+                        android:layout_margin="10dp"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"/>
+                    <include
+                        layout="@layout/games_card"
+                        android:id="@+id/games_card3"
+                        android:layout_margin="10dp"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"/>
+                    <include
+                        layout="@layout/games_card"
+                        android:layout_margin="10dp"
+                        android:id="@+id/games_card4"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"/>
+                </LinearLayout>
+            </HorizontalScrollView>
+        </RelativeLayout>
+    </FrameLayout>
+
+    <!-- SLIDING LAYOUT -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        sothree:cardCornerRadius="20dp"
+        android:elevation="5dp"
+        android:layout_marginTop="25dp"
+        sothree:cardBackgroundColor="@color/cup_blue"
+        android:orientation="vertical"
+        android:clickable="true"
+        android:focusable="false"
+        android:id="@+id/dragView">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_marginTop="10dp"
+                android:layout_alignParentTop="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:text="LEADERBOARD"
+                android:textColor="@color/white"
+                android:layout_marginBottom="12dp"
+                android:gravity="center_horizontal"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:id="@+id/ranking"
+                android:layout_marginBottom="10dp"
+                android:layout_below="@+id/title"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                    <RelativeLayout
+                        android:layout_width="200dp"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:id="@+id/rank"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:layout_toLeftOf="@+id/trophy_img"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textStyle="bold"
+                                android:layout_marginTop="20dp"
+                                android:textSize="15sp"
+                                android:textColor="@color/light_blue"
+                                android:text="RANK"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textStyle="bold"
+                                android:textSize="50sp"
+                                android:textColor="@color/white"
+                                android:text="1"/>
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="200dp"
+                            android:layout_height="150dp"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerHorizontal="true"
+                            android:scaleType="fitXY"
+                            android:id="@+id/trophy_img"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:textSize="35sp"
+                            android:layout_marginBottom="10dp"
+                            android:gravity="center_horizontal"
+                            android:layout_below="@+id/trophy_img"
+                            android:textColor="@color/white"
+                            android:textStyle="bold"
+                            android:id="@+id/first_place_user" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:id="@+id/score"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:layout_toRightOf="@+id/trophy_img"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textStyle="bold"
+                                android:layout_marginTop="20dp"
+                                android:textSize="15sp"
+                                android:textColor="@color/light_blue"
+                                android:text="SCORE"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/user_score"
+                                android:textStyle="bold"
+                                android:textSize="50sp"
+                                android:textColor="@color/white"
+                                android:text="1"/>
+                        </LinearLayout>
+                    </RelativeLayout>
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_below="@+id/ranking"
+                android:layout_alignParentBottom="true"
+                android:layout_width="match_parent"
+                android:background="@color/white"
+                android:layout_height="wrap_content">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_alignParentBottom="true"
+                android:id="@+id/user_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+            </RelativeLayout>
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+</com.sothree.slidinguppanel.SlidingUpPanelLayout>

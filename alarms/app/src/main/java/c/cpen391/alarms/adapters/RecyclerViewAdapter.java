@@ -5,7 +5,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -32,9 +31,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private List<Alarm> dataList;
     private Context context;
-    private String[] cardUrls = {
-            "http://www.4usky.com/data/out/61/164540853-minimal-wallpapers.jpg"
-    };
 
     public RecyclerViewAdapter(Context context,List<Alarm> dataList){
         this.context = context;
