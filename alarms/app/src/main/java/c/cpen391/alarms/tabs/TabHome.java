@@ -11,6 +11,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -204,7 +205,7 @@ public class TabHome extends Fragment {
         if(nextAlarm != null) {
             date1.setText(nextAlarm.getFormattedDate());
             date2.setText(nextAlarm.getRelativeDay());
-            time.setText(nextAlarm.getTime());
+            time.setText(nextAlarm.getTime().split("\\s+")[0]);
             alarmDescription.setText(nextAlarm.getAlarmDescription());
         } else {
             alarmDescription.setText("NO ALARM");

@@ -10,15 +10,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.gigamole.navigationtabstrip.NavigationTabStrip;
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import c.cpen391.alarms.R;
+import c.cpen391.alarms.api.SleepAPI;
+import c.cpen391.alarms.api.SleepClientInstance;
 import c.cpen391.alarms.custom.TrendGraph;
+import c.cpen391.alarms.models.Prediction;
 import c.cpen391.alarms.models.SleepData;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class TabTrends extends Fragment {
 
@@ -38,11 +49,46 @@ public class TabTrends extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootview = inflater.inflate(R.layout.trend_fragment, container, false);
-
+        initPrediction(rootview);
         initUI(rootview);
         setUI(rootview);
         setIcons(rootview);
         return rootview;
+    }
+
+    private void initPrediction(View rootview){
+        SleepAPI service = SleepClientInstance.getRetrofitInstance().create(SleepAPI.class);
+
+        Call<List<Prediction>> call;
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        call = service.getPredictionData(dateFormat.format(getLastMonth()), dateFormat.format(getTomorrow()));
+        call.enqueue(new Callback<List<Prediction>>() {
+            @Override
+            public void onResponse(Call<List<Prediction>> call, Response< List<Prediction>> response) {
+                List<Prediction> predictionList= response.body();
+                for (int i = 0; i < predictionList.size(); i++){
+                    Log.i("PREDICTION", Integer.toString(predictionList.get(i).getDegree()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Prediction>> call, Throwable t) {
+                Toast.makeText(getActivity(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private Date getTomorrow() {
+        final Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, +1);
+        return cal.getTime();
+    }
+
+
+    private Date getLastMonth() {
+        final Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -31);
+        return cal.getTime();
     }
 
     private void setIcons(View rootview){

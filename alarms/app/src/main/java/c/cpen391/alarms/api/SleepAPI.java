@@ -7,6 +7,7 @@ import java.util.Map;
 import c.cpen391.alarms.models.Alarm;
 import c.cpen391.alarms.models.HighScore;
 import c.cpen391.alarms.models.Post;
+import c.cpen391.alarms.models.Prediction;
 import c.cpen391.alarms.models.Profile;
 import c.cpen391.alarms.models.SleepData;
 import okhttp3.MultipartBody;
@@ -42,6 +43,9 @@ public interface SleepAPI {
 
     @GET("/high_scores/")
     Call<List<HighScore>> getHighScores();
+
+    @GET("/compute/")
+    Call<List<Prediction>> getPredictionData(@Query("start_date") String start_date, @Query("end_date") String end_date);
 
     @POST("/users/")
     Call<Post> createPost(@Body Post post);
