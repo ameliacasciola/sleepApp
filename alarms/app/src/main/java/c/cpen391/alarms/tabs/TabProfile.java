@@ -25,7 +25,6 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
-import com.yalantis.guillotine.animation.GuillotineAnimation;
 
 import org.w3c.dom.Text;
 
