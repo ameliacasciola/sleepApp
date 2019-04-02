@@ -6,17 +6,26 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+//import android.widget.Toolbar;
 
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
+import com.yalantis.guillotine.animation.GuillotineAnimation;
 
 import java.io.File;
 import java.io.IOException;
@@ -44,13 +53,13 @@ import static android.app.Activity.RESULT_OK;
 
 public class TabProfile extends Fragment {
     private CircleImageView proPic;
-    private Button browse;
-    private Button logout;
+   // private Button logout;
     private Bitmap bitmap;
     private String userBio;
     private Gson gson;
     private EditText bioedit;
     private Button bioupdate;
+    private ImageView logout;
     protected static CustomSharedPreference mPref;
 
     @Override
@@ -58,11 +67,10 @@ public class TabProfile extends Fragment {
         final View rootview = inflater.inflate(R.layout.profile_fragment, container, false);
 
         proPic = (CircleImageView) rootview.findViewById(R.id.profilePicture);
-        browse = (Button) rootview.findViewById(R.id.browse);
-        logout = (Button) rootview.findViewById(R.id.logout);
+       // logout = (Button) rootview.findViewById(R.id.logout);
+        logout = (ImageView) rootview.findViewById(R.id.logout);
         bioedit = (EditText) rootview.findViewById(R.id.bioedit);
         bioupdate = (Button) rootview.findViewById(R.id.bioupdate);
-
 
         // GET info from database everytime
         mPref = ((CustomApplication)getActivity().getApplicationContext()).getShared();
@@ -75,10 +83,14 @@ public class TabProfile extends Fragment {
                     Toast.makeText(getActivity().getApplicationContext(), "Profile no Response", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                TextView userTextValue = (TextView)rootview.findViewById(R.id.user_bio);
+//                TextView userTextValue = (TextView)rootview.findViewById(R.id.user_bio);
+                TextView userName = (TextView)rootview.findViewById(R.id.user_name);
+                TextView userLocation = (TextView)rootview.findViewById(R.id.user_location);
                 Profile mProfile = response.body();
-                userTextValue.setText("Name: " + mProfile.getName() + "\n"
-                                    + "Location: " + mProfile.getLocation());
+//                userTextValue.setText("Name: " + mProfile.getName() + "\n"
+//                                    + "Location: " + mProfile.getLocation());
+                userName.setText(mProfile.getName());
+                userLocation.setText(mProfile.getLocation());
 
 
                 // grab photo from local storage
@@ -98,14 +110,13 @@ public class TabProfile extends Fragment {
             }
         });
 
-        // browse and insert image
-        browse.setOnClickListener(new View.OnClickListener() {
+        // change image
+        proPic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 chooseFile();
             }
         });
-
 
         // logout button
         logout.setOnClickListener(new View.OnClickListener() {

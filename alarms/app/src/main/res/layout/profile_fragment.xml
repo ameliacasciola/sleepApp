@@ -1,116 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-tools:context=".MainActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
 
-    <ImageView
+    <View
+        android:id="@+id/purplebg"
         android:layout_width="wrap_content"
-        android:layout_height="253dp"
-        android:background="@drawable/home"
-        android:scaleType="centerCrop"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp" />
+        android:layout_height="match_parent"
+        android:background="@drawable/gradient_profile" />
+
+    <View
+        android:id="@+id/line"
+        android:background="#ffffff"
+        android:layout_below="@id/user_location"
+        android:layout_marginLeft="@dimen/_20sdp"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_width = "350dp"
+        android:layout_height="1dp"/>
 
     <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/profilePicture"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_marginTop="@dimen/_135sdp"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/empty_pp"
+        android:layout_marginTop="@dimen/_65sdp"
+        android:src="@drawable/empty_profile"
         android:visibility="visible"
         app:civ_border_color="@color/colorAccent"
         app:civ_border_width="3dp" />
 
-
-    <Button
-        android:id="@+id/browse"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_250sdp"
+    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/add_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_centerHorizontal="true"
-        android:background="@xml/button_browse_background"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:textColor="#535353"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:text="Upload" />
+        android:layout_alignBottom="@id/profilePicture"
+        android:layout_alignRight="@id/profilePicture"
+        android:layout_marginTop="@dimen/_60sdp"
+        android:src="@drawable/add_circle"
+        android:visibility="visible"
+        app:civ_border_color="@color/colorAccent"
+        app:civ_border_width="3dp" />
 
-    <Button
-        android:id="@+id/bioupdate"
-        android:layout_width="112dp"
-        android:layout_height="38dp"
-        android:background="@xml/button_browse_background"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:text="Update Bio"
-        android:textColor="#535353"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:layout_marginTop="@dimen/_363sdp"
-        android:layout_marginLeft="@dimen/_220sdp"
-        tools:layout_editor_absoluteX="283dp"
-        tools:layout_editor_absoluteY="469dp" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
+    <ImageView
+        android:id="@+id/logout"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:background="@drawable/logout_xxl"
+        android:scaleType="centerCrop"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="10dp"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp" />
 
         <TextView
-            android:id="@+id/user_bio"
+            android:id="@+id/user_name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_33sdp"
+            android:layout_below="@+id/profilePicture"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="15dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
+            android:text="name"
             android:textAlignment="center"
-            android:textColor="#535353"
-            android:textSize="@dimen/_20sdp"
-            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_25sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.552" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintVertical_bias="0.33" />
+
+        <TextView
+            android:id="@+id/user_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_below="@+id/user_name"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="location"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_10sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.441" />
+
+    <View
+        android:id="@+id/myRectangleView"
+        android:layout_width="350dp"
+        android:layout_height="180dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/biotitle"
+        android:layout_marginTop="@dimen/_7sdp"
+        android:background="@drawable/rectangle" />
 
     <EditText
         android:id="@+id/bioedit"
-        android:layout_width="395dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="@dimen/_400sdp"
+        android:layout_width="300dp"
+        android:layout_height="100dp"
         android:layout_centerHorizontal="true"
+        android:layout_alignBottom="@id/myRectangleView"
         tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="507dp"/>
+        tools:layout_editor_absoluteY="507dp" />
 
+    <Button
+        android:id="@+id/bioupdate"
+        android:layout_width="112dp"
+        android:layout_height="38dp"
+        android:layout_marginLeft="@dimen/_220sdp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/bioedit"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:background="@xml/button_browse_background"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:text="Update"
+        android:textColor="#535353"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        tools:layout_editor_absoluteX="283dp"
+        tools:layout_editor_absoluteY="469dp" />
 
     <TextView
         android:id="@+id/biotitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/line"
         android:layout_marginLeft="@dimen/_10sdp"
-        android:layout_marginTop="@dimen/_363sdp"
-        android:text="BIO:"
-        android:textColor="#535353"
+        android:layout_marginTop="@dimen/_16sdp"
+        android:text="Biography"
+        android:textColor="@color/white"
         android:textSize="@dimen/_20sdp"
         android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/logout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_450sdp"
-        android:layout_centerHorizontal="true"
-        android:background="@xml/button_browse_background"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:text="Logout"
-        android:textColor="#535353"
-        android:textSize="18sp"
-        android:textStyle="bold" />
 </RelativeLayout>

@@ -30,4 +30,5 @@
         <item name="colorControlActivated">@color/colorAccent</item>
         <item name="colorControlHighlight">@color/light_pink</item>
     </style>
+
 </resources>

@@ -8,6 +8,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -80,27 +81,16 @@ public class WalkingStepsGame extends AppCompatActivity implements SensorEventLi
                 setContentView(R.layout.steps_game_done);
                 home = (Button) findViewById(R.id.home);
 
-                try {
-                    //set time in mili
-                    Thread.sleep(5000);
-
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-
-//                home.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//
-//                    }
-//                });
-
                 running = false;
 
-                Intent intent = new Intent(context, c.cpen391.alarms.home.class);
-                context.startActivity(intent);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
 
-//                popfinishmessage();
+                        Intent intent = new Intent(context, c.cpen391.alarms.home.class);
+                        context.startActivity(intent);
+                    }
+                }, 5000);
 
             }
         }
@@ -112,9 +102,5 @@ public class WalkingStepsGame extends AppCompatActivity implements SensorEventLi
 
     }
 
-//    public void popfinishmessage(){
-//        popupmessage popUpMessage = new popupmessage();
-//        popUpMessage.show(getSupportFragmentManager(), "Finish message");
-//    }
 }
 
