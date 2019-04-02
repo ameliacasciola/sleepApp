@@ -39,6 +39,7 @@
         <activity android:name=".games.GraphicsActivity"/>
         <activity android:name=".tabs.CreateAlarm"/>
         <activity android:name=".games.WalkingStepsGame"/>
+        <activity android:name=".games.JumpingJacksGame"/>
         <activity android:name=".games.MainSpellingActivity"/>
         <activity android:name=".games.DoneActivity"/>
         <activity

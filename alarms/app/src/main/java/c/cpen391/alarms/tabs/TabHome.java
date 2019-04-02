@@ -44,6 +44,7 @@ import c.cpen391.alarms.api.SleepClientInstance;
 import c.cpen391.alarms.api.WeatherService;
 import c.cpen391.alarms.custom.WeatherCard;
 import c.cpen391.alarms.games.GraphicsActivity;
+import c.cpen391.alarms.games.JumpingJacksGame;
 import c.cpen391.alarms.games.MainSpellingActivity;
 import c.cpen391.alarms.games.WalkingStepsGame;
 import c.cpen391.alarms.home;
@@ -238,7 +239,7 @@ public class TabHome extends Fragment {
             TextView gamesName = gamesCardView.findViewById(R.id.game_name);
             gamesName.setText(gamesNames[i]);
 
-            //go to accelerometer game
+            //go to steps game
             if(i == 0){
                 gamesCardView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -259,10 +260,21 @@ public class TabHome extends Fragment {
                 });
             }
 
+            //go to spelling game
             if(i==2) {
                 toSpelling.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
                         Intent intent = new Intent(getActivity(), MainSpellingActivity.class);
+                        startActivity(intent);
+                    }
+                });
+            }
+
+            //go to jumping jacks game
+            if(i==3) {
+                gamesCardView.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getActivity(), JumpingJacksGame.class);
                         startActivity(intent);
                     }
                 });
