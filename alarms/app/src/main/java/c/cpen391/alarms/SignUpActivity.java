@@ -28,6 +28,8 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText username;
     private EditText email;
     private EditText password;
+    private EditText first_name;
+    private EditText last_name;
     protected static CustomSharedPreference mPref;
 
     @Override
@@ -38,6 +40,9 @@ public class SignUpActivity extends AppCompatActivity {
         username = (EditText)findViewById(R.id.username);
         email = (EditText)findViewById(R.id.email);
         password = (EditText)findViewById(R.id.password);
+        first_name = (EditText)findViewById(R.id.first_name);
+        last_name = (EditText)findViewById(R.id.last_name);
+
         Button signUpButton = (Button) findViewById(R.id.sign_up_button);
 
         mPref = ((CustomApplication)getApplication()).getShared();
@@ -48,7 +53,10 @@ public class SignUpActivity extends AppCompatActivity {
                 String usernameValue = username.getText().toString();
                 String emailValue = email.getText().toString();
                 String passwordValue = password.getText().toString();
-                if(TextUtils.isEmpty(usernameValue) || TextUtils.isEmpty(emailValue)|| TextUtils.isEmpty(passwordValue))
+                String first_name_Value = first_name.getText().toString();
+                String last_name_Value = last_name.getText().toString();
+
+                if(TextUtils.isEmpty(usernameValue) || TextUtils.isEmpty(emailValue)|| TextUtils.isEmpty(passwordValue) || TextUtils.isEmpty(first_name_Value)|| TextUtils.isEmpty(last_name_Value))
                 {
                     Toast.makeText(SignUpActivity.this, "All input fields must be filled", Toast.LENGTH_LONG).show();
                 }else{
@@ -58,7 +66,9 @@ public class SignUpActivity extends AppCompatActivity {
                     username.setText("");
                     email.setText("");
                     password.setText("");
-                    createPostAPICalling(usernameValue,null, passwordValue,null,null);
+                    first_name.setText("");
+                    last_name.setText("");
+                    createPostAPICalling(usernameValue,emailValue, passwordValue,first_name_Value,last_name_Value);
                 }
             }
         });

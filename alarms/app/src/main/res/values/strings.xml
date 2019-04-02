@@ -20,4 +20,6 @@
     <string name="with_fingerprint_and_password">With Fingerprint and Password</string>
     <string name="login_with_fingerprint">LOGIN WITH FINGERPRINT</string>
     <string name="login_now">LOGIN</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
 </resources>
