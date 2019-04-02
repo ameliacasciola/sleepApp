@@ -216,12 +216,19 @@
                         android:layout_weight="1"
                         android:orientation="vertical"
                         android:layout_height="wrap_content">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
                             android:textStyle="bold"
                             android:layout_marginTop="20dp"
                             android:textSize="15sp"
+                            android:id="@+id/rank_text"
                             android:textColor="@color/light_blue"
                             android:text="RANK"/>
 
@@ -229,9 +236,11 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
+                            android:layout_below="@+id/rank_text"
                             android:textSize="40sp"
                             android:textColor="@color/white"
                             android:text="1"/>
+                    </RelativeLayout>
                     </LinearLayout>
 
                 <LinearLayout
@@ -283,6 +292,7 @@
                             android:textStyle="bold"
                             android:id="@+id/score_text"
                             android:layout_marginTop="20dp"
+                            android:layout_centerHorizontal="true"
                             android:textSize="15sp"
                             android:textColor="@color/light_blue"
                             android:text="SCORE"/>

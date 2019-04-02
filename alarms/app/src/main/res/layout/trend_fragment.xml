@@ -291,10 +291,10 @@
             <androidx.cardview.widget.CardView
                 app:cardCornerRadius="10dp"
                 app:cardElevation="3dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginRight="15dp"
                 android:layout_marginTop="2dp"
                 android:layout_marginBottom="5dp"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="15dp"
                 android:id="@+id/prediction_card"
                 android:layout_below="@+id/prediction_title"
                 android:layout_width="match_parent"
@@ -310,8 +310,8 @@
                         android:layout_centerVertical="true"
                         android:layout_alignParentTop="true"
                         android:layout_alignParentStart="true"
-                        android:layout_width="200dp"
-                        android:layout_height="200dp" />
+                        android:layout_width="220dp"
+                        android:layout_height="170dp" />
 
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>

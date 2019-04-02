@@ -225,7 +225,7 @@ public class TabGames extends Fragment {
             winner.setText(highScoreList.get(0).getUsername());
             Integer highest_score = highScoreList.get(0).getScore();
             if (highest_score != null) {
-                if (highest_score > 1000){
+                if (highest_score > 10000){
                     highest_score /= 1000;
                     String result = Integer.toString(highest_score);
                     result = result.concat("K");

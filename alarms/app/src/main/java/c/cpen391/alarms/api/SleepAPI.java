@@ -45,7 +45,7 @@ public interface SleepAPI {
     Call<List<HighScore>> getHighScores();
 
     @GET("/compute/")
-    Call<List<Prediction>> getPredictionData(@Query("start_date") String start_date, @Query("end_date") String end_date);
+    Call<Prediction> getPredictionData(@Query("start_date") String start_date, @Query("end_date") String end_date);
 
     @POST("/users/")
     Call<Post> createPost(@Body Post post);
