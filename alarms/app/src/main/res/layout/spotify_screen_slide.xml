@@ -87,6 +87,11 @@
 
             </LinearLayout>
 
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/spotifyImg"/>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/submit_btn"

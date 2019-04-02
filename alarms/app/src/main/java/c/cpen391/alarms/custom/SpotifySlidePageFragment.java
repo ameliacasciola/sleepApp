@@ -1,6 +1,7 @@
 package c.cpen391.alarms.custom;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.cardview.widget.CardView;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
@@ -34,11 +36,15 @@ import com.spotify.android.appremote.api.ConnectionParams;
 import com.spotify.android.appremote.api.Connector;
 import com.spotify.android.appremote.api.SpotifyAppRemote;
 
+import com.spotify.protocol.client.CallResult;
 import com.spotify.protocol.client.Subscription;
 import com.spotify.protocol.types.PlayerState;
 import com.spotify.protocol.types.Track;
 
+
 public class SpotifySlidePageFragment extends Fragment {
+
+    private String[] spotifySongIds = {"4JuZQeSRYJfLCqBgBIxxrR"};
 
     private String[] gamesNameList= {"Run", "Bubble Pop", "Guess the Word"};
     private String[] gamesDescriptionList = {"Walk at least 100 steps.",
@@ -47,6 +53,7 @@ public class SpotifySlidePageFragment extends Fragment {
     private SwipeItem[] swipeItemList;
     private Alarm newAlarm;
     private CardView submitBtn;
+    private ImageView spotifyImg;
     protected static CustomSharedPreference mPref;
     private  SwipeSelector swipeSelector;
     private SleepAPI sleepAPI;
@@ -63,6 +70,7 @@ public class SpotifySlidePageFragment extends Fragment {
         initGamesSwipeSelector(rootView);
         newAlarm = ((CreateAlarm)getActivity()).getAlarm();
         setSubmitBtn(rootView);
+        spotifyImg = rootView.findViewById(R.id.spotifyImg);
 
         ConnectionParams connectionParams =
                 new ConnectionParams.Builder(CLIENT_ID)
@@ -99,10 +107,27 @@ public class SpotifySlidePageFragment extends Fragment {
     }
 
     private void connected() {
-        // Then we will write some more code here.
         // Play a playlist
 
         mSpotifyAppRemote.getPlayerApi().play("spotify:track:4VUwkH455At9kENOfzTqmF");
+//        mSpotifyAppRemote.getPlayerApi().subscribeToPlayerState().setEventCallback(
+//                new Subscription.EventCallback<PlayerState>() {
+//                    @Override
+//                    public void onEvent(PlayerState playerState) {
+//                        final Track track = playerState.track;
+//                        if (track != null) {
+//                            Log.i("SPOTIFY", "GOT IMAGE");
+//                            mSpotifyAppRemote.getImagesApi().getImage(track.imageUri).setResultCallback(new CallResult.ResultCallback<Bitmap>() {
+//                                @Override
+//                                public void onResult(Bitmap bitmap) {
+//                                    spotifyImg.setImageBitmap(bitmap);
+//                                }
+//                            });
+//                        }
+//                    }
+//                }
+//        );
+
     }
 
     @Override
