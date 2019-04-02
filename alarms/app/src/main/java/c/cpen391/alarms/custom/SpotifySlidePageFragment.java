@@ -110,23 +110,23 @@ public class SpotifySlidePageFragment extends Fragment {
         // Play a playlist
 
         mSpotifyAppRemote.getPlayerApi().play("spotify:track:4VUwkH455At9kENOfzTqmF");
-//        mSpotifyAppRemote.getPlayerApi().subscribeToPlayerState().setEventCallback(
-//                new Subscription.EventCallback<PlayerState>() {
-//                    @Override
-//                    public void onEvent(PlayerState playerState) {
-//                        final Track track = playerState.track;
-//                        if (track != null) {
-//                            Log.i("SPOTIFY", "GOT IMAGE");
-//                            mSpotifyAppRemote.getImagesApi().getImage(track.imageUri).setResultCallback(new CallResult.ResultCallback<Bitmap>() {
-//                                @Override
-//                                public void onResult(Bitmap bitmap) {
-//                                    spotifyImg.setImageBitmap(bitmap);
-//                                }
-//                            });
-//                        }
-//                    }
-//                }
-//        );
+        mSpotifyAppRemote.getPlayerApi().subscribeToPlayerState().setEventCallback(
+                new Subscription.EventCallback<PlayerState>() {
+                    @Override
+                    public void onEvent(PlayerState playerState) {
+                        final Track track = playerState.track;
+                        if (track != null) {
+                            Log.i("SPOTIFY", "GOT IMAGE");
+                            mSpotifyAppRemote.getImagesApi().getImage(track.imageUri).setResultCallback(new CallResult.ResultCallback<Bitmap>() {
+                                @Override
+                                public void onResult(Bitmap bitmap) {
+                                    spotifyImg.setImageBitmap(bitmap);
+                                }
+                            });
+                        }
+                    }
+                }
+        );
 
     }
 
