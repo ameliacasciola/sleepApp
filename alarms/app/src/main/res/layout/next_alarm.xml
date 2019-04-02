@@ -26,19 +26,17 @@
             android:gravity="center_horizontal"
             android:textColor="@color/dark_gray"
             android:textStyle="bold"
-            android:textSize="70sp"
-            android:text="8:30"/>
+            android:textSize="70sp"/>
 
         <TextView
             android:layout_width="match_parent"
-            android:id="@+id/date"
+            android:id="@+id/dateinnxalarm"
             android:layout_height="wrap_content"
             android:layout_below="@+id/time"
             android:gravity="center_horizontal"
             android:textColor="@color/gray"
             android:textStyle="bold"
-            android:textSize="20sp"
-            android:text="TUESDAY"/>
+            android:textSize="20sp"/>
 
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

@@ -76,13 +76,21 @@ public class TabTrends extends Fragment {
 
             @Override
             public Fragment getItem(int position) {
+                Bundle bundle = new Bundle();
+                TrendGraph tg = new TrendGraph();
                 switch (position) {
                     case 0:
-                        return new TrendGraph();
+                        bundle.putInt("duration", 0);
+                        tg.setArguments(bundle);
+                        return tg;
                     case 1:
-                        return new TrendGraph();
+                        bundle.putInt("duration", 1);
+                        tg.setArguments(bundle);
+                        return tg;
                     case 2:
-                        return new TrendGraph();
+                        bundle.putInt("duration", 2);
+                        tg.setArguments(bundle);
+                        return tg;
                     default: return new TabHome();
                 }
             }

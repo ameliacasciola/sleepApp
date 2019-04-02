@@ -17,7 +17,7 @@
         android:background="#ffffff"
         android:layout_below="@id/user_location"
         android:layout_marginLeft="@dimen/_20sdp"
-        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_7sdp"
         android:layout_width = "350dp"
         android:layout_height="1dp"/>
 
@@ -60,16 +60,16 @@
         <TextView
             android:id="@+id/user_name"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_33sdp"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/profilePicture"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-            android:text="name"
+            android:text="nameg"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="@dimen/_25sdp"
+            android:textSize="@dimen/_20sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -82,7 +82,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_below="@+id/user_name"
+            android:layout_below="@+id/user_highscore"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:text="location"
@@ -96,6 +96,26 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.441" />
+
+    <TextView
+        android:id="@+id/user_highscore"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_below="@+id/user_name"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="highscore:"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_15sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.441" />
 
     <View
         android:id="@+id/myRectangleView"

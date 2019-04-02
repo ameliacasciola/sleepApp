@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.graphics.PorterDuff;
 import android.hardware.fingerprint.FingerprintManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.core.content.ContextCompat;
 import c.cpen391.alarms.models.UserObject;
 
 import java.io.IOException;
@@ -74,32 +76,29 @@ public class LoginActivity extends AppCompatActivity {
 
         mPref = ((CustomApplication)getApplication()).getShared();
 
-        // android version greater than marshmallow
-//        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-//        {
-//            fingerprintManager = (FingerprintManager) getSystemService(FINGERPRINT_SERVICE);
-//            keyguardManager = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
-//
-//            if(fingerprintManager != null) {
-//                // check support for android fingerprint on device
-//                checkDeviceFingerprintSupport();
-//
-//                //instantiate Cipher class
-//                if(instantiateCipher()) {
-//                    cryptoObject = new FingerprintManager.CryptoObject(cipher);
-//                    fingerprintHandler = new FingerprintHandler(this);
-//                    fingerprintHandler.startAuth(fingerprintManager, cryptoObject);
-//                }
-//            } else {
-//                Toast.makeText(this, "fingerprintManager is null", Toast.LENGTH_SHORT).show();
-//            }
-//        }
 
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        {
+            fingerprintManager = (FingerprintManager) getSystemService(FINGERPRINT_SERVICE);
+            keyguardManager = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
 
-        Intent homeIntent = new Intent(this, home.class);
-        this.startActivity(homeIntent);
+            if(fingerprintManager != null) {
+                // check support for android fingerprint on device
+                checkDeviceFingerprintSupport();
+
+                //instantiate Cipher class
+                if(instantiateCipher()) {
+                    cryptoObject = new FingerprintManager.CryptoObject(cipher);
+                    fingerprintHandler = new FingerprintHandler(this);
+                    fingerprintHandler.startAuth(fingerprintManager, cryptoObject);
+                }
+            } else {
+                Toast.makeText(this, "fingerprintManager is null", Toast.LENGTH_SHORT).show();
+            }
+        }
 
         ImageView fingerprintImage = (ImageView)findViewById(R.id.fingerprint_image);
+        fingerprintImage.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
         fingerprintImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

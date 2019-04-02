@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import c.cpen391.alarms.models.Alarm;
+import c.cpen391.alarms.models.HighScore;
 import c.cpen391.alarms.models.Post;
 import c.cpen391.alarms.models.Profile;
 import c.cpen391.alarms.models.SleepData;
@@ -12,6 +13,7 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -23,16 +25,23 @@ import retrofit2.http.Part;
 import retrofit2.http.PartMap;
 import retrofit2.http.Path;
 import retrofit2.Call;
+import retrofit2.http.Query;
 
 public interface SleepAPI {
     @GET("/alarms")
-    Call<List<Alarm>> getAlarms();
+    Call<List<Alarm>> getAlarms(@Query("username") int userID);
+
+    @DELETE("/alarms/{id}/")
+    Call<ResponseBody> deleteAlarm(@Path("id") int alarmID);
 
     @GET("/sleepdata")
-    Call<List<SleepData>> getSleepData();
+    Call<List<SleepData>> getSleepData(@Query("start_date") String start_date, @Query("end_date") String end_date, @Query("date") String date);
 
     @GET("/profile/{id}/")
     Call<Profile> getProfileInfo(@Path("id") String id);
+
+    @GET("/high_scores/")
+    Call<List<HighScore>> getHighScores();
 
     @POST("/users/")
     Call<Post> createPost(@Body Post post);
@@ -44,15 +53,34 @@ public interface SleepAPI {
             @Field("bio") String bio,
             @Field("name") String name,
             @Field("location") String location,
-            @Field("image") URL image
+            @Field("image") URL image,
+            @Field("total_points") int points
+    );
+
+    @FormUrlEncoded
+    @PATCH("/alarms/{id}/")
+    Call<ResponseBody> updateOnOff(
+            @Field("active") Boolean active,
+            @Path("id") int id
     );
 
     @POST("/alarms/")
     Call<AlarmPost> alarmPost(@Body AlarmPost post);
 
     @FormUrlEncoded
+    @PATCH("/alarms/{id}/")
+    Call<ResponseBody> alarmEdit(
+                            @Field("description") String description,
+                            @Field("alarm_time") String alarm_time,
+                            @Field("volume") int volume,
+                            @Field("active") boolean active,
+                            @Field("game_name") String gameName,
+                            @Path("id") int id);
+
+    @FormUrlEncoded
     @POST("/alarms/")
-    Call<ResponseBody> alarmPost(@Field("description") String title,
+    Call<ResponseBody> alarmPost(
+                        @Field("description") String title,
                         @Field("alarm_time") String body,
                         @Field("game_name") String gameName,
                         @Field("volume") Integer userId,
@@ -71,4 +99,20 @@ public interface SleepAPI {
             @Field("bio") String bio,
             @Path("id") String id
     );
+
+    @FormUrlEncoded
+    @PATCH("/profile/{id}/")
+    Call<ResponseBody> updateProfileScore(
+            @Field("total_points") int total,
+            @Path("id") int id);
+
+
+
+    @FormUrlEncoded
+    @POST("/scores/")
+    Call<ResponseBody> scorePost(
+            @Field("user_id") int id,
+            @Field("game") String game,
+            @Field("score") int score);
+
 }

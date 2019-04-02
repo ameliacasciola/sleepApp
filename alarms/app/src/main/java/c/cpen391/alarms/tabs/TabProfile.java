@@ -27,6 +27,8 @@ import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 import com.yalantis.guillotine.animation.GuillotineAnimation;
 
+import org.w3c.dom.Text;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -86,12 +88,12 @@ public class TabProfile extends Fragment {
 //                TextView userTextValue = (TextView)rootview.findViewById(R.id.user_bio);
                 TextView userName = (TextView)rootview.findViewById(R.id.user_name);
                 TextView userLocation = (TextView)rootview.findViewById(R.id.user_location);
+                TextView userHighSc = (TextView)rootview.findViewById(R.id.user_highscore) ;
                 Profile mProfile = response.body();
-//                userTextValue.setText("Name: " + mProfile.getName() + "\n"
-//                                    + "Location: " + mProfile.getLocation());
+
                 userName.setText(mProfile.getName());
                 userLocation.setText(mProfile.getLocation());
-
+                userHighSc.setText(Integer.toString(mProfile.getPoints()));
 
                 // grab photo from local storage
                 Bitmap bm = mPref.getPic();

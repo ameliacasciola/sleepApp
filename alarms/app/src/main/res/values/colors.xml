@@ -6,6 +6,7 @@
     <color name="white">#ffffff</color>
     <color name="light_gray">#F0F0F0</color>
     <color name="mid_gray">#A9A9A9</color>
+    <color name="silver">#DCDCDC</color>
     <color name="search_bar">#F8F8F8</color>
     <color name="gray">#808080</color>
     <color name="emerald_green">#35C27C</color>
@@ -33,4 +34,9 @@
     <color name="lightgray2">#F5F5F5</color>
     <color name="plum">#DDA0DD</color>
     <color name="purple">#9370DB</color>
+    <color name="goog_green">#0F9D58</color>
+    <color name="goog_yellow">#F4B400</color>
+    <color name="goog_red">#DB4437</color>
+    <color name="goog_blue">#4285F4</color>
+    <color name="cup_blue">#78ADCF</color>
 </resources>
