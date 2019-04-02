@@ -10,6 +10,7 @@ import su.levenetc.android.textsurface.Debug;
 import su.levenetc.android.textsurface.TextSurface;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -19,6 +20,10 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 
+import com.spotify.sdk.android.authentication.AuthenticationClient;
+import com.spotify.sdk.android.authentication.AuthenticationRequest;
+import com.spotify.sdk.android.authentication.AuthenticationResponse;
+
 import static su.levenetc.android.textsurface.animations.Just.show;
 
 public class MainActivity extends AppCompatActivity {
@@ -26,6 +31,10 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
     private ImageView pic;
     private TextSurface textSurface;
+
+    private static final int REQUEST_CODE = 1337;
+    private static final String REDIRECT_URI = "http://localhost:8000/callback/";
+    private static final String CLIENT_ID = "e1cac6772536416882b7ee89591095ea";
 
 
     @Override
@@ -81,6 +90,42 @@ public class MainActivity extends AppCompatActivity {
                 textSurface.invalidate();
             }
         });
+
+        AuthenticationRequest.Builder builder =
+                new AuthenticationRequest.Builder(CLIENT_ID, AuthenticationResponse.Type.TOKEN, REDIRECT_URI);
+
+        builder.setScopes(new String[]{"streaming"});
+        AuthenticationRequest request = builder.build();
+
+        AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+
+        // Check if result comes from the correct activity
+        if (requestCode == REQUEST_CODE) {
+            AuthenticationResponse response = AuthenticationClient.getResponse(resultCode, intent);
+
+            switch (response.getType()) {
+                // Response was successful and contains auth token
+                case TOKEN:
+                    // Handle successful response
+                    Log.e("SPOTIFY LOGIN", "Success, Contain Auth Token");
+                    break;
+
+                // Auth flow returned an error
+                case ERROR:
+                    // Handle error response
+                    Log.e("SPOTIFY LOGIN", "Error Response");
+                    break;
+
+                // Most likely auth flow was cancelled
+                default:
+                    Log.e("SPOTIFY LOGIN", "Cancelled");
+                    // Handle other cases
+            }
+        }
     }
 
     private void show() {

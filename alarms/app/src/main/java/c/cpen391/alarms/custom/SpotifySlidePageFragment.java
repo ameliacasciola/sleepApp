@@ -30,6 +30,13 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import com.spotify.android.appremote.api.ConnectionParams;
+import com.spotify.android.appremote.api.Connector;
+import com.spotify.android.appremote.api.SpotifyAppRemote;
+
+import com.spotify.protocol.client.Subscription;
+import com.spotify.protocol.types.PlayerState;
+import com.spotify.protocol.types.Track;
 
 public class SpotifySlidePageFragment extends Fragment {
 
@@ -44,6 +51,10 @@ public class SpotifySlidePageFragment extends Fragment {
     private  SwipeSelector swipeSelector;
     private SleepAPI sleepAPI;
 
+    private static final String CLIENT_ID = "e1cac6772536416882b7ee89591095ea";
+    private static final String REDIRECT_URI = "http://localhost:8000/callback/";
+    private SpotifyAppRemote mSpotifyAppRemote;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -52,8 +63,54 @@ public class SpotifySlidePageFragment extends Fragment {
         initGamesSwipeSelector(rootView);
         newAlarm = ((CreateAlarm)getActivity()).getAlarm();
         setSubmitBtn(rootView);
+
+        ConnectionParams connectionParams =
+                new ConnectionParams.Builder(CLIENT_ID)
+                        .setRedirectUri(REDIRECT_URI)
+                        .showAuthView(true)
+                        .build();
+
+        SpotifyAppRemote.connect(getContext(), connectionParams,
+                new Connector.ConnectionListener() {
+
+                    @Override
+                    public void onConnected(SpotifyAppRemote spotifyAppRemote) {
+                        mSpotifyAppRemote = spotifyAppRemote;
+                        Log.e("SPOTIFY REMOTE", "Success, Onconnected" + mSpotifyAppRemote.isConnected());
+
+                        // Now you can start interacting with App Remote
+                        connected();
+                    }
+
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                        Log.e("SPOTIFY REMOTE", "Failure, Onconnected");
+
+                        // Something went wrong when attempting to connect! Handle errors here
+                    }
+                });
+
         return rootView;
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    private void connected() {
+        // Then we will write some more code here.
+        // Play a playlist
+
+        mSpotifyAppRemote.getPlayerApi().play("spotify:track:4VUwkH455At9kENOfzTqmF");
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
+
+
 
     private void initGamesSwipeSelector(View rootview){
         swipeSelector = (SwipeSelector) rootview.findViewById(R.id.swipeSelector);
@@ -73,6 +130,9 @@ public class SpotifySlidePageFragment extends Fragment {
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mSpotifyAppRemote.getPlayerApi().pause();
+                SpotifyAppRemote.disconnect(mSpotifyAppRemote);
+
                 String game = swipeSelector.getSelectedItem().title;
                 newAlarm.setGameName(game);
 
