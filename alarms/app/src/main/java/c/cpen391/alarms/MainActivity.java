@@ -10,6 +10,7 @@ import su.levenetc.android.textsurface.Debug;
 import su.levenetc.android.textsurface.TextSurface;
 
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -85,5 +86,16 @@ public class MainActivity extends AppCompatActivity {
     private void show() {
         textSurface.reset();
         LoginLoop.play(textSurface, getAssets(), getApplicationContext());
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            Intent a = new Intent(this, MainActivity.class);
+            a.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(a);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }
