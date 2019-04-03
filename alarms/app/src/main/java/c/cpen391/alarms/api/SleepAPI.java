@@ -79,7 +79,8 @@ public interface SleepAPI {
                             @Field("volume") int volume,
                             @Field("active") boolean active,
                             @Field("game_name") String gameName,
-                            @Path("id") int id);
+                            @Path("id") int id,
+                            @Field("spotify_uri") String spotify_uri);
 
     @FormUrlEncoded
     @POST("/alarms/")
@@ -89,7 +90,8 @@ public interface SleepAPI {
                         @Field("game_name") String gameName,
                         @Field("volume") Integer userId,
                         @Field("active") boolean active,
-                        @Field("username") Integer userid);
+                        @Field("username") Integer userid,
+                        @Field("spotify_uri") String spotify_uri);
 
     @Multipart
     @POST("/profile/")

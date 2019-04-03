@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gigamole.navigationtabstrip.NavigationTabStrip;
@@ -70,11 +71,13 @@ public class TabTrends extends Fragment {
 
     private void initPrediction(View rootview){
         final View view = rootview;
+
         SleepAPI service = SleepClientInstance.getRetrofitInstance().create(SleepAPI.class);
 
         Call<Prediction> call;
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         call = service.getPredictionData(dateFormat.format(getLastMonth()), dateFormat.format(getTomorrow()));
+        Log.i("PREDICTION", call.request().toString());
         call.enqueue(new Callback<Prediction>() {
             @Override
             public void onResponse(Call<Prediction> call, Response<Prediction> response) {
@@ -84,28 +87,44 @@ public class TabTrends extends Fragment {
 
             @Override
             public void onFailure(Call<Prediction> call, Throwable t) {
-                Toast.makeText(getActivity(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                Log.e("TREND", t.getMessage());
+                Toast.makeText(getActivity(), "Trend error", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void initPredictionsGraph (Prediction pred, View rootview){
         LineChart pChart = (LineChart) rootview.findViewById(R.id.prediction_chart);
+        TextView suggestionText = rootview.findViewById(R.id.suggestions);
 
-        pChart.getDescription().setEnabled(false);
-        pChart.setDrawBorders(false);
-        pChart.setDrawGridBackground(false);
+        if (pred != null && pred.getDegree() != null) {
+            Integer degree = pred.getDegree();
+            if (degree == 1) {
+                suggestionText.setText("A downwards slope is a sign that your metabolism is working overtime. Avoid late meals and late workouts to avoid waking up feeling unrefreshed.");
+            } else if (degree == 2) {
+                suggestionText.setText("You have an optimal heart rate curve. The time of your lowest heart rate coincides with the midpoint of sleep. Keep up the good work!");
+            } else if (degree == 3) {
+                suggestionText.setText("Your heart rate generally increases right after you fall asleep, and it may be a sign that you're too tired for bed. Try maintaining a steady sleep routine.");
+            } else {
+                suggestionText.setText("Not enough data to make accurate predictions.");
+            }
 
-        setData(pChart, pred.getPoints());
-        pChart.invalidate(); // refresh
+            pChart.getDescription().setEnabled(false);
+            pChart.setDrawBorders(false);
+            pChart.setDrawGridBackground(false);
+
+            setData(pChart, pred.getPoints());
+            pChart.invalidate(); // refresh
+        }
     }
 
     private void setData(LineChart chart, List<Point> pointsList){
         List<Entry> entries = new ArrayList<Entry>();
-
-        for (int i = 0; i < pointsList.size(); i++){
-            Point p = pointsList.get(i);
-            entries.add(new Entry(p.getX(), p.getY()));
+        if (pointsList != null) {
+            for (int i = 0; i < pointsList.size(); i++) {
+                Point p = pointsList.get(i);
+                entries.add(new Entry(p.getX(), p.getY()));
+            }
         }
 
         LineDataSet functionDS = new LineDataSet(entries, "Predicted Sleep Trend");
@@ -145,14 +164,15 @@ public class TabTrends extends Fragment {
 
     private Date getTomorrow() {
         final Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, +1);
+        cal.add(Calendar.DATE, +2);
         return cal.getTime();
     }
 
 
     private Date getLastMonth() {
         final Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, -31);
+        cal.add(Calendar.MONTH, -1);
+        Log.i("DATES", cal.getTime().toString());
         return cal.getTime();
     }
 

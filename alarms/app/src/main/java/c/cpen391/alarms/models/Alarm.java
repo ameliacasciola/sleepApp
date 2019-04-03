@@ -2,12 +2,13 @@ package c.cpen391.alarms.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 
-public class Alarm
+public class Alarm implements Serializable
 {
 
     @SerializedName("id")
@@ -28,13 +29,22 @@ public class Alarm
     @SerializedName("game_name")
     public String gameName;
 
-    public Alarm(Integer alarmID, String alarmDescription, String alarmTime, Integer volume, Boolean active, String gameName){
+    @SerializedName("spotify_uri")
+    public String spotify_uri;
+
+    public String tiffany_date;
+
+    public void setTiffanyDate(String date){
+        this.tiffany_date = date;
+    }
+    public Alarm(Integer alarmID, String alarmDescription, String alarmTime, Integer volume, Boolean active, String gameName, String spotify_uri){
         this.alarmId = alarmID;
         this.alarmDescription = alarmDescription;
         this.alarmTime = alarmTime;
         this.volume = volume;
         this.active = active;
         this.gameName = gameName;
+        this.spotify_uri = spotify_uri;
     }
 
     public Alarm(){
@@ -44,11 +54,16 @@ public class Alarm
         this.volume = 0;
         this.active = false;
         this.gameName = "";
+        this.spotify_uri = "";
     }
 
     public Integer getID() {
         return alarmId;
     }
+
+    public String getSpotifyURI(){return this.spotify_uri;}
+
+    public void setSpotifyURI(String spotify_uri) { this.spotify_uri = spotify_uri; }
 
     public String getAlarmDescription(){
         return alarmDescription;
@@ -80,16 +95,20 @@ public class Alarm
 
     public void setGameName(String gamename) {this.gameName = gamename;}
 
-    public String getFormattedDate(){
+    public String getTiffanyDate(){
+        return this.tiffany_date;
+    }
+    public String getFormattedDate() {
         String dt = alarmTime;
-        ZonedDateTime zdt = ZonedDateTime.parse(dt);
-        String newFormat = zdt.format(DateTimeFormatter.ofPattern("dd/MM/yyy hh:mm:ss"));
-        return newFormat;
+        String newFormat;
+
+        return dt;
     }
 
     public String getGame(){
         return this.gameName;
     }
+
     public String getDay(){
         String dt = alarmTime;
         ZonedDateTime zdt = ZonedDateTime.parse(dt);

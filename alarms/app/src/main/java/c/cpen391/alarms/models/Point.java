@@ -4,12 +4,12 @@ import com.google.gson.annotations.SerializedName;
 
 public class Point {
     @SerializedName("x")
-    private Integer x;
+    private float x;
     @SerializedName("y")
-    private Integer y;
+    private float y;
 
-    public Integer getX() {return this.x;}
+    public float getX() {return this.x;}
 
-    public Integer getY() {return this.y;}
+    public float getY() {return this.y;}
 
 }

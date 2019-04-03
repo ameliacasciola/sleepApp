@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-feature android:name="android.hardware.Sensor.stepcounter"/>
     <uses-feature android:name="android.hardware.Sensor.stepdetector"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:networkSecurityConfig="@xml/network_security_config"
@@ -49,6 +50,8 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity android:name=".games.InstrActivity">
         </activity>
+
+        <receiver android:name=".AlarmReceiver" />
     </application>
 
 </manifest>

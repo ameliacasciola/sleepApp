@@ -57,7 +57,6 @@ public class TabAlarms extends Fragment {
             public void onResponse(Call<List<Alarm>> call, Response< List<Alarm>> response) {
                 progressDoalog.dismiss();
                 List<Alarm> alarmList = response.body();
-
                 initList(rootview, alarmList);
             }
 

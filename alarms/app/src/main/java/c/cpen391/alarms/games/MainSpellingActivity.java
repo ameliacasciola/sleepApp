@@ -7,7 +7,14 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.AudioManager;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
+
+import com.spotify.android.appremote.api.ConnectionParams;
+import com.spotify.android.appremote.api.Connector;
+import com.spotify.android.appremote.api.SpotifyAppRemote;
 
 public class MainSpellingActivity extends Activity implements SensorEventListener {
 
@@ -15,21 +22,48 @@ public class MainSpellingActivity extends Activity implements SensorEventListene
     public static float yPos;
     public static int curLetter;
     public static int score;
-
+    private boolean completed;
     public boolean ready = false;
     public static boolean doneGame;
     private SensorManager sensorManager;
     GameView view;
+    private boolean isAlarm;
+    private Integer volume;
+
+    private static final String CLIENT_ID = "e1cac6772536416882b7ee89591095ea";
+    private static final String REDIRECT_URI = "http://localhost:8000/callback/";
+    private SpotifyAppRemote mSpotifyAppRemote;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //make sure orientation stays as portrait
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
+        completed = false;
         //set the view to be our custom game view
         view = new GameView(this);
         setContentView(view);
+
+        if (getIntent().hasExtra("isAlarm")){
+            isAlarm = (boolean) getIntent().getSerializableExtra("isAlarm");
+        } else {
+            isAlarm = false;
+        }
+
+        // Set Volume
+        AudioManager audio = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+
+        if (getIntent().hasExtra("Volume")){
+            volume = (Integer) getIntent().getSerializableExtra("Volume");
+            int mapped_volume = (((volume + 1) *15 )/10);
+            audio.setStreamVolume(audio.STREAM_MUSIC,
+                    mapped_volume,
+                    0);
+        } else {
+            audio.setStreamVolume(audio.STREAM_MUSIC,
+                    10,
+                    0);
+        }
 
         //set up sensor
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -87,8 +121,43 @@ public class MainSpellingActivity extends Activity implements SensorEventListene
     protected void onStop()
     {
         // Unregister the listener
+        ConnectionParams connectionParams =
+                new ConnectionParams.Builder(CLIENT_ID)
+                        .setRedirectUri(REDIRECT_URI)
+                        .showAuthView(true)
+                        .build();
+
+        SpotifyAppRemote.connect(getApplicationContext(), connectionParams,
+                new Connector.ConnectionListener() {
+
+                    @Override
+                    public void onConnected(SpotifyAppRemote spotifyAppRemote) {
+                        mSpotifyAppRemote = spotifyAppRemote;
+                        Log.e("SPOTIFY REMOTE", "Success, Onconnected" + mSpotifyAppRemote.isConnected());
+
+                        // Now you can start interacting with App Remote
+                        mSpotifyAppRemote.getPlayerApi().pause();
+                    }
+
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                        Log.e("SPOTIFY REMOTE", "Failure, Onconnected");
+
+                        // Something went wrong when attempting to connect! Handle errors here
+                    }
+                });
         sensorManager.unregisterListener(this);
+        completed = true;
         super.onStop();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!completed && isAlarm) {
+            Toast.makeText(getApplicationContext(), "Complete the game to stop the alarm!", Toast.LENGTH_SHORT).show();
+        } else {
+            super.onBackPressed();
+        }
     }
 
 }

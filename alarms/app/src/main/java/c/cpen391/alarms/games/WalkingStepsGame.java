@@ -7,12 +7,19 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.spotify.android.appremote.api.ConnectionParams;
+import com.spotify.android.appremote.api.Connector;
+import com.spotify.android.appremote.api.SpotifyAppRemote;
 
 import java.util.List;
 
@@ -39,18 +46,59 @@ public class WalkingStepsGame extends AppCompatActivity implements SensorEventLi
     private int init_count;
     private Context context = this;
     private boolean first = true;
+    private boolean isAlarm;
     private Button home;
+
+    private static final String CLIENT_ID = "e1cac6772536416882b7ee89591095ea";
+    private static final String REDIRECT_URI = "http://localhost:8000/callback/";
+    private SpotifyAppRemote mSpotifyAppRemote;
+    private boolean completed;
+    private Integer volume;
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        int keyCode = event.getKeyCode();
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_VOLUME_UP:
+            case KeyEvent.KEYCODE_VOLUME_DOWN:
+                return true;
+            default:
+                return super.dispatchKeyEvent(event);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        completed = false;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.steps_game_main);
         mPref = ((CustomApplication)getApplicationContext()).getShared();
 
+        // Set Volume
+        AudioManager audio = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+
+        if (getIntent().hasExtra("Volume")){
+            volume = (Integer) getIntent().getSerializableExtra("Volume");
+            int mapped_volume = (((volume + 1) *15 )/10);
+            audio.setStreamVolume(audio.STREAM_MUSIC,
+                    mapped_volume,
+                    0);
+        } else {
+            audio.setStreamVolume(audio.STREAM_MUSIC,
+                    10,
+                    0);
+        }
+
         tv_steps = (TextView) findViewById(R.id.tv_steps);
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 
+        if (getIntent().hasExtra("isAlarm")){
+             isAlarm = (boolean) getIntent().getSerializableExtra("isAlarm");
+        } else {
+            isAlarm = false;
+        }
     }
+
 
     @Override
     protected void onResume() {
@@ -107,7 +155,34 @@ public class WalkingStepsGame extends AppCompatActivity implements SensorEventLi
                 }, 5000);
 
 
+                ConnectionParams connectionParams =
+                        new ConnectionParams.Builder(CLIENT_ID)
+                                .setRedirectUri(REDIRECT_URI)
+                                .showAuthView(true)
+                                .build();
+
+                SpotifyAppRemote.connect(context, connectionParams,
+                        new Connector.ConnectionListener() {
+
+                            @Override
+                            public void onConnected(SpotifyAppRemote spotifyAppRemote) {
+                                mSpotifyAppRemote = spotifyAppRemote;
+                                Log.e("SPOTIFY REMOTE", "Success, Onconnected" + mSpotifyAppRemote.isConnected());
+
+                                // Now you can start interacting with App Remote
+                                mSpotifyAppRemote.getPlayerApi().pause();
+                            }
+
+                            @Override
+                            public void onFailure(Throwable throwable) {
+                                Log.e("SPOTIFY REMOTE", "Failure, Onconnected");
+
+                                // Something went wrong when attempting to connect! Handle errors here
+                            }
+                        });
+
                 updateScoreFunc();
+                completed = true;
             }
         }
 
@@ -161,6 +236,15 @@ public class WalkingStepsGame extends AppCompatActivity implements SensorEventLi
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy){
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!completed && isAlarm) {
+            Toast.makeText(context.getApplicationContext(), "Complete the game to stop the alarm!", Toast.LENGTH_SHORT).show();
+        } else {
+            super.onBackPressed();
+        }
     }
 
 }

@@ -24,10 +24,6 @@ import com.gigamole.navigationtabstrip.NavigationTabStrip;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.squareup.picasso.Picasso;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,14 +75,14 @@ public class TabGames extends Fragment {
     };
 
     private String[] gamesNames = {
-            "Egg Run",
+            "Eggs-cercise",
             "Get Eggy With It",
             "The Egg Did It",
             "Where did the Egg Go"
     };
 
     private String[] mgamesNames = {
-            "Egg Run",
+            "Eggs-cercise",
             "Get Eggy With It",
             "The Egg Did It",
             "Where did the Egg Go"
@@ -213,7 +209,7 @@ public class TabGames extends Fragment {
         Integer size = highScoreList.size();
         Log.e("SIZE", Integer.toString(size));
         if (size > 1){
-            adapter = new LeaderboardRecyclerViewAdapter(getActivity(), highScoreList.subList(1, size-2));
+            adapter = new LeaderboardRecyclerViewAdapter(getActivity(), highScoreList.subList(1, size-1));
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
             leaderList.setLayoutManager(layoutManager);
             leaderList.setAdapter(adapter);
