@@ -80,16 +80,17 @@ public class Alarm
 
     public void setGameName(String gamename) {this.gameName = gamename;}
 
-    public String getFormattedDate(){
+    public String getFormattedDate() {
         String dt = alarmTime;
-        ZonedDateTime zdt = ZonedDateTime.parse(dt);
-        String newFormat = zdt.format(DateTimeFormatter.ofPattern("dd/MM/yyy hh:mm:ss"));
-        return newFormat;
+        String newFormat;
+
+        return dt;
     }
 
     public String getGame(){
         return this.gameName;
     }
+
     public String getDay(){
         String dt = alarmTime;
         ZonedDateTime zdt = ZonedDateTime.parse(dt);

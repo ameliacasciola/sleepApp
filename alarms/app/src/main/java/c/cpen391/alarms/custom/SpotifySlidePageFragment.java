@@ -1,21 +1,26 @@
 package c.cpen391.alarms.custom;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.cardview.widget.CardView;
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.google.android.material.tabs.TabLayout;
 import com.roughike.swipeselector.SwipeItem;
 import com.roughike.swipeselector.SwipeSelector;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
+import c.cpen391.alarms.AlarmReceiver;
 import c.cpen391.alarms.CustomApplication;
 import c.cpen391.alarms.CustomSharedPreference;
 import c.cpen391.alarms.R;
@@ -25,7 +30,6 @@ import c.cpen391.alarms.api.SleepClientInstance;
 import c.cpen391.alarms.home;
 import c.cpen391.alarms.models.Alarm;
 import c.cpen391.alarms.tabs.CreateAlarm;
-import c.cpen391.alarms.tabs.TabAlarms;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -92,6 +96,12 @@ public class SpotifySlidePageFragment extends Fragment {
                     sendPost();
                     ((CreateAlarm)getActivity()).closeAlarm();
 
+                    try {
+                        startAlarm(newAlarm.getFormattedDate());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
                     // refresh, jump
                     Intent refresh = new Intent(getContext(), home.class);
                     getContext().startActivity(refresh);
@@ -144,5 +154,19 @@ public class SpotifySlidePageFragment extends Fragment {
                 Log.e("POST", "Unable to submit post to API.");
             }
         });
+    }
+
+    private void startAlarm(String time) throws ParseException {
+        AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(getContext(), AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), 1, intent, 0);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+        Date date = sdf.parse(time);
+        long millis = date.getTime();
+
+        long total_millis = millis - System.currentTimeMillis();
+
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP,  millis, pendingIntent);
     }
 }
