@@ -102,10 +102,11 @@ public class TabTrends extends Fragment {
 
     private void setData(LineChart chart, List<Point> pointsList){
         List<Entry> entries = new ArrayList<Entry>();
-
-        for (int i = 0; i < pointsList.size(); i++){
-            Point p = pointsList.get(i);
-            entries.add(new Entry(p.getX(), p.getY()));
+        if (pointsList != null) {
+            for (int i = 0; i < pointsList.size(); i++) {
+                Point p = pointsList.get(i);
+                entries.add(new Entry(p.getX(), p.getY()));
+            }
         }
 
         LineDataSet functionDS = new LineDataSet(entries, "Predicted Sleep Trend");

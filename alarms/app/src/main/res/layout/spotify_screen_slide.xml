@@ -87,11 +87,54 @@
 
             </LinearLayout>
 
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center_horizontal"
-                android:id="@+id/spotifyImg"/>
+            <HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:measureAllChildren="false"
+                android:layout_marginBottom="10dp"
+                android:scrollbars="none"
+                android:fillViewport="true">
+
+                <LinearLayout
+                    android:layout_marginLeft="7dp"
+                    android:id="@+id/innerLay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+
+                    <include
+                        layout="@layout/spotify_card"
+                        android:layout_margin="10dp"
+                        android:id="@+id/spotify_card0"
+                        android:layout_height="200dp"
+                        android:layout_width="200dp"/>
+                    <include
+                        layout="@layout/spotify_card"
+                        android:id="@+id/spotify_card1"
+                        android:layout_margin="10dp"
+                        android:layout_height="200dp"
+                        android:layout_width="200dp"/>
+                    <include
+                        layout="@layout/spotify_card"
+                        android:id="@+id/spotify_card2"
+                        android:layout_margin="10dp"
+                        android:layout_height="200dp"
+                        android:layout_width="200dp"/>
+                    <include
+                        layout="@layout/spotify_card"
+                        android:layout_margin="10dp"
+                        android:id="@+id/spotify_card3"
+                        android:layout_height="200dp"
+                        android:layout_width="200dp"/>
+                    <include
+                        layout="@layout/spotify_card"
+                        android:layout_margin="10dp"
+                        android:id="@+id/spotify_card4"
+                        android:layout_height="200dp"
+                        android:layout_width="200dp"/>
+                </LinearLayout>
+            </HorizontalScrollView>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/submit_btn"

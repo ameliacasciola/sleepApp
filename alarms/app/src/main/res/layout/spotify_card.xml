@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="250dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/spotifyCardSelect"
+    android:layout_height="250dp">
+
+    <ImageView
+        android:layout_width="175dp"
+        android:layout_gravity="center"
+        android:layout_alignParentTop="true"
+        android:layout_height="175dp"
+        android:id="@+id/spotifyImg"/>
+
+</androidx.cardview.widget.CardView>

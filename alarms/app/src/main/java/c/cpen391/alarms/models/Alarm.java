@@ -28,13 +28,17 @@ public class Alarm
     @SerializedName("game_name")
     public String gameName;
 
-    public Alarm(Integer alarmID, String alarmDescription, String alarmTime, Integer volume, Boolean active, String gameName){
+    @SerializedName("spotify_uri")
+    public String spotify_uri;
+
+    public Alarm(Integer alarmID, String alarmDescription, String alarmTime, Integer volume, Boolean active, String gameName, String spotify_uri){
         this.alarmId = alarmID;
         this.alarmDescription = alarmDescription;
         this.alarmTime = alarmTime;
         this.volume = volume;
         this.active = active;
         this.gameName = gameName;
+        this.spotify_uri = spotify_uri;
     }
 
     public Alarm(){
@@ -44,11 +48,16 @@ public class Alarm
         this.volume = 0;
         this.active = false;
         this.gameName = "";
+        this.spotify_uri = "";
     }
 
     public Integer getID() {
         return alarmId;
     }
+
+    public String getSpotifyURI(){return this.spotify_uri;}
+
+    public void setSpotifyURI(String spotify_uri) { this.spotify_uri = spotify_uri; }
 
     public String getAlarmDescription(){
         return alarmDescription;
