@@ -2,12 +2,13 @@ package c.cpen391.alarms.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 
-public class Alarm
+public class Alarm implements Serializable
 {
 
     @SerializedName("id")

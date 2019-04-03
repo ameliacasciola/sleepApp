@@ -313,6 +313,29 @@
                         android:layout_width="220dp"
                         android:layout_height="170dp" />
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:layout_marginTop="16dp"
+                        android:textColor="@color/cup_blue"
+                        android:textSize="14sp"
+                        android:id="@+id/prediction_text"
+                        android:text="MONTHLY PREDICTION"
+                        android:layout_marginRight="10sp"
+                        android:layout_toRightOf="@+id/prediction_chart"
+                        android:layout_centerHorizontal="true"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:textSize="13sp"
+                        android:layout_marginRight="8dp"
+                        android:id="@+id/suggestions"
+                        android:layout_toRightOf="@+id/prediction_chart"
+                        android:layout_below="@+id/prediction_text"/>
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

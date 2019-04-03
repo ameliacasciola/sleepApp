@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gigamole.navigationtabstrip.NavigationTabStrip;
@@ -70,6 +71,7 @@ public class TabTrends extends Fragment {
 
     private void initPrediction(View rootview){
         final View view = rootview;
+
         SleepAPI service = SleepClientInstance.getRetrofitInstance().create(SleepAPI.class);
 
         Call<Prediction> call;
@@ -91,6 +93,14 @@ public class TabTrends extends Fragment {
 
     private void initPredictionsGraph (Prediction pred, View rootview){
         LineChart pChart = (LineChart) rootview.findViewById(R.id.prediction_chart);
+        TextView suggestionText = rootview.findViewById(R.id.suggestions);
+
+        switch(pred.getDegree()){
+            case 1: suggestionText.setText("A downwards slope is a sign that your metabolism is working overtime. Avoid late meals and late workouts to avoid waking up feeling unrefreshed.");
+            case 2: suggestionText.setText("You have an optimal heart rate curve. The time of your lowest heart rate coincides with the midpoint of sleep. Keep up the good work!");
+            case 3: suggestionText.setText("Your heart rate generally increases right after you fall asleep, and it may be a sign that you're too tired for bed. Try maintaining a steady sleep routine.");
+            default: suggestionText.setText("Not enough data to make accurate predictions.");
+        }
 
         pChart.getDescription().setEnabled(false);
         pChart.setDrawBorders(false);
@@ -146,14 +156,15 @@ public class TabTrends extends Fragment {
 
     private Date getTomorrow() {
         final Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, +1);
+        cal.add(Calendar.DATE, +2);
         return cal.getTime();
     }
 
 
     private Date getLastMonth() {
         final Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, -31);
+        cal.add(Calendar.MONTH, -1);
+        Log.i("DATES", cal.getTime().toString());
         return cal.getTime();
     }
 

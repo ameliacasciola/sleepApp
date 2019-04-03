@@ -70,7 +70,7 @@ public class SpotifySlidePageFragment extends Fragment {
             R.id.spotify_card4
     };
 
-    private String[] gamesNameList= {"Run", "Bubble Pop", "Guess the Word"};
+    private String[] gamesNameList= {"Eggs-cercise", "Bubble Pop", "Guess the Word"};
     private String[] gamesDescriptionList = {"Walk at least 100 steps.",
                                                 "Pop some bubbles in a X amount of time.",
                                                 "Figure out the correct word wtihout making X mistakes."};
@@ -237,13 +237,14 @@ public class SpotifySlidePageFragment extends Fragment {
                     getContext().startActivity(refresh);
                 } else{
                     sendPost();
-                    ((CreateAlarm)getActivity()).closeAlarm();
 
                     try {
                         startAlarm(newAlarm.getFormattedDate());
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
+
+                    ((CreateAlarm)getActivity()).closeAlarm();
 
                     // refresh, jump
                     Intent refresh = new Intent(getContext(), home.class);
@@ -283,6 +284,9 @@ public class SpotifySlidePageFragment extends Fragment {
     public void sendPost() {
         mPref = ((CustomApplication)getActivity().getApplicationContext()).getShared();
         Log.e("POST", newAlarm.toString());
+        Log.e("POST", newAlarm.getSpotifyURI());
+        Log.e("POST", Integer.toString(mPref.getUserID()));
+        Log.e("POST", newAlarm.getAlarmTime());
         AlarmPost post = new AlarmPost(newAlarm.getAlarmDescription(), newAlarm.getAlarmTime(),  newAlarm.getVolume(), newAlarm.getGame(),true, mPref.getUserID(), newAlarm.getSpotifyURI());
         Call<AlarmPost> alarmCall = SleepClientInstance.getRetrofitInstance().create(SleepAPI.class).alarmPost(post);
 
@@ -306,6 +310,8 @@ public class SpotifySlidePageFragment extends Fragment {
     private void startAlarm(String time) throws ParseException {
         AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(getContext(), AlarmReceiver.class);
+        intent.putExtra("Game", newAlarm.getGame());
+
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), 1, intent, 0);
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm");
