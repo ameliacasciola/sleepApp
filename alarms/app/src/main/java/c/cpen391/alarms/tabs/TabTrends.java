@@ -77,16 +77,19 @@ public class TabTrends extends Fragment {
         Call<Prediction> call;
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         call = service.getPredictionData(dateFormat.format(getLastMonth()), dateFormat.format(getTomorrow()));
+        Log.i("PREDICTION", call.request().toString());
         call.enqueue(new Callback<Prediction>() {
             @Override
             public void onResponse(Call<Prediction> call, Response<Prediction> response) {
                 Prediction pred = response.body();
+                Log.i("PREDICTION", Integer.toString(response.body().getDegree()));
                 initPredictionsGraph(pred, view);
             }
 
             @Override
             public void onFailure(Call<Prediction> call, Throwable t) {
-                Toast.makeText(getActivity(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                Log.e("TREND", t.getMessage());
+                Toast.makeText(getActivity(), "Trend error", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -95,11 +98,18 @@ public class TabTrends extends Fragment {
         LineChart pChart = (LineChart) rootview.findViewById(R.id.prediction_chart);
         TextView suggestionText = rootview.findViewById(R.id.suggestions);
 
-        switch(pred.getDegree()){
-            case 1: suggestionText.setText("A downwards slope is a sign that your metabolism is working overtime. Avoid late meals and late workouts to avoid waking up feeling unrefreshed.");
-            case 2: suggestionText.setText("You have an optimal heart rate curve. The time of your lowest heart rate coincides with the midpoint of sleep. Keep up the good work!");
-            case 3: suggestionText.setText("Your heart rate generally increases right after you fall asleep, and it may be a sign that you're too tired for bed. Try maintaining a steady sleep routine.");
-            default: suggestionText.setText("Not enough data to make accurate predictions.");
+        Log.i("TREND", Integer.toString(pred.getDegree()));
+        Log.i("TREND", Boolean.toString(pred.getDegree() == 3));
+
+        Integer degree = pred.getDegree();
+        if (degree == 1){
+            suggestionText.setText("A downwards slope is a sign that your metabolism is working overtime. Avoid late meals and late workouts to avoid waking up feeling unrefreshed.");
+        } else if (degree == 2){
+            suggestionText.setText("You have an optimal heart rate curve. The time of your lowest heart rate coincides with the midpoint of sleep. Keep up the good work!");
+        } else if (degree == 3){
+            suggestionText.setText("Your heart rate generally increases right after you fall asleep, and it may be a sign that you're too tired for bed. Try maintaining a steady sleep routine.");
+        } else{
+            suggestionText.setText("Not enough data to make accurate predictions.");
         }
 
         pChart.getDescription().setEnabled(false);

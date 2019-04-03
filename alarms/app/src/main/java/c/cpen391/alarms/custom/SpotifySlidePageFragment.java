@@ -70,10 +70,11 @@ public class SpotifySlidePageFragment extends Fragment {
             R.id.spotify_card4
     };
 
-    private String[] gamesNameList= {"Eggs-cercise", "Bubble Pop", "Guess the Word"};
+    private String[] gamesNameList= {"Eggs-cercise", "Bubble Pop", "Eggcellent Spelling", "Jumping Jacks"};
     private String[] gamesDescriptionList = {"Walk at least 100 steps.",
                                                 "Pop some bubbles in a X amount of time.",
-                                                "Figure out the correct word wtihout making X mistakes."};
+                                                "Figure out the correct word without making X mistakes.",
+                                                "Complete at least 20 jumping jacks."};
     private SwipeItem[] swipeItemList;
     private Alarm newAlarm;
     private CardView submitBtn;
@@ -283,16 +284,14 @@ public class SpotifySlidePageFragment extends Fragment {
 
     public void sendPost() {
         mPref = ((CustomApplication)getActivity().getApplicationContext()).getShared();
-        Log.e("POST", newAlarm.toString());
-        Log.e("POST", newAlarm.getSpotifyURI());
-        Log.e("POST", Integer.toString(mPref.getUserID()));
-        Log.e("POST", newAlarm.getAlarmTime());
         AlarmPost post = new AlarmPost(newAlarm.getAlarmDescription(), newAlarm.getAlarmTime(),  newAlarm.getVolume(), newAlarm.getGame(),true, mPref.getUserID(), newAlarm.getSpotifyURI());
-        Call<AlarmPost> alarmCall = SleepClientInstance.getRetrofitInstance().create(SleepAPI.class).alarmPost(post);
-
-        alarmCall.enqueue(new Callback<AlarmPost>() {
+        Call<ResponseBody> alarmCall = SleepClientInstance.getRetrofitInstance().create(SleepAPI.class).alarmPost(
+                newAlarm.getAlarmDescription(), newAlarm.getAlarmTime(),  newAlarm.getGame(), newAlarm.getVolume(), true, mPref.getUserID(), newAlarm.getSpotifyURI()
+        );
+        Log.e("POST", alarmCall.toString());
+        alarmCall.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<AlarmPost> call, Response<AlarmPost> response) {
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.isSuccessful()) {
                     Log.e("POST", "post submitted to API." + response.body().toString());
                 } else{
@@ -301,7 +300,7 @@ public class SpotifySlidePageFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<AlarmPost> call, Throwable t) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Log.e("POST", "Unable to submit post to API.");
             }
         });
