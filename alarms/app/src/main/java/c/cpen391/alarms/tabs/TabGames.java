@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.util.Log;
+import android.util.StringBuilderPrinter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -209,7 +210,8 @@ public class TabGames extends Fragment {
     private void generateDataList(List<HighScore> highScoreList){
         View rootview = baseview;
         leaderList = rootview.findViewById(R.id.user_list);
-        int size = highScoreList.size();
+        Integer size = highScoreList.size();
+        Log.e("SIZE", Integer.toString(size));
         if (size > 1){
             adapter = new LeaderboardRecyclerViewAdapter(getActivity(), highScoreList.subList(1, size-2));
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -219,9 +221,20 @@ public class TabGames extends Fragment {
 
         TextView winner = rootview.findViewById(R.id.first_place_user);
         TextView score = rootview.findViewById(R.id.user_score);
-        if (highScoreList.size() > 0){
+        if (size > 0){
             winner.setText(highScoreList.get(0).getUsername());
-            score.setText(Integer.toString(highScoreList.get(0).getScore()));
+            Integer highest_score = highScoreList.get(0).getScore();
+            if (highest_score != null) {
+                if (highest_score > 10000){
+                    highest_score /= 1000;
+                    String result = Integer.toString(highest_score);
+                    result = result.concat("K");
+                    score.setText(result);
+                }
+                else{
+                    score.setText(Integer.toString(highScoreList.get(0).getScore()));
+                }
+            }
         }
     }
 

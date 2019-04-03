@@ -26,6 +26,10 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.spotify.sdk.android.authentication.AuthenticationClient;
+import com.spotify.sdk.android.authentication.AuthenticationRequest;
+import com.spotify.sdk.android.authentication.AuthenticationResponse;
+
 import androidx.core.content.ContextCompat;
 import c.cpen391.alarms.models.UserObject;
 
@@ -76,6 +80,7 @@ public class LoginActivity extends AppCompatActivity {
 
         mPref = ((CustomApplication)getApplication()).getShared();
 
+
         Intent intent = new Intent(this,home.class);
         this.startActivity(intent);
 
@@ -110,6 +115,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
+
 
     private void checkDeviceFingerprintSupport() {
         if (!fingerprintManager.isHardwareDetected()) {

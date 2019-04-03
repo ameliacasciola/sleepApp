@@ -11,9 +11,9 @@ public class Post {
     private String email;
     @SerializedName("password")
     private String password;
-    @SerializedName("firstName")
+    @SerializedName("first_name")
     private String firstName;
-    @SerializedName("lastName")
+    @SerializedName("last_name")
     private String lastName;
 
     private int id;

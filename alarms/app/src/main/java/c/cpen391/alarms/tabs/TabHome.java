@@ -5,6 +5,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +49,7 @@ import c.cpen391.alarms.api.SleepClientInstance;
 import c.cpen391.alarms.api.WeatherService;
 import c.cpen391.alarms.custom.WeatherCard;
 import c.cpen391.alarms.games.GraphicsActivity;
+import c.cpen391.alarms.games.JumpingJacksGame;
 import c.cpen391.alarms.games.MainSpellingActivity;
 import c.cpen391.alarms.games.WalkingStepsGame;
 import c.cpen391.alarms.home;
@@ -200,7 +210,7 @@ public class TabHome extends Fragment  {
         if(nextAlarm != null) {
             date1.setText(nextAlarm.getFormattedDate());
             date2.setText(nextAlarm.getRelativeDay());
-            time.setText(nextAlarm.getTime());
+            time.setText(nextAlarm.getTime().split("\\s+")[0]);
             alarmDescription.setText(nextAlarm.getAlarmDescription());
         } else {
             alarmDescription.setText("NO ALARM");
@@ -233,7 +243,7 @@ public class TabHome extends Fragment  {
             TextView gamesName = gamesCardView.findViewById(R.id.game_name);
             gamesName.setText(gamesNames[i]);
 
-            //go to accelerometer game
+            //go to steps game
             if(i == 0){
                 gamesCardView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -254,10 +264,21 @@ public class TabHome extends Fragment  {
                 });
             }
 
+            //go to spelling game
             if(i==2) {
                 toSpelling.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
                         Intent intent = new Intent(getActivity(), MainSpellingActivity.class);
+                        startActivity(intent);
+                    }
+                });
+            }
+
+            //go to jumping jacks game
+            if(i==3) {
+                gamesCardView.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getActivity(), JumpingJacksGame.class);
                         startActivity(intent);
                     }
                 });

@@ -1,5 +1,6 @@
 package c.cpen391.alarms.tabs;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -10,15 +11,37 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.gigamole.navigationtabstrip.NavigationTabStrip;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import c.cpen391.alarms.R;
+import c.cpen391.alarms.api.SleepAPI;
+import c.cpen391.alarms.api.SleepClientInstance;
+import c.cpen391.alarms.custom.DateXAxisValueFormatter;
 import c.cpen391.alarms.custom.TrendGraph;
+import c.cpen391.alarms.models.Point;
+import c.cpen391.alarms.models.Prediction;
 import c.cpen391.alarms.models.SleepData;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class TabTrends extends Fragment {
 
@@ -38,11 +61,99 @@ public class TabTrends extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootview = inflater.inflate(R.layout.trend_fragment, container, false);
-
+        initPrediction(rootview);
         initUI(rootview);
         setUI(rootview);
         setIcons(rootview);
         return rootview;
+    }
+
+    private void initPrediction(View rootview){
+        final View view = rootview;
+        SleepAPI service = SleepClientInstance.getRetrofitInstance().create(SleepAPI.class);
+
+        Call<Prediction> call;
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        call = service.getPredictionData(dateFormat.format(getLastMonth()), dateFormat.format(getTomorrow()));
+        call.enqueue(new Callback<Prediction>() {
+            @Override
+            public void onResponse(Call<Prediction> call, Response<Prediction> response) {
+                Prediction pred = response.body();
+                initPredictionsGraph(pred, view);
+            }
+
+            @Override
+            public void onFailure(Call<Prediction> call, Throwable t) {
+                Toast.makeText(getActivity(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void initPredictionsGraph (Prediction pred, View rootview){
+        LineChart pChart = (LineChart) rootview.findViewById(R.id.prediction_chart);
+
+        pChart.getDescription().setEnabled(false);
+        pChart.setDrawBorders(false);
+        pChart.setDrawGridBackground(false);
+
+        setData(pChart, pred.getPoints());
+        pChart.invalidate(); // refresh
+    }
+
+    private void setData(LineChart chart, List<Point> pointsList){
+        List<Entry> entries = new ArrayList<Entry>();
+
+        for (int i = 0; i < pointsList.size(); i++){
+            Point p = pointsList.get(i);
+            entries.add(new Entry(p.getX(), p.getY()));
+        }
+
+        LineDataSet functionDS = new LineDataSet(entries, "Predicted Sleep Trend");
+
+        XAxis xAxis = chart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+
+        YAxis rightYAxis = chart.getAxisRight();
+        rightYAxis.setEnabled(false);
+
+        Legend legend = chart.getLegend();
+        legend.setTextColor(R.color.dark_gray);
+        legend.setDrawInside(true);
+        legend.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
+        legend.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+
+        functionDS.setDrawIcons(false);
+        functionDS.setColor(R.color.goog_yellow);
+        functionDS.setDrawCircles(false);
+        functionDS.setLineWidth(0);
+        functionDS.setDrawCircleHole(false);
+        functionDS.setValueTextSize(0);
+        functionDS.setDrawFilled(true);
+        functionDS.setFormLineWidth(0);
+        functionDS.disableDashedLine();
+        functionDS.disableDashedHighlightLine();
+        functionDS.setHighLightColor(R.color.goog_yellow);
+
+        functionDS.setFillColor(R.color.goog_yellow);
+        functionDS.setFillAlpha(8);
+
+        LineData chartData = new LineData();
+        chartData.addDataSet(functionDS);
+        chart.setData(chartData);
+    }
+
+    private Date getTomorrow() {
+        final Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, +1);
+        return cal.getTime();
+    }
+
+
+    private Date getLastMonth() {
+        final Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -31);
+        return cal.getTime();
     }
 
     private void setIcons(View rootview){

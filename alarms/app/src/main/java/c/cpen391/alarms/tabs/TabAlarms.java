@@ -79,7 +79,7 @@ public class TabAlarms extends Fragment {
         // Layout Managers:
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        if (alarmList.isEmpty()) {
+        if (alarmList == null || alarmList.isEmpty()) {
             mRecyclerView.setVisibility(View.GONE);
             tvEmptyView.setVisibility(View.VISIBLE);
 

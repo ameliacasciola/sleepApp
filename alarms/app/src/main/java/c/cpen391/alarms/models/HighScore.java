@@ -7,7 +7,7 @@ public class HighScore {
     private int user_id;
     @SerializedName("name")
     private String username;
-    @SerializedName("score")
+    @SerializedName("total_points")
     private Integer score;
 
     public int getUser() {

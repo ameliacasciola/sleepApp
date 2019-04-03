@@ -4,11 +4,13 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.roughike.swipeselector.SwipeItem;
@@ -34,8 +36,19 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import com.spotify.android.appremote.api.ConnectionParams;
+import com.spotify.android.appremote.api.Connector;
+import com.spotify.android.appremote.api.SpotifyAppRemote;
+
+import com.spotify.protocol.client.CallResult;
+import com.spotify.protocol.client.Subscription;
+import com.spotify.protocol.types.PlayerState;
+import com.spotify.protocol.types.Track;
+
 
 public class SpotifySlidePageFragment extends Fragment {
+
+    private String[] spotifySongIds = {"4JuZQeSRYJfLCqBgBIxxrR"};
 
     private String[] gamesNameList= {"Run", "Bubble Pop", "Guess the Word"};
     private String[] gamesDescriptionList = {"Walk at least 100 steps.",
@@ -44,9 +57,14 @@ public class SpotifySlidePageFragment extends Fragment {
     private SwipeItem[] swipeItemList;
     private Alarm newAlarm;
     private CardView submitBtn;
+    private ImageView spotifyImg;
     protected static CustomSharedPreference mPref;
     private  SwipeSelector swipeSelector;
     private SleepAPI sleepAPI;
+
+    private static final String CLIENT_ID = "e1cac6772536416882b7ee89591095ea";
+    private static final String REDIRECT_URI = "http://localhost:8000/callback/";
+    private SpotifyAppRemote mSpotifyAppRemote;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,8 +74,72 @@ public class SpotifySlidePageFragment extends Fragment {
         initGamesSwipeSelector(rootView);
         newAlarm = ((CreateAlarm)getActivity()).getAlarm();
         setSubmitBtn(rootView);
+        spotifyImg = rootView.findViewById(R.id.spotifyImg);
+
+        ConnectionParams connectionParams =
+                new ConnectionParams.Builder(CLIENT_ID)
+                        .setRedirectUri(REDIRECT_URI)
+                        .showAuthView(true)
+                        .build();
+
+        SpotifyAppRemote.connect(getContext(), connectionParams,
+                new Connector.ConnectionListener() {
+
+                    @Override
+                    public void onConnected(SpotifyAppRemote spotifyAppRemote) {
+                        mSpotifyAppRemote = spotifyAppRemote;
+                        Log.e("SPOTIFY REMOTE", "Success, Onconnected" + mSpotifyAppRemote.isConnected());
+
+                        // Now you can start interacting with App Remote
+                        connected();
+                    }
+
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                        Log.e("SPOTIFY REMOTE", "Failure, Onconnected");
+
+                        // Something went wrong when attempting to connect! Handle errors here
+                    }
+                });
+
         return rootView;
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    private void connected() {
+        // Play a playlist
+
+        mSpotifyAppRemote.getPlayerApi().play("spotify:track:4VUwkH455At9kENOfzTqmF");
+        mSpotifyAppRemote.getPlayerApi().subscribeToPlayerState().setEventCallback(
+                new Subscription.EventCallback<PlayerState>() {
+                    @Override
+                    public void onEvent(PlayerState playerState) {
+                        final Track track = playerState.track;
+                        if (track != null) {
+                            Log.i("SPOTIFY", "GOT IMAGE");
+                            mSpotifyAppRemote.getImagesApi().getImage(track.imageUri).setResultCallback(new CallResult.ResultCallback<Bitmap>() {
+                                @Override
+                                public void onResult(Bitmap bitmap) {
+                                    spotifyImg.setImageBitmap(bitmap);
+                                }
+                            });
+                        }
+                    }
+                }
+        );
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
+
+
 
     private void initGamesSwipeSelector(View rootview){
         swipeSelector = (SwipeSelector) rootview.findViewById(R.id.swipeSelector);
@@ -77,6 +159,9 @@ public class SpotifySlidePageFragment extends Fragment {
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mSpotifyAppRemote.getPlayerApi().pause();
+                SpotifyAppRemote.disconnect(mSpotifyAppRemote);
+
                 String game = swipeSelector.getSelectedItem().title;
                 newAlarm.setGameName(game);
 
