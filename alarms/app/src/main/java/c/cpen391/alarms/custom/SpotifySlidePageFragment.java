@@ -58,9 +58,19 @@ import java.util.ArrayList;
 
 public class SpotifySlidePageFragment extends Fragment {
 
-    private String[] spotifySongIds = {"spotify:image:b25864800cff4456b32a216de0f7f2d016088936", "spotify:image:b25864800cff4456b32a216de0f7f2d016088936",
-                                        "spotify:image:b25864800cff4456b32a216de0f7f2d016088936",
-                                        "spotify:image:b25864800cff4456b32a216de0f7f2d016088936", "spotify:image:b25864800cff4456b32a216de0f7f2d016088936"};
+    private String[] spotifySongIds = {"spotify:image:b25864800cff4456b32a216de0f7f2d016088936",
+                                        "spotify:image:5a0c73915586db4a6acf0a92eb7c503877f1c9a4",
+                                        "spotify:image:fe9a6270d2c1e8b0a62945623da0c6a98f392b0a",
+                                        "spotify:image:8de53fac20477d01cc2e77a513ee417c3c5253dd",
+                                        "spotify:image:680f63e0199dc160f414b5be084b3d91493c67a6"};
+
+    private String[] spotifyTrackURI = {
+            "spotify:track:4VUwkH455At9kENOfzTqmF",
+            "spotify:track:1rqqCSm0Qe4I9rUvWncaom",
+            "spotify:track:4DMKwE2E2iYDKY01C335Uw",
+            "spotify:track:5I9zIwGB6f0edpjO5oX2b9",
+            "spotify:track:4TTV7EcfroSLWzXRY6gLv6",
+    };
 
     private int[] spotiftCardViews = {
             R.id.spotify_card0,
@@ -133,7 +143,18 @@ public class SpotifySlidePageFragment extends Fragment {
 
         initSpotifyCards(rootview);
         //mSpotifyAppRemote.getPlayerApi().play("spotify:track:4VUwkH455At9kENOfzTqmF");
-
+//        mSpotifyAppRemote.getPlayerApi().play("spotify:track:4TTV7EcfroSLWzXRY6gLv6");
+//        mSpotifyAppRemote.getPlayerApi().subscribeToPlayerState().setEventCallback(
+//                new Subscription.EventCallback<PlayerState>() {
+//                    @Override
+//                    public void onEvent(PlayerState playerState) {
+//                        final Track track = playerState.track;
+//                        Log.i("SPOTIFY A: ", track.imageUri.raw);
+//                        if (track != null) {
+//                            Log.i("IMAGE URI", track.imageUri.raw);
+//                        }
+//                    }
+//                });
     }
 
 
@@ -153,7 +174,7 @@ public class SpotifySlidePageFragment extends Fragment {
 
                             if (spotiftCardViews[i] == spotifyCardView.getId()){
                                 ((CardView)v).setCardBackgroundColor(getResources().getColor(R.color.dark_gray));
-                                newAlarm.setSpotifyURI(spotifySongIds[i]);
+                                newAlarm.setSpotifyURI(spotifyTrackURI[i]);
                             }
                     }
                 }
@@ -240,7 +261,7 @@ public class SpotifySlidePageFragment extends Fragment {
                     sendPost();
 
                     try {
-                        startAlarm(newAlarm.getFormattedDate());
+                        startAlarm(newAlarm.getTiffanyDate());
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
@@ -288,13 +309,14 @@ public class SpotifySlidePageFragment extends Fragment {
         Call<ResponseBody> alarmCall = SleepClientInstance.getRetrofitInstance().create(SleepAPI.class).alarmPost(
                 newAlarm.getAlarmDescription(), newAlarm.getAlarmTime(),  newAlarm.getGame(), newAlarm.getVolume(), true, mPref.getUserID(), newAlarm.getSpotifyURI()
         );
-        Log.e("POST", alarmCall.toString());
+        Log.e("POST", newAlarm.getAlarmTime());
         alarmCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.isSuccessful()) {
                     Log.e("POST", "post submitted to API." + response.body().toString());
                 } else{
+                    Log.e("POST", call.request().toString());
                     Log.e("POST", "FAILED");
                 }
             }
@@ -307,11 +329,14 @@ public class SpotifySlidePageFragment extends Fragment {
     }
 
     private void startAlarm(String time) throws ParseException {
+        Log.i("TIME", time);
+        //Log.i("TIME", new SimpleDateFormat("yyyy/MM/dd HH:mm").parse("2019-6-4 0:6").toString());
         AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(getContext(), AlarmReceiver.class);
         intent.putExtra("Game", newAlarm.getGame());
+        intent.putExtra("URI", newAlarm.spotify_uri);
 
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), 1, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), newAlarm.alarmTime.hashCode() + mPref.getUserID(), intent, 0);
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm");
         Date date = sdf.parse(time);

@@ -32,6 +32,11 @@ public class Alarm implements Serializable
     @SerializedName("spotify_uri")
     public String spotify_uri;
 
+    public String tiffany_date;
+
+    public void setTiffanyDate(String date){
+        this.tiffany_date = date;
+    }
     public Alarm(Integer alarmID, String alarmDescription, String alarmTime, Integer volume, Boolean active, String gameName, String spotify_uri){
         this.alarmId = alarmID;
         this.alarmDescription = alarmDescription;
@@ -90,6 +95,9 @@ public class Alarm implements Serializable
 
     public void setGameName(String gamename) {this.gameName = gamename;}
 
+    public String getTiffanyDate(){
+        return this.tiffany_date;
+    }
     public String getFormattedDate() {
         String dt = alarmTime;
         String newFormat;

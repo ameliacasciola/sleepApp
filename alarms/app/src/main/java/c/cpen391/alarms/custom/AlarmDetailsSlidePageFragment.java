@@ -67,10 +67,12 @@ public class AlarmDetailsSlidePageFragment extends Fragment {
             public void onClick(View v) {
                 String description = descriptionEditText.getText().toString();
                 alarmTime = new StringBuilder();
-                alarmTime.append(String.valueOf(dateCalendar.get(Calendar.YEAR)) + '/' + '0' + String.valueOf(dateCalendar.get(Calendar.MONTH) + 1) + '/' + '0' +
+                alarmTime.append(String.valueOf(dateCalendar.get(Calendar.YEAR)) + '-' + String.valueOf(dateCalendar.get(Calendar.MONTH) + 1) + '-' +
                         String.valueOf(dateCalendar.get(Calendar.DAY_OF_MONTH)) + ' ' + String.valueOf(currentHour) + ':' +
                         String.valueOf(currentMinute));
-
+                newAlarm.setTiffanyDate(String.valueOf(dateCalendar.get(Calendar.YEAR)) + '/' + '0' + String.valueOf(dateCalendar.get(Calendar.MONTH) + 1) + '/' + '0'+
+                        String.valueOf(dateCalendar.get(Calendar.DAY_OF_MONTH)) + ' ' + String.valueOf(currentHour) + ':' +
+                        String.valueOf(currentMinute));
                 Log.e("TIME", alarmTime.toString());
 //                Log.e("MONTH", String.valueOf(dateCalendar.get(Calendar.MONTH)));
 //                Log.e("DAY", String.valueOf(dateCalendar.get(Calendar.DAY_OF_MONTH)));

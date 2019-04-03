@@ -98,15 +98,10 @@ public class TabHome extends Fragment  {
             "Just get the Egg"
     };
 
-    TextClock clock;
-    ImageView alarmImage;
-
     private MaterialSearchBar searchBar;
     private RecyclerViewAdapter adapter;
     private RecyclerView recyclerView;
     ProgressDialog progressDoalog;
-    private CardView weatherCard;
-    private ImageView weatherImage;
     private CardView toGraphics;
     private CardView toSpelling;
     private TextView greetings;
@@ -143,7 +138,7 @@ public class TabHome extends Fragment  {
                 progressDoalog.dismiss();
                 List<Alarm> alarmList = response.body();
 
-                if(alarmList.isEmpty()) {
+                if(alarmList == null || alarmList.isEmpty()) {
                     // alarmList empty
                     displayNextAlarm(null, rootview);
                 }
@@ -334,7 +329,7 @@ public class TabHome extends Fragment  {
         TextView week_day = weatherCard.findViewById(R.id.week_day);
         LocalDate date = LocalDate.now();
         DayOfWeek dow = date.getDayOfWeek();
-        week_day.setText(dow.getDisplayName(TextStyle.FULL, Locale.ENGLISH));
+        week_day.setText(dow.getDisplayName(TextStyle.SHORT, Locale.ENGLISH));
 
         Date c = Calendar.getInstance().getTime();
         SimpleDateFormat df = new SimpleDateFormat("dd");
