@@ -14,6 +14,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.spotify.android.appremote.api.ConnectionParams;
+import com.spotify.android.appremote.api.Connector;
+import com.spotify.android.appremote.api.SpotifyAppRemote;
+
 import java.util.List;
 
 import c.cpen391.alarms.CustomApplication;
@@ -39,6 +43,10 @@ public class JumpingJacksGame extends AppCompatActivity implements SensorEventLi
     private Context context = this;
     private boolean first = true;
     private Button home;
+
+    private static final String CLIENT_ID = "e1cac6772536416882b7ee89591095ea";
+    private static final String REDIRECT_URI = "http://localhost:8000/callback/";
+    private SpotifyAppRemote mSpotifyAppRemote;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +108,32 @@ public class JumpingJacksGame extends AppCompatActivity implements SensorEventLi
 
 
                 updateScoreFunc();
+
+                ConnectionParams connectionParams =
+                        new ConnectionParams.Builder(CLIENT_ID)
+                                .setRedirectUri(REDIRECT_URI)
+                                .showAuthView(true)
+                                .build();
+
+                SpotifyAppRemote.connect(context, connectionParams,
+                        new Connector.ConnectionListener() {
+
+                            @Override
+                            public void onConnected(SpotifyAppRemote spotifyAppRemote) {
+                                mSpotifyAppRemote = spotifyAppRemote;
+                                Log.e("SPOTIFY REMOTE", "Success, Onconnected" + mSpotifyAppRemote.isConnected());
+
+                                // Now you can start interacting with App Remote
+                                mSpotifyAppRemote.getPlayerApi().pause();
+                            }
+
+                            @Override
+                            public void onFailure(Throwable throwable) {
+                                Log.e("SPOTIFY REMOTE", "Failure, Onconnected");
+
+                                // Something went wrong when attempting to connect! Handle errors here
+                            }
+                        });
             }
         }
 

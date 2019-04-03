@@ -8,6 +8,11 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.util.Log;
+
+import com.spotify.android.appremote.api.ConnectionParams;
+import com.spotify.android.appremote.api.Connector;
+import com.spotify.android.appremote.api.SpotifyAppRemote;
 
 public class MainSpellingActivity extends Activity implements SensorEventListener {
 
@@ -20,6 +25,10 @@ public class MainSpellingActivity extends Activity implements SensorEventListene
     public static boolean doneGame;
     private SensorManager sensorManager;
     GameView view;
+
+    private static final String CLIENT_ID = "e1cac6772536416882b7ee89591095ea";
+    private static final String REDIRECT_URI = "http://localhost:8000/callback/";
+    private SpotifyAppRemote mSpotifyAppRemote;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +96,31 @@ public class MainSpellingActivity extends Activity implements SensorEventListene
     protected void onStop()
     {
         // Unregister the listener
+        ConnectionParams connectionParams =
+                new ConnectionParams.Builder(CLIENT_ID)
+                        .setRedirectUri(REDIRECT_URI)
+                        .showAuthView(true)
+                        .build();
+
+        SpotifyAppRemote.connect(getApplicationContext(), connectionParams,
+                new Connector.ConnectionListener() {
+
+                    @Override
+                    public void onConnected(SpotifyAppRemote spotifyAppRemote) {
+                        mSpotifyAppRemote = spotifyAppRemote;
+                        Log.e("SPOTIFY REMOTE", "Success, Onconnected" + mSpotifyAppRemote.isConnected());
+
+                        // Now you can start interacting with App Remote
+                        mSpotifyAppRemote.getPlayerApi().pause();
+                    }
+
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                        Log.e("SPOTIFY REMOTE", "Failure, Onconnected");
+
+                        // Something went wrong when attempting to connect! Handle errors here
+                    }
+                });
         sensorManager.unregisterListener(this);
         super.onStop();
     }
