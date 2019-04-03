@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.cardview.widget.CardView;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,8 +25,6 @@ import android.widget.Toast;
 
 import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.squareup.picasso.Picasso;
-import com.suke.widget.SwitchButton;
-
 
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
@@ -35,6 +35,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import c.cpen391.alarms.CustomApplication;
 import c.cpen391.alarms.CustomSharedPreference;
 import c.cpen391.alarms.R;
@@ -44,11 +49,11 @@ import c.cpen391.alarms.api.SleepClientInstance;
 import c.cpen391.alarms.api.WeatherService;
 import c.cpen391.alarms.custom.WeatherCard;
 import c.cpen391.alarms.games.GraphicsActivity;
+import c.cpen391.alarms.games.JumpingJacksGame;
 import c.cpen391.alarms.games.MainSpellingActivity;
 import c.cpen391.alarms.games.WalkingStepsGame;
 import c.cpen391.alarms.home;
 import c.cpen391.alarms.models.Alarm;
-import c.cpen391.alarms.models.UserObject;
 import c.cpen391.alarms.models.WeatherResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -56,7 +61,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class TabHome extends Fragment {
+public class TabHome extends Fragment  {
     protected static CustomSharedPreference mPref;
     public static String BaseUrl = "http://api.openweathermap.org/";
     public static String AppId = "d759bba2b2a5a9470634fd12aaba0ffd";
@@ -238,7 +243,7 @@ public class TabHome extends Fragment {
             TextView gamesName = gamesCardView.findViewById(R.id.game_name);
             gamesName.setText(gamesNames[i]);
 
-            //go to accelerometer game
+            //go to steps game
             if(i == 0){
                 gamesCardView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -259,10 +264,21 @@ public class TabHome extends Fragment {
                 });
             }
 
+            //go to spelling game
             if(i==2) {
                 toSpelling.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
                         Intent intent = new Intent(getActivity(), MainSpellingActivity.class);
+                        startActivity(intent);
+                    }
+                });
+            }
+
+            //go to jumping jacks game
+            if(i==3) {
+                gamesCardView.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getActivity(), JumpingJacksGame.class);
                         startActivity(intent);
                     }
                 });
@@ -374,4 +390,5 @@ public class TabHome extends Fragment {
             }
         });
     }
+
 }

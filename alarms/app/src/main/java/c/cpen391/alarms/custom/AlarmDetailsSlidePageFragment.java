@@ -3,10 +3,6 @@ package c.cpen391.alarms.custom;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
-
-import androidx.cardview.widget.CardView;
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +16,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
 import c.cpen391.alarms.R;
 import c.cpen391.alarms.models.Alarm;
 import c.cpen391.alarms.tabs.CreateAlarm;
@@ -69,7 +67,7 @@ public class AlarmDetailsSlidePageFragment extends Fragment {
             public void onClick(View v) {
                 String description = descriptionEditText.getText().toString();
                 alarmTime = new StringBuilder();
-                alarmTime.append(String.valueOf(dateCalendar.get(Calendar.YEAR)) + '-' + String.valueOf(dateCalendar.get(Calendar.MONTH) + 1) + '-' +
+                alarmTime.append(String.valueOf(dateCalendar.get(Calendar.YEAR)) + '/' + '0' + String.valueOf(dateCalendar.get(Calendar.MONTH) + 1) + '/' + '0' +
                         String.valueOf(dateCalendar.get(Calendar.DAY_OF_MONTH)) + ' ' + String.valueOf(currentHour) + ':' +
                         String.valueOf(currentMinute));
 
