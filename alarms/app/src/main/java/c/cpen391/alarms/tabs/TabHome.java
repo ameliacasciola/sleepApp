@@ -143,7 +143,12 @@ public class TabHome extends Fragment  {
                     displayNextAlarm(null, rootview);
                 }
                 else {
-                    generateDataList(alarmList, rootview);
+                    if (alarmList.size() > 3){
+                        generateDataList(alarmList.subList(1,3), rootview);
+                    }
+                    else {
+                        generateDataList(alarmList, rootview);
+                    }
                     displayNextAlarm(alarmList.get(0), rootview);
                 }
             }

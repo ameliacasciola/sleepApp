@@ -2,6 +2,7 @@ package c.cpen391.alarms.games;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,6 +23,7 @@ public class GraphicsActivity extends AppCompatActivity {
     private Button goHome;
     private boolean completed;
     private boolean isAlarm;
+    private Integer volume;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,21 @@ public class GraphicsActivity extends AppCompatActivity {
             isAlarm = (boolean) getIntent().getSerializableExtra("isAlarm");
         } else {
             isAlarm = false;
+        }
+
+        // Set Volume
+        AudioManager audio = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+
+        if (getIntent().hasExtra("Volume")){
+            volume = (Integer) getIntent().getSerializableExtra("Volume");
+            int mapped_volume = (((volume + 1) *15 )/10);
+            audio.setStreamVolume(audio.STREAM_MUSIC,
+                    mapped_volume,
+                    0);
+        } else {
+            audio.setStreamVolume(audio.STREAM_MUSIC,
+                    10,
+                    0);
         }
 
         goHome = (Button) findViewById(R.id.home_button);
