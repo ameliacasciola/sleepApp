@@ -43,14 +43,17 @@ public class WalkingStepsGame extends AppCompatActivity implements SensorEventLi
     private int init_count;
     private Context context = this;
     private boolean first = true;
+    private boolean isAlarm;
     private Button home;
 
     private static final String CLIENT_ID = "e1cac6772536416882b7ee89591095ea";
     private static final String REDIRECT_URI = "http://localhost:8000/callback/";
     private SpotifyAppRemote mSpotifyAppRemote;
+    private boolean completed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        completed = false;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.steps_game_main);
         mPref = ((CustomApplication)getApplicationContext()).getShared();
@@ -58,6 +61,11 @@ public class WalkingStepsGame extends AppCompatActivity implements SensorEventLi
         tv_steps = (TextView) findViewById(R.id.tv_steps);
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 
+        if (getIntent().hasExtra("isAlarm")){
+             isAlarm = (boolean) getIntent().getSerializableExtra("isAlarm");
+        } else {
+            isAlarm = false;
+        }
     }
 
     @Override
@@ -141,6 +149,7 @@ public class WalkingStepsGame extends AppCompatActivity implements SensorEventLi
                         });
 
                 updateScoreFunc();
+                completed = true;
             }
         }
 
@@ -194,6 +203,15 @@ public class WalkingStepsGame extends AppCompatActivity implements SensorEventLi
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy){
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!completed && isAlarm) {
+            Toast.makeText(context.getApplicationContext(), "Complete the game to stop the alarm!", Toast.LENGTH_SHORT).show();
+        } else {
+            super.onBackPressed();
+        }
     }
 
 }

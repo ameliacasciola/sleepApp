@@ -9,6 +9,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.spotify.android.appremote.api.ConnectionParams;
 import com.spotify.android.appremote.api.Connector;
@@ -20,11 +21,12 @@ public class MainSpellingActivity extends Activity implements SensorEventListene
     public static float yPos;
     public static int curLetter;
     public static int score;
-
+    private boolean completed;
     public boolean ready = false;
     public static boolean doneGame;
     private SensorManager sensorManager;
     GameView view;
+    private boolean isAlarm;
 
     private static final String CLIENT_ID = "e1cac6772536416882b7ee89591095ea";
     private static final String REDIRECT_URI = "http://localhost:8000/callback/";
@@ -35,10 +37,16 @@ public class MainSpellingActivity extends Activity implements SensorEventListene
         super.onCreate(savedInstanceState);
         //make sure orientation stays as portrait
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
+        completed = false;
         //set the view to be our custom game view
         view = new GameView(this);
         setContentView(view);
+
+        if (getIntent().hasExtra("isAlarm")){
+            isAlarm = (boolean) getIntent().getSerializableExtra("isAlarm");
+        } else {
+            isAlarm = false;
+        }
 
         //set up sensor
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -122,7 +130,17 @@ public class MainSpellingActivity extends Activity implements SensorEventListene
                     }
                 });
         sensorManager.unregisterListener(this);
+        completed = true;
         super.onStop();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!completed && isAlarm) {
+            Toast.makeText(getApplicationContext(), "Complete the game to stop the alarm!", Toast.LENGTH_SHORT).show();
+        } else {
+            super.onBackPressed();
+        }
     }
 
 }

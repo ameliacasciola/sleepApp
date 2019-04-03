@@ -28,15 +28,19 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         if (game.equals("Eggs-cercise")){
             Intent newIntent = new Intent(context, WalkingStepsGame.class);
+            newIntent.putExtra("isAlarm", true);
             context.startActivity(newIntent);
         } else if(game.equals("Bubble Pop")){
             Intent bubbleIntent = new Intent(context, GraphicsActivity.class);
+            bubbleIntent.putExtra("isAlarm", true);
             context.startActivity(bubbleIntent);
         } else if (game.equals("Eggcellent Spelling")){
             Intent spellIntent = new Intent(context, MainSpellingActivity.class);
+            spellIntent.putExtra("isAlarm", true);
             context.startActivity(spellIntent);
         } else if (game.equals("Jumping Jacks")){
             Intent jumpIntent = new Intent(context, JumpingJacksGame.class);
+            jumpIntent.putExtra("isAlarm", true);
             context.startActivity(jumpIntent);
         }
 

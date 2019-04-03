@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.spotify.android.appremote.api.ConnectionParams;
 import com.spotify.android.appremote.api.Connector;
@@ -19,11 +20,19 @@ import c.cpen391.alarms.home;
 public class GraphicsActivity extends AppCompatActivity {
     private Context context = this;
     private Button goHome;
+    private boolean completed;
+    private boolean isAlarm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_graphics_outer);
+        completed = false;
+        if (getIntent().hasExtra("isAlarm")){
+            isAlarm = (boolean) getIntent().getSerializableExtra("isAlarm");
+        } else {
+            isAlarm = false;
+        }
 
         goHome = (Button) findViewById(R.id.home_button);
 
@@ -44,7 +53,7 @@ public class GraphicsActivity extends AppCompatActivity {
                         new Connector.ConnectionListener() {
 
                             SpotifyAppRemote mSpotifyAppRemote;
-                            
+
                             @Override
                             public void onConnected(SpotifyAppRemote spotifyAppRemote) {
                                 mSpotifyAppRemote = spotifyAppRemote;
@@ -62,10 +71,19 @@ public class GraphicsActivity extends AppCompatActivity {
                             }
                         });
 
+                completed = true;
                 Intent intent = new Intent(context, home.class);
                 context.startActivity(intent);
             }
         });
 
+    }
+    @Override
+    public void onBackPressed() {
+        if (!completed && isAlarm) {
+            Toast.makeText(context.getApplicationContext(), "Complete the game to stop the alarm!", Toast.LENGTH_SHORT).show();
+        } else {
+            super.onBackPressed();
+        }
     }
 }
