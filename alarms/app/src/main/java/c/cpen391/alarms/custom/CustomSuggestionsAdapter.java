@@ -54,7 +54,7 @@ public class CustomSuggestionsAdapter extends SuggestionsAdapter<Game, CustomSug
                 if(term.isEmpty())
                     suggestions = suggestions_clone;
                 else {
-                    suggestions = new ArrayList<>();
+                    suggestions = new ArrayList<Game>();
                     for (Game item: suggestions_clone)
                         if(item.getGameName().toLowerCase().contains(term.toLowerCase()))
                             suggestions.add(item);

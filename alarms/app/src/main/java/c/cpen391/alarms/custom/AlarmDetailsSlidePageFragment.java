@@ -3,7 +3,6 @@ package c.cpen391.alarms.custom;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,10 +72,6 @@ public class AlarmDetailsSlidePageFragment extends Fragment {
                 newAlarm.setTiffanyDate(String.valueOf(dateCalendar.get(Calendar.YEAR)) + '/' + '0' + String.valueOf(dateCalendar.get(Calendar.MONTH) + 1) + '/' + '0'+
                         String.valueOf(dateCalendar.get(Calendar.DAY_OF_MONTH)) + ' ' + String.valueOf(currentHour) + ':' +
                         String.valueOf(currentMinute));
-                Log.e("TIME", alarmTime.toString());
-//                Log.e("MONTH", String.valueOf(dateCalendar.get(Calendar.MONTH)));
-//                Log.e("DAY", String.valueOf(dateCalendar.get(Calendar.DAY_OF_MONTH)));
-//                Log.e("VOLUME", Integer.toString(volume));
                 newAlarm.setAlarmDescription(description);
                 newAlarm.setActive(true);
                 newAlarm.setTime(alarmTime.toString());

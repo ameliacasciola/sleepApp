@@ -236,6 +236,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
+                            android:layout_centerHorizontal="true"
                             android:layout_below="@+id/rank_text"
                             android:textSize="40sp"
                             android:textColor="@color/white"

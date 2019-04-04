@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -120,7 +119,7 @@ public class SpotifySlidePageFragment extends Fragment {
                     @Override
                     public void onConnected(SpotifyAppRemote spotifyAppRemote) {
                         mSpotifyAppRemote = spotifyAppRemote;
-                        Log.e("SPOTIFY REMOTE", "Success, Onconnected" + mSpotifyAppRemote.isConnected());
+                        //Log.e("SPOTIFY REMOTE", "Success, Onconnected" + mSpotifyAppRemote.isConnected());
 
                         // Now you can start interacting with App Remote
                         connected(rootView);
@@ -128,7 +127,7 @@ public class SpotifySlidePageFragment extends Fragment {
 
                     @Override
                     public void onFailure(Throwable throwable) {
-                        Log.e("SPOTIFY REMOTE", "Failure, Onconnected");
+                        //Log.e("SPOTIFY REMOTE", "Failure, Onconnected");
 
                         // Something went wrong when attempting to connect! Handle errors here
                     }
@@ -168,7 +167,6 @@ public class SpotifySlidePageFragment extends Fragment {
 
             spotifyCardView.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    Log.i("SPOTIFY", "SELECTED");
                     for (int i = 0; i < spotiftCardViews.length; i++){
                             CardView tmp = baseview.findViewById(spotiftCardViews[i]);
                             if (tmp != null) {
@@ -294,13 +292,13 @@ public class SpotifySlidePageFragment extends Fragment {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.isSuccessful()) {
-                    Log.e("POST", "alarm edit success" + response.body().toString());
+                    //Log.e("POST", "alarm edit success" + response.body().toString());
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.e("POST", "Unable to edit alarm");
+                //Log.e("POST", "Unable to edit alarm");
             }
         });
     }
@@ -312,21 +310,19 @@ public class SpotifySlidePageFragment extends Fragment {
         Call<ResponseBody> alarmCall = SleepClientInstance.getRetrofitInstance().create(SleepAPI.class).alarmPost(
                 newAlarm.getAlarmDescription(), newAlarm.getAlarmTime(),  newAlarm.getGame(), newAlarm.getVolume(), true, mPref.getUserID(), newAlarm.getSpotifyURI()
         );
-        Log.e("POST", newAlarm.getAlarmTime());
         alarmCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.isSuccessful()) {
-                    Log.e("POST", "post submitted to API." + response.body().toString());
+                    //Log.e("POST", "post submitted to API." + response.body().toString());
                 } else{
-                    Log.e("POST", call.request().toString());
-                    Log.e("POST", "FAILED");
+                    //Log.e("POST", call.request().toString());
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.e("POST", "Unable to submit post to API.");
+                //Log.e("POST", "Unable to submit post to API.");
             }
         });
     }
@@ -340,9 +336,6 @@ public class SpotifySlidePageFragment extends Fragment {
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), newAlarm.alarmDescription.hashCode() + mPref.getUserID(), intent, 0);
 
-        Log.i("REQUEST CODE", Integer.toString(newAlarm.alarmDescription.hashCode() + mPref.getUserID()));
-        Log.i("REQUEST CODE/ALARMTIME", Integer.toString(newAlarm.alarmDescription.hashCode()));
-        Log.i("REQUEST CODE/USERID", Integer.toString(mPref.getUserID()));
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm");
         Date date = sdf.parse(time);
         long millis = date.getTime();

@@ -47,6 +47,7 @@ import c.cpen391.alarms.api.WeatherService;
 import c.cpen391.alarms.custom.CustomSuggestionsAdapter;
 import c.cpen391.alarms.custom.SuggestionsRecyclerTouchListener;
 import c.cpen391.alarms.custom.WeatherCard;
+import c.cpen391.alarms.games.BurpeesGame;
 import c.cpen391.alarms.games.ColorSequenceGame;
 import c.cpen391.alarms.games.ColorSequenceStartActivity;
 import c.cpen391.alarms.games.GraphicsActivity;
@@ -97,13 +98,19 @@ public class TabHome extends Fragment  {
             "Eggcellent Spelling",
             "Eggs-cercise",
             "Color Sequence",
+            "Burpees",
+            "Jumping Jacks",
+            "Bubble Pop"
     };
 
     private String[] gamesType = {
             "Strengthening muscles",
             "Speed",
-            "Walking around",
+            "Physical exercise",
             "Memorization",
+            "Physical exercise",
+            "Physical exercise",
+            "Speed"
     };
 
     private RecyclerViewAdapter adapter;
@@ -214,9 +221,11 @@ public class TabHome extends Fragment  {
                     Intent colorIntent = new Intent(context, ColorSequenceStartActivity.class);
                     context.startActivity(colorIntent);
                 } else if (game.equals("Burpees")){
-
+                    Intent burpeeIntent = new Intent(context, BurpeesGame.class);
+                    context.startActivity(burpeeIntent);
                 } else if (game.equals("Squats")){
-
+                    Intent squatIntent = new Intent(context, SquatGame.class);
+                    context.startActivity(squatIntent);
                 }
 
             }
@@ -308,15 +317,7 @@ public class TabHome extends Fragment  {
 
 
         CardView nextAlarmCard = (CardView) rootview.findViewById(R.id.next_alarm);
-
-        // jump to TabAlarm
-        nextAlarmCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), WalkingStepsGame.class);
-                startActivity(intent);
-            }
-        });
+        
     }
 
     private void initGamesScroll(View rootview, int[] gamesCardId){
@@ -395,7 +396,9 @@ public class TabHome extends Fragment  {
         TextView date2 = outerBox2.findViewById(R.id.date);
         date2.setText("FRI");
         TextView temp_high_2 =  outerBox2.findViewById(R.id.temp_high);
+        temp_high_2.setText(Integer.toString(12));
         TextView temp_low_2 = outerBox2.findViewById(R.id.temp_low);
+        temp_low_2.setText(Integer.toString(7));
 
 
         View outerBox3 = rootview.findViewById(R.id.weather_box3);
@@ -404,7 +407,9 @@ public class TabHome extends Fragment  {
         TextView date3 = outerBox3.findViewById(R.id.date);
         date3.setText("SAT");
         TextView temp_high_3 =  outerBox3.findViewById(R.id.temp_high);
+        temp_high_3.setText(Integer.toString(11));
         TextView temp_low_3 = outerBox3.findViewById(R.id.temp_low);
+        temp_low_3.setText(Integer.toString(7));
 
         View outerBox4 = rootview.findViewById(R.id.weather_box4);
         ImageView weather_box4 = (ImageView) outerBox4.findViewById(R.id.weather_box_icon);
@@ -412,7 +417,9 @@ public class TabHome extends Fragment  {
         TextView date4 = outerBox4.findViewById(R.id.date);
         date4.setText("SUN");
         TextView temp_high_4 =  outerBox4.findViewById(R.id.temp_high);
+        temp_high_4.setText(Integer.toString(13));
         TextView temp_low_4 = outerBox4.findViewById(R.id.temp_low);
+        temp_low_4.setText(Integer.toString(7));
 
         setCurrentDay(rootview);
     }
