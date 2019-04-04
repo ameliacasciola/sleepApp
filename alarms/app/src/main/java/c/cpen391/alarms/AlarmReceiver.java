@@ -3,6 +3,7 @@ package c.cpen391.alarms;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -24,22 +25,31 @@ public class AlarmReceiver extends BroadcastReceiver {
     public void onReceive(final Context context, Intent intent) {
         String game = (String) intent.getSerializableExtra("Game");
         final String track_uri = (String) intent.getSerializableExtra("URI");
+        Integer volume = (Integer) intent.getSerializableExtra("Volume");
+
         Toast.makeText(context, game, Toast.LENGTH_SHORT).show();
 
         if (game.equals("Eggs-cercise")){
             Intent newIntent = new Intent(context, WalkingStepsGame.class);
+            newIntent.putExtra("isAlarm", true);
+            newIntent.putExtra("Volume", volume);
             context.startActivity(newIntent);
         } else if(game.equals("Bubble Pop")){
             Intent bubbleIntent = new Intent(context, GraphicsActivity.class);
+            bubbleIntent.putExtra("isAlarm", true);
+            bubbleIntent.putExtra("Volume", volume);
             context.startActivity(bubbleIntent);
         } else if (game.equals("Eggcellent Spelling")){
             Intent spellIntent = new Intent(context, MainSpellingActivity.class);
+            spellIntent.putExtra("isAlarm", true);
+            spellIntent.putExtra("Volume", volume);
             context.startActivity(spellIntent);
         } else if (game.equals("Jumping Jacks")){
             Intent jumpIntent = new Intent(context, JumpingJacksGame.class);
+            jumpIntent.putExtra("isAlarm", true);
+            jumpIntent.putExtra("Volume", volume);
             context.startActivity(jumpIntent);
         }
-
 
         ConnectionParams connectionParams =
                 new ConnectionParams.Builder(CLIENT_ID)

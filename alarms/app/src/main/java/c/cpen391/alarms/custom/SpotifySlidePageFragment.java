@@ -335,6 +335,7 @@ public class SpotifySlidePageFragment extends Fragment {
         Intent intent = new Intent(getContext(), AlarmReceiver.class);
         intent.putExtra("Game", newAlarm.getGame());
         intent.putExtra("URI", newAlarm.spotify_uri);
+        intent.putExtra("Volume", newAlarm.volume);
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), newAlarm.alarmTime.hashCode() + mPref.getUserID(), intent, 0);
 

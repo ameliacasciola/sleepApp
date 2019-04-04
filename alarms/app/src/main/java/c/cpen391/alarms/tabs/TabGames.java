@@ -26,6 +26,7 @@ import c.cpen391.alarms.R;
 import c.cpen391.alarms.adapters.LeaderboardRecyclerViewAdapter;
 import c.cpen391.alarms.api.SleepAPI;
 import c.cpen391.alarms.api.SleepClientInstance;
+import c.cpen391.alarms.games.ColorSequenceStartActivity;
 import c.cpen391.alarms.games.GraphicsActivity;
 import c.cpen391.alarms.games.MainSpellingActivity;
 import c.cpen391.alarms.games.WalkingStepsGame;
@@ -178,6 +179,16 @@ public class TabGames extends Fragment {
             gamesName.setText(gamesNames[i]);
             TextView gameType = gamesCardView.findViewById(R.id.game_type);
             gameType.setText(gamesType[i]);
+
+            //go to color sequence game
+            if(i==0) {
+                gamesCardView.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getActivity(), ColorSequenceStartActivity.class);
+                        startActivity(intent);
+                    }
+                });
+            }
 
             Picasso.get()
                     .load(gamesUrls[i])

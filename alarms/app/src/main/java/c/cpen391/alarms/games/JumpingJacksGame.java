@@ -7,6 +7,8 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -43,19 +45,42 @@ public class JumpingJacksGame extends AppCompatActivity implements SensorEventLi
     private Context context = this;
     private boolean first = true;
     private Button home;
+    private boolean isAlarm;
 
+    private boolean completed;
     private static final String CLIENT_ID = "e1cac6772536416882b7ee89591095ea";
     private static final String REDIRECT_URI = "http://localhost:8000/callback/";
     private SpotifyAppRemote mSpotifyAppRemote;
+    private Integer volume;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.jacks_game_main);
+        completed = false;
         mPref = ((CustomApplication)getApplicationContext()).getShared();
-
+        if (getIntent().hasExtra("isAlarm")){
+            isAlarm = (boolean) getIntent().getSerializableExtra("isAlarm");
+        } else {
+            isAlarm = false;
+        }
         jj_steps = (TextView) findViewById(R.id.jj_steps);
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+
+        // Set Volume
+        AudioManager audio = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+
+        if (getIntent().hasExtra("Volume")){
+            volume = (Integer) getIntent().getSerializableExtra("Volume");
+            int mapped_volume = (((volume + 1) *15 )/10);
+            audio.setStreamVolume(audio.STREAM_MUSIC,
+                    mapped_volume,
+                    0);
+        } else {
+            audio.setStreamVolume(audio.STREAM_MUSIC,
+                    10,
+                    0);
+        }
 
     }
 
@@ -134,6 +159,7 @@ public class JumpingJacksGame extends AppCompatActivity implements SensorEventLi
                                 // Something went wrong when attempting to connect! Handle errors here
                             }
                         });
+                completed = true;
             }
         }
 
@@ -187,6 +213,15 @@ public class JumpingJacksGame extends AppCompatActivity implements SensorEventLi
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy){
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!completed && isAlarm) {
+            Toast.makeText(context.getApplicationContext(), "Complete the game to stop the alarm!", Toast.LENGTH_SHORT).show();
+        } else {
+            super.onBackPressed();
+        }
     }
 
 }

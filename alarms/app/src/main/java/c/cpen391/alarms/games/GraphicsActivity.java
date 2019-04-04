@@ -2,12 +2,14 @@ package c.cpen391.alarms.games;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.spotify.android.appremote.api.ConnectionParams;
 import com.spotify.android.appremote.api.Connector;
@@ -19,11 +21,35 @@ import c.cpen391.alarms.home;
 public class GraphicsActivity extends AppCompatActivity {
     private Context context = this;
     private Button goHome;
+    private boolean completed;
+    private boolean isAlarm;
+    private Integer volume;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_graphics_outer);
+        completed = false;
+        if (getIntent().hasExtra("isAlarm")){
+            isAlarm = (boolean) getIntent().getSerializableExtra("isAlarm");
+        } else {
+            isAlarm = false;
+        }
+
+        // Set Volume
+        AudioManager audio = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+
+        if (getIntent().hasExtra("Volume")){
+            volume = (Integer) getIntent().getSerializableExtra("Volume");
+            int mapped_volume = (((volume + 1) *15 )/10);
+            audio.setStreamVolume(audio.STREAM_MUSIC,
+                    mapped_volume,
+                    0);
+        } else {
+            audio.setStreamVolume(audio.STREAM_MUSIC,
+                    10,
+                    0);
+        }
 
         goHome = (Button) findViewById(R.id.home_button);
 
@@ -44,7 +70,7 @@ public class GraphicsActivity extends AppCompatActivity {
                         new Connector.ConnectionListener() {
 
                             SpotifyAppRemote mSpotifyAppRemote;
-                            
+
                             @Override
                             public void onConnected(SpotifyAppRemote spotifyAppRemote) {
                                 mSpotifyAppRemote = spotifyAppRemote;
@@ -62,10 +88,19 @@ public class GraphicsActivity extends AppCompatActivity {
                             }
                         });
 
+                completed = true;
                 Intent intent = new Intent(context, home.class);
                 context.startActivity(intent);
             }
         });
 
+    }
+    @Override
+    public void onBackPressed() {
+        if (!completed && isAlarm) {
+            Toast.makeText(context.getApplicationContext(), "Complete the game to stop the alarm!", Toast.LENGTH_SHORT).show();
+        } else {
+            super.onBackPressed();
+        }
     }
 }
