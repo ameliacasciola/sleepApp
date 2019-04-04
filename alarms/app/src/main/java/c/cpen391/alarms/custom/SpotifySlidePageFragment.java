@@ -80,11 +80,14 @@ public class SpotifySlidePageFragment extends Fragment {
             R.id.spotify_card4
     };
 
-    private String[] gamesNameList= {"Eggs-cercise", "Bubble Pop", "Eggcellent Spelling", "Jumping Jacks"};
+    private String[] gamesNameList= {"Eggs-cercise", "Bubble Pop", "Eggcellent Spelling", "Jumping Jacks", "Color Sequences", "Burpees", "Squats"};
     private String[] gamesDescriptionList = {"Walk at least 100 steps.",
                                                 "Pop some bubbles in a X amount of time.",
                                                 "Figure out the correct word without making X mistakes.",
-                                                "Complete at least 20 jumping jacks."};
+                                                "Complete at least 20 jumping jacks.",
+                                                "Memorize the color sequence and repeat it back!",
+                                                "Complete at least 5 burpees.",
+                                                "Complete at least 20 squats"};
     private SwipeItem[] swipeItemList;
     private Alarm newAlarm;
     private CardView submitBtn;
@@ -329,16 +332,17 @@ public class SpotifySlidePageFragment extends Fragment {
     }
 
     private void startAlarm(String time) throws ParseException {
-        Log.i("TIME", time);
-        //Log.i("TIME", new SimpleDateFormat("yyyy/MM/dd HH:mm").parse("2019-6-4 0:6").toString());
         AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(getContext(), AlarmReceiver.class);
         intent.putExtra("Game", newAlarm.getGame());
         intent.putExtra("URI", newAlarm.spotify_uri);
         intent.putExtra("Volume", newAlarm.volume);
 
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), newAlarm.alarmTime.hashCode() + mPref.getUserID(), intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), newAlarm.alarmDescription.hashCode() + mPref.getUserID(), intent, 0);
 
+        Log.i("REQUEST CODE", Integer.toString(newAlarm.alarmDescription.hashCode() + mPref.getUserID()));
+        Log.i("REQUEST CODE/ALARMTIME", Integer.toString(newAlarm.alarmDescription.hashCode()));
+        Log.i("REQUEST CODE/USERID", Integer.toString(mPref.getUserID()));
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm");
         Date date = sdf.parse(time);
         long millis = date.getTime();

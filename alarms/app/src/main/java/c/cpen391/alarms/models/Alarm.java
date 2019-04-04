@@ -34,6 +34,8 @@ public class Alarm implements Serializable
 
     public String tiffany_date;
 
+    public int request_code;
+
     public void setTiffanyDate(String date){
         this.tiffany_date = date;
     }
@@ -46,6 +48,10 @@ public class Alarm implements Serializable
         this.gameName = gameName;
         this.spotify_uri = spotify_uri;
     }
+
+    public int getRequestCode(){return this.request_code;}
+
+    public void setRequestCode(int request_code) {this.request_code = request_code;}
 
     public Alarm(){
         this.alarmId = 0;

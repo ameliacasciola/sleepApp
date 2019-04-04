@@ -11,6 +11,7 @@ import com.spotify.android.appremote.api.ConnectionParams;
 import com.spotify.android.appremote.api.Connector;
 import com.spotify.android.appremote.api.SpotifyAppRemote;
 
+import c.cpen391.alarms.games.ColorSequenceStartActivity;
 import c.cpen391.alarms.games.GraphicsActivity;
 import c.cpen391.alarms.games.JumpingJacksGame;
 import c.cpen391.alarms.games.MainSpellingActivity;
@@ -49,6 +50,16 @@ public class AlarmReceiver extends BroadcastReceiver {
             jumpIntent.putExtra("isAlarm", true);
             jumpIntent.putExtra("Volume", volume);
             context.startActivity(jumpIntent);
+        } else if (game.equals("Color Sequences")){
+            Intent colorIntent = new Intent(context, ColorSequenceStartActivity.class);
+            context.startActivity(colorIntent);
+
+            colorIntent.putExtra("isAlarm", true);
+            colorIntent.putExtra("Volume", volume);
+        } else if (game.equals("Burpees")){
+
+        } else if (game.equals("Squats")){
+
         }
 
         ConnectionParams connectionParams =
