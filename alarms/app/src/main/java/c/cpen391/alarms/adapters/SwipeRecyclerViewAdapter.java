@@ -1,6 +1,8 @@
 package c.cpen391.alarms.adapters;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
@@ -25,6 +27,7 @@ import com.suke.widget.SwitchButton;
 
 import java.util.List;
 
+import c.cpen391.alarms.AlarmReceiver;
 import c.cpen391.alarms.CustomApplication;
 import c.cpen391.alarms.CustomSharedPreference;
 import c.cpen391.alarms.R;
@@ -87,6 +90,20 @@ public class SwipeRecyclerViewAdapter  extends RecyclerSwipeAdapter<SwipeRecycle
             public void onCheckedChanged(SwitchButton buttonView, boolean isChecked) {
                 SleepAPI service = SleepClientInstance.getRetrofitInstance().create(SleepAPI.class);
                 Call<ResponseBody> call = service.updateOnOff(!tempBoo, alarmList.get(position).getID());
+
+                if (tempBoo == true){
+                    // delete alarm from alarm manager
+                    AlarmManager alarmManager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
+                    Intent intent = new Intent((Activity) mContext, AlarmReceiver.class);
+                    mPref = ((CustomApplication)mContext.getApplicationContext()).getShared();
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext.getApplicationContext(), alarmList.get(position).alarmDescription.hashCode() + mPref.getUserID(), intent, 0);
+
+                    try {
+                        alarmManager.cancel(pendingIntent);
+                        pendingIntent.cancel();
+                    } catch (Exception e){
+                    }
+                }
                 call.enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -206,6 +223,17 @@ public class SwipeRecyclerViewAdapter  extends RecyclerSwipeAdapter<SwipeRecycle
         viewHolder.alarmDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // delete alarm from alarm manager
+                AlarmManager alarmManager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
+                Intent intent = new Intent((Activity) mContext, AlarmReceiver.class);
+                mPref = ((CustomApplication)mContext.getApplicationContext()).getShared();
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext.getApplicationContext(), alarmList.get(position).alarmDescription.hashCode() + mPref.getUserID(), intent, 0);
+
+                try {
+                    alarmManager.cancel(pendingIntent);
+                    pendingIntent.cancel();
+                } catch (Exception e){
+                }
                 //delete alarm from database
                 mPref = ((CustomApplication)mContext.getApplicationContext()).getShared();
                 SleepAPI service = SleepClientInstance.getRetrofitInstance().create(SleepAPI.class);

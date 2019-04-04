@@ -206,6 +206,13 @@ public class TabHome extends Fragment  {
                 } else if (game.equals("Jumping Jacks")){
                     Intent jumpIntent = new Intent(context, JumpingJacksGame.class);
                     context.startActivity(jumpIntent);
+                } else if (game.equals("Color Sequences")){
+                    Intent colorIntent = new Intent(context, ColorSequenceStartActivity.class);
+                    context.startActivity(colorIntent);
+                } else if (game.equals("Burpees")){
+
+                } else if (game.equals("Squats")){
+
                 }
 
             }
