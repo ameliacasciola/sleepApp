@@ -1,17 +1,5 @@
 package c.cpen391.alarms.games;
 
-import androidx.appcompat.app.AppCompatActivity;
-import c.cpen391.alarms.CustomApplication;
-import c.cpen391.alarms.CustomSharedPreference;
-import c.cpen391.alarms.R;
-import c.cpen391.alarms.api.SleepAPI;
-import c.cpen391.alarms.api.SleepClientInstance;
-import c.cpen391.alarms.home;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,8 +14,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static android.os.SystemClock.sleep;
-import static c.cpen391.alarms.games.MainSpellingActivity.score;
+import androidx.appcompat.app.AppCompatActivity;
+import c.cpen391.alarms.CustomApplication;
+import c.cpen391.alarms.CustomSharedPreference;
+import c.cpen391.alarms.R;
+import c.cpen391.alarms.api.SleepAPI;
+import c.cpen391.alarms.api.SleepClientInstance;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ColorSequenceGame extends AppCompatActivity {
     protected static CustomSharedPreference mPref;
@@ -206,7 +202,7 @@ public class ColorSequenceGame extends AppCompatActivity {
                     Intent intent = new Intent(context, c.cpen391.alarms.home.class);
                     context.startActivity(intent);
                 }
-            }, 2000);
+            }, 5000);
         }
     }
 

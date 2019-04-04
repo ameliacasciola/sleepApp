@@ -142,18 +142,18 @@ public class WalkingStepsGame extends AppCompatActivity implements SensorEventLi
             }
 
             if(step_count > 10 || step_count == 10){
-                setContentView(R.layout.steps_game_done);
-                home = (Button) findViewById(R.id.homebutton);
+                setContentView(R.layout.sequence_game_done);
 
                 running = false;
 
-                home.setOnClickListener(new View.OnClickListener() {
+                new Handler().postDelayed(new Runnable() {
                     @Override
-                    public void onClick(View v) {
+                    public void run() {
+
                         Intent intent = new Intent(context, c.cpen391.alarms.home.class);
                         context.startActivity(intent);
                     }
-                });
+                }, 5000);
 
 
                 ConnectionParams connectionParams =

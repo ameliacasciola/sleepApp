@@ -93,8 +93,7 @@ public class SquatGame extends AppCompatActivity implements SensorEventListener{
             squat_steps.setText(String.valueOf(step_count));
 
             if(step_count > 20 || step_count == 20){
-                setContentView(R.layout.steps_game_done);
-                home = (Button) findViewById(R.id.home);
+                setContentView(R.layout.sequence_game_done);
 
                 running = false;
                 new Handler().postDelayed(new Runnable() {
