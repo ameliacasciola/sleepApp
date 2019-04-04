@@ -1,18 +1,9 @@
 package c.cpen391.alarms.tabs;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.cardview.widget.CardView;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
-
 import android.util.Log;
-import android.util.StringBuilderPrinter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,9 +15,13 @@ import com.gigamole.navigationtabstrip.NavigationTabStrip;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 import c.cpen391.alarms.R;
 import c.cpen391.alarms.adapters.LeaderboardRecyclerViewAdapter;
 import c.cpen391.alarms.api.SleepAPI;
@@ -109,6 +104,15 @@ public class TabGames extends Fragment {
         generateUserList(rootview);
         initGamesScroll(rootview, gamesCardId);
 
+        View decorView = getActivity().getWindow().getDecorView();
+// Hide both the navigation bar and the status bar.
+// SYSTEM_UI_FLAG_FULLSCREEN is only available on Android 4.1 and higher, but as
+// a general rule, you should design your app to hide the status bar whenever you
+// hide the navigation bar.
+        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN;
+        decorView.setSystemUiVisibility(uiOptions);
+
         return rootview;
     }
 
@@ -127,6 +131,7 @@ public class TabGames extends Fragment {
             TextView gamesName = gamesCardView.findViewById(R.id.game_name);
             gamesName.setText(gamesNames[i]);
 
+            // Mental
             //go to accelerometer game
             if(i == 0){
                 gamesCardView.setOnClickListener(new View.OnClickListener() {

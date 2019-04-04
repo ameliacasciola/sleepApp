@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,7 +53,7 @@ public class WalkingStepsGame extends AppCompatActivity implements SensorEventLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.steps_game_main);
+        setContentView(R.layout.steps_game_done);
         mPref = ((CustomApplication)getApplicationContext()).getShared();
 
         tv_steps = (TextView) findViewById(R.id.tv_steps);
@@ -102,17 +103,17 @@ public class WalkingStepsGame extends AppCompatActivity implements SensorEventLi
 
             if(step_count > 10 || step_count == 10){
                 setContentView(R.layout.steps_game_done);
-                home = (Button) findViewById(R.id.home);
+                home = (Button) findViewById(R.id.homebutton);
 
                 running = false;
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
 
+                home.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
                         Intent intent = new Intent(context, c.cpen391.alarms.home.class);
                         context.startActivity(intent);
                     }
-                }, 5000);
+                });
 
                 ConnectionParams connectionParams =
                         new ConnectionParams.Builder(CLIENT_ID)

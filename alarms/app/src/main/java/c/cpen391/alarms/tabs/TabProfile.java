@@ -6,33 +6,24 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-//import android.widget.Toolbar;
 
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import androidx.fragment.app.Fragment;
 import androidx.loader.content.CursorLoader;
 import c.cpen391.alarms.CustomApplication;
 import c.cpen391.alarms.CustomSharedPreference;
@@ -51,6 +42,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.app.Activity.RESULT_OK;
+
+//import android.widget.Toolbar;
 
 public class TabProfile extends Fragment {
     private CircleImageView proPic;
@@ -140,6 +133,15 @@ public class TabProfile extends Fragment {
                 bioedit.setFocusable(true);
             }
         });
+
+        View decorView = getActivity().getWindow().getDecorView();
+// Hide both the navigation bar and the status bar.
+// SYSTEM_UI_FLAG_FULLSCREEN is only available on Android 4.1 and higher, but as
+// a general rule, you should design your app to hide the status bar whenever you
+// hide the navigation bar.
+        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN;
+        decorView.setSystemUiVisibility(uiOptions);
 
         return rootview;
     }

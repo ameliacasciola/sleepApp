@@ -33,10 +33,10 @@ import retrofit2.Response;
 
 import static c.cpen391.alarms.games.MainSpellingActivity.score;
 
-public class JumpingJacksGame extends AppCompatActivity implements SensorEventListener{
+public class SquatGame extends AppCompatActivity implements SensorEventListener{
     protected static CustomSharedPreference mPref;
     private SensorManager sensorManager;
-    private TextView jj_steps;
+    private TextView squat_steps;
     boolean running = false;
     private int step_count;
     private int init_count;
@@ -51,10 +51,10 @@ public class JumpingJacksGame extends AppCompatActivity implements SensorEventLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.jacks_game_main);
+        setContentView(R.layout.squat_game_main);
         mPref = ((CustomApplication)getApplicationContext()).getShared();
 
-        jj_steps = (TextView) findViewById(R.id.jj_steps);
+        squat_steps = (TextView) findViewById(R.id.squat_steps);
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 
     }
@@ -90,10 +90,10 @@ public class JumpingJacksGame extends AppCompatActivity implements SensorEventLi
         if(running){
             step_count = (int)event.values[0] - init_count;
 
-            jj_steps.setText(String.valueOf(step_count));
+            squat_steps.setText(String.valueOf(step_count));
 
-            if(step_count > 10 || step_count == 10){
-                setContentView(R.layout.jacks_game_done);
+            if(step_count > 20 || step_count == 20){
+                setContentView(R.layout.steps_game_done);
                 home = (Button) findViewById(R.id.home);
 
                 running = false;
@@ -105,9 +105,6 @@ public class JumpingJacksGame extends AppCompatActivity implements SensorEventLi
                         context.startActivity(intent);
                     }
                 }, 5000);
-
-
-                updateScoreFunc();
 
                 ConnectionParams connectionParams =
                         new ConnectionParams.Builder(CLIENT_ID)
@@ -134,6 +131,8 @@ public class JumpingJacksGame extends AppCompatActivity implements SensorEventLi
                                 // Something went wrong when attempting to connect! Handle errors here
                             }
                         });
+
+                updateScoreFunc();
             }
         }
 
@@ -144,7 +143,7 @@ public class JumpingJacksGame extends AppCompatActivity implements SensorEventLi
         //completion of steping game, gets 100 points
         // upload to ../scores
         SleepAPI service = SleepClientInstance.getRetrofitInstance().create(SleepAPI.class);
-        Call<ResponseBody> call = service.scorePost(mPref.getUserID(), "Jumping Jacks", 20);
+        Call<ResponseBody> call = service.scorePost(mPref.getUserID(), "Squat Game", 20);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
