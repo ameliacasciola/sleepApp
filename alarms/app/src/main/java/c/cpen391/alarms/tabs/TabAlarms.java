@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.aspsine.swipetoloadlayout.SwipeToLoadLayout;
 import com.daimajia.swipe.util.Attributes;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
@@ -42,6 +43,7 @@ public class TabAlarms extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootview =  inflater.inflate(R.layout.alarms_fragment, container, false);
         //initButtonList(rootview);
+
 
         mPref = ((CustomApplication)getActivity().getApplicationContext()).getShared();
         progressDoalog = new ProgressDialog(getActivity());
@@ -78,6 +80,28 @@ public class TabAlarms extends Fragment {
                 | View.SYSTEM_UI_FLAG_FULLSCREEN;
         decorView.setSystemUiVisibility(uiOptions);
         return rootview;
+    }
+
+    private void onRefresh(View rootview){
+        final View base_view = rootview;
+        /*Create handle for the RetrofitInstance interface*/
+        // get alarms from database
+        SleepAPI service = SleepClientInstance.getRetrofitInstance().create(SleepAPI.class);
+        Call<List<Alarm>> call = service.getAlarms(mPref.getUserID());
+        call.enqueue(new Callback<List<Alarm>>() {
+            @Override
+            public void onResponse(Call<List<Alarm>> call, Response< List<Alarm>> response) {
+                progressDoalog.dismiss();
+                List<Alarm> alarmList = response.body();
+                initList(base_view, alarmList);
+            }
+
+            @Override
+            public void onFailure(Call<List<Alarm>> call, Throwable t) {
+                progressDoalog.dismiss();
+                Toast.makeText(getActivity(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void initList(View rootview, List<Alarm> alarmList){

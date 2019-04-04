@@ -19,6 +19,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:windowSoftInputMode="adjustPan|adjustResize"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -29,11 +30,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".CircularRevealActivity"
-            android:theme="@style/Theme.Transparent"
-            android:launchMode="singleTask"
-            />
         <activity android:name=".home" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".SignUpActivity" />

@@ -1,5 +1,8 @@
 package c.cpen391.alarms.adapters;
 
+import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,6 +20,9 @@ import com.suke.widget.SwitchButton;
 
 import java.util.List;
 
+import c.cpen391.alarms.AlarmReceiver;
+import c.cpen391.alarms.CustomApplication;
+import c.cpen391.alarms.CustomSharedPreference;
 import c.cpen391.alarms.R;
 import c.cpen391.alarms.api.SleepAPI;
 import c.cpen391.alarms.api.SleepClientInstance;
@@ -31,6 +37,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private List<Alarm> dataList;
     private Context context;
+    protected static CustomSharedPreference mPref;
 
     public RecyclerViewAdapter(Context context,List<Alarm> dataList){
         this.context = context;
@@ -88,6 +95,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             public void onCheckedChanged(SwitchButton buttonView, boolean isChecked) {
                 SleepAPI service = SleepClientInstance.getRetrofitInstance().create(SleepAPI.class);
                 Call<ResponseBody> call = service.updateOnOff(!tempBoo, dataList.get(position).getID());
+
+                if (tempBoo){
+                    AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+                    Intent intent = new Intent((Activity) context, AlarmReceiver.class);
+                    mPref = ((CustomApplication)context.getApplicationContext()).getShared();
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(context.getApplicationContext(), dataList.get(position).alarmDescription.hashCode() + mPref.getUserID(), intent, 0);
+
+                    try {
+                        alarmManager.cancel(pendingIntent);
+                        pendingIntent.cancel();
+                    } catch (Exception e){
+                    }
+                }
                 call.enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

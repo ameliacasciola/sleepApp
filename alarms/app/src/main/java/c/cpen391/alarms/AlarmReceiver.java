@@ -53,7 +53,6 @@ public class AlarmReceiver extends BroadcastReceiver {
         } else if (game.equals("Color Sequences")){
             Intent colorIntent = new Intent(context, ColorSequenceStartActivity.class);
             context.startActivity(colorIntent);
-
             colorIntent.putExtra("isAlarm", true);
             colorIntent.putExtra("Volume", volume);
         } else if (game.equals("Burpees")){

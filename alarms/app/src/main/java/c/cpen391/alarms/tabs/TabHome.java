@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-<<<<<<< HEAD
-=======
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -19,7 +17,6 @@ import android.text.Layout;
 import android.text.TextWatcher;
 import android.util.Log;
 
->>>>>>> bf5480d9e0f1b0bc0a28958c833f765be9aa40fb
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

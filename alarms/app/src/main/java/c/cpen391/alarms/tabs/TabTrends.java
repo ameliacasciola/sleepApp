@@ -47,17 +47,14 @@ import retrofit2.Response;
 public class TabTrends extends Fragment {
 
     private ViewPager mViewPager;
+    private TextView avgOxygen;
+    private TextView averageHR;
+    private TextView averagePeaks;
     private String[] iconLinks = {
             "https://cdn4.iconfinder.com/data/icons/material-design-4/614/3012_-_Trending_Up-512.png"
     };
 
     private NavigationTabStrip mTopNavigationTabStrip;
-    public void printList(List<SleepData> list){
-        String out;
-        for (int i = 0; i < list.size(); i++){
-            Log.d("DEBUG", list.get(i).getDay());
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -206,6 +203,8 @@ public class TabTrends extends Fragment {
     private void initUI(View rootview) {
         mViewPager = (ViewPager) rootview.findViewById(R.id.vp);
         mTopNavigationTabStrip = (NavigationTabStrip) rootview.findViewById(R.id.nts_top);
+
+
     }
 
     private void setUI(View rootview) {
