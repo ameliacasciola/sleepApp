@@ -5,21 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-<<<<<<< HEAD
-=======
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.text.Editable;
-import android.text.Layout;
 import android.text.TextWatcher;
 import android.util.Log;
-
->>>>>>> bf5480d9e0f1b0bc0a28958c833f765be9aa40fb
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,10 +45,10 @@ import c.cpen391.alarms.custom.CustomSuggestionsAdapter;
 import c.cpen391.alarms.custom.SuggestionsRecyclerTouchListener;
 import c.cpen391.alarms.custom.WeatherCard;
 import c.cpen391.alarms.games.ColorSequenceGame;
-import c.cpen391.alarms.games.ColorSequenceStartActivity;
 import c.cpen391.alarms.games.GraphicsActivity;
 import c.cpen391.alarms.games.JumpingJacksGame;
 import c.cpen391.alarms.games.MainSpellingActivity;
+import c.cpen391.alarms.games.SquatGame;
 import c.cpen391.alarms.games.WalkingStepsGame;
 import c.cpen391.alarms.home;
 import c.cpen391.alarms.models.Alarm;
@@ -94,37 +82,33 @@ public class TabHome extends Fragment  {
     };
 
     private String[] gamesUrls = {
-            "https://images.ctfassets.net/8mn0755ou4sj/6ebMFEbgFUGig84iowaCqW/f59614c4f2ccba1c09dbe1aa48c3d583/pirates_passage.png",
-            "https://images.ctfassets.net/8mn0755ou4sj/oU3j9ofTYO6SWKqcKksyy/2f8b51ec7b9efa12011577e77ccfaef1/braingames_lumosity.png",
-            "https://mms.businesswire.com/media/20180424005040/en/652796/5/tot_PR_TrainWorld.jpg",
-            "https://asset.lumosity.com/resources/landing_page_templates/857/studies_mobile.png"
+            "https://cdn.dribbble.com/users/1053699/screenshots/4876659/squats.png",
+            "https://cdn.dribbble.com/users/156486/screenshots/5059471/ping-pan-trick.jpg",
+            "https://cdn.dribbble.com/users/31752/screenshots/5840325/walking-.png",
+            "https://cdn.dribbble.com/users/1061799/screenshots/4125959/ball-icons.png"
     };
 
     private String[] gamesNames = {
-            "Eggs-cercise",
-            "Bubble Pop",
-            "Eggcellent Spelling",
-            "Jumping Jacks",
-            "Color Sequences",
             "Squats",
-            "Burpees",
+            "Eggcellent Spelling",
+            "Eggs-cercise",
+            "Color Sequence",
     };
 
     private String[] gamesType = {
-            "Physical Exercise",
+            "Strengthening muscles",
             "Speed",
-            "Fun Spelling Test",
-            "Physical Exercise",
+            "Walking around",
             "Memorization",
-            "Physical Exercise",
-            "Physical Exercise"
     };
 
     private RecyclerViewAdapter adapter;
     private RecyclerView recyclerView;
     ProgressDialog progressDoalog;
-    private CardView toGraphics;
+    private CardView toSquat;
     private CardView toSpelling;
+    private CardView toSteps;
+    private CardView toColorSequence;
     private TextView greetings;
     private Context myContext;
 
@@ -325,9 +309,10 @@ public class TabHome extends Fragment  {
     }
 
     private void initGamesScroll(View rootview, int[] gamesCardId){
-
-        toGraphics = (CardView) rootview.findViewById(R.id.games_card2);
-        toSpelling = (CardView) rootview.findViewById(R.id.games_card3);
+        toSquat = (CardView) rootview.findViewById(R.id.games_card);
+        toSpelling = (CardView) rootview.findViewById(R.id.games_card2);
+        toSteps = (CardView) rootview.findViewById(R.id.games_card3);
+        toColorSequence = (CardView) rootview.findViewById(R.id.games_card4);
 
 
         for (int i = 0; i < gamesCardId.length; i++){
@@ -337,11 +322,10 @@ public class TabHome extends Fragment  {
             gamesName.setText(gamesNames[i]);
 
             //go to steps game
-            if(i == 0){
-                gamesCardView.setOnClickListener(new View.OnClickListener() {
-                    @Override
+            if(i==0) {
+                toSquat.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
-                        Intent intent = new Intent(getActivity(), WalkingStepsGame.class);
+                        Intent intent = new Intent(getActivity(), SquatGame.class);
                         startActivity(intent);
                     }
                 });
@@ -349,16 +333,6 @@ public class TabHome extends Fragment  {
 
             //go to bubble game
             if(i==1) {
-                toGraphics.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v) {
-                        Intent intent = new Intent(getActivity(), GraphicsActivity.class);
-                        startActivity(intent);
-                    }
-                });
-            }
-
-            //go to spelling game
-            if(i==2) {
                 toSpelling.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
                         Intent intent = new Intent(getActivity(), MainSpellingActivity.class);
@@ -367,25 +341,25 @@ public class TabHome extends Fragment  {
                 });
             }
 
-            //go to jumping jacks game
-            if(i==3) {
-                gamesCardView.setOnClickListener(new View.OnClickListener() {
+            //go to spelling game
+            if(i==2) {
+                toSteps.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
-                        Intent intent = new Intent(getActivity(), JumpingJacksGame.class);
+                        Intent intent = new Intent(getActivity(), WalkingStepsGame.class);
                         startActivity(intent);
                     }
                 });
             }
 
-            //go to color sequence game
-            if(i==4) {
-                gamesCardView.setOnClickListener(new View.OnClickListener() {
+            if(i==3) {
+                toColorSequence.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
-                        Intent intent = new Intent(getActivity(), ColorSequenceStartActivity.class);
+                        Intent intent = new Intent(getActivity(), ColorSequenceGame.class);
                         startActivity(intent);
                     }
                 });
             }
+
 
             TextView gameType = gamesCardView.findViewById(R.id.game_type);
             gameType.setText(gamesType[i]);

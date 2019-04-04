@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8F8F8"
+    android:background="#F2F2F2"
     android:gravity="center"
     android:orientation="vertical"
     tools:context=".MainActivity">
@@ -13,11 +13,11 @@
         android:layout_width="match_parent"
         android:layout_height="400dp"
         android:layout_marginTop="0dp"
-        android:background="#F8F8F8"
-        android:src="@drawable/jumpingjacks" />
+        android:background="#F2F2F2"
+        android:src="@drawable/burpees" />
 
     <TextView
-        android:id="@+id/jj_title1"
+        android:id="@+id/squat_title1"
         android:layout_width="wrap_content"
         android:layout_height="46dp"
         android:layout_marginLeft="10dp"
@@ -25,36 +25,36 @@
         android:layout_marginRight="10dp"
         android:text="Get some morning exercise :)"
         android:textSize="20dp"
-        android:textColor="#D44A4A"/>
+        android:textColor="@color/dark_blue"/>
 
     <TextView
-        android:id="@+id/jj_title2"
+        android:id="@+id/squat_title2"
         android:layout_width="wrap_content"
         android:layout_height="51dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:text="Do 20 jumping jacks to turn the alarm off!"
         android:textStyle="bold"
-        android:textColor="#D44A4A"
+        android:layout_marginRight="10dp"
+        android:text="Do 10 burpees to turn the alarm off!"
+        android:textColor="@color/dark_blue"
         android:textSize="20dp" />
 
     <TextView
-        android:id="@+id/jj_info"
+        android:id="@+id/squat_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Jumping Jacks "
+        android:text="Burpees "
         android:textSize="@dimen/_20sdp"
         android:textStyle="italic"
-        android:textColor="#D44A4A"/>
+        android:textColor="@color/dark_blue"/>
 
     <TextView
-        android:id="@+id/jj_steps"
+        android:id="@+id/burpees_step"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginTop="10dp"
         android:text="0"
-        android:textStyle="bold"
+        android:textColor="@color/dark_blue"
         android:textSize="40dp"
-        android:textColor="#D44A4A"/>
+        android:textStyle="bold" />
 
 </LinearLayout>

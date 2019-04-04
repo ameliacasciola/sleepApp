@@ -26,9 +26,12 @@ import c.cpen391.alarms.R;
 import c.cpen391.alarms.adapters.LeaderboardRecyclerViewAdapter;
 import c.cpen391.alarms.api.SleepAPI;
 import c.cpen391.alarms.api.SleepClientInstance;
-import c.cpen391.alarms.games.ColorSequenceStartActivity;
+import c.cpen391.alarms.games.BurpeesGame;
+import c.cpen391.alarms.games.ColorSequenceGame;
 import c.cpen391.alarms.games.GraphicsActivity;
+import c.cpen391.alarms.games.JumpingJacksGame;
 import c.cpen391.alarms.games.MainSpellingActivity;
+import c.cpen391.alarms.games.SquatGame;
 import c.cpen391.alarms.games.WalkingStepsGame;
 import c.cpen391.alarms.models.HighScore;
 import retrofit2.Call;
@@ -41,6 +44,11 @@ public class TabGames extends Fragment {
     private NavigationTabStrip mTopNavigationTabStrip;
     private CardView toGraphics;
     private CardView toSpelling;
+    private CardView toColourSequence;
+    private CardView toSteps;
+    private CardView toJump;
+    private CardView toSquat;
+    private CardView toBurpees;
 
     private View baseview;
     private RecyclerView leaderList;
@@ -64,31 +72,45 @@ public class TabGames extends Fragment {
     };
 
     private String[] gamesUrls = {
-            "https://images.ctfassets.net/8mn0755ou4sj/6ebMFEbgFUGig84iowaCqW/f59614c4f2ccba1c09dbe1aa48c3d583/pirates_passage.png",
-            "https://images.ctfassets.net/8mn0755ou4sj/oU3j9ofTYO6SWKqcKksyy/2f8b51ec7b9efa12011577e77ccfaef1/braingames_lumosity.png",
-            "https://mms.businesswire.com/media/20180424005040/en/652796/5/tot_PR_TrainWorld.jpg",
-            "https://asset.lumosity.com/resources/landing_page_templates/857/studies_mobile.png"
+            "https://cdn.dribbble.com/users/1061799/screenshots/4125959/ball-icons.png",
+            "https://cdn.dribbble.com/users/36143/screenshots/3439603/pop_2x.png",
+            "https://cdn.dribbble.com/users/156486/screenshots/5059471/ping-pan-trick.jpg",
+            "https://cdn.dribbble.com/users/146798/screenshots/6052932/ping-pong-dribbble_4x.jpg"
+    };
+
+    private String[] mgamesUrls = {
+            "https://cdn.dribbble.com/users/31752/screenshots/5840325/walking-.png",
+            "https://cdn.dribbble.com/users/1008875/screenshots/4246359/push-it-4.png",
+            "https://cdn.dribbble.com/users/1053699/screenshots/4876659/squats.png",
+            "https://cdn.dribbble.com/users/337606/screenshots/2874587/concept1av2.jpg"
     };
 
     private String[] gamesNames = {
-            "Eggs-cercise",
-            "Get Eggy With It",
-            "The Egg Did It",
+            "Colour Sequence",
+            "Bubble Pop",
+            "Eggcellent Spelling",
             "Where did the Egg Go"
     };
 
     private String[] mgamesNames = {
             "Eggs-cercise",
-            "Get Eggy With It",
-            "The Egg Did It",
-            "Where did the Egg Go"
+            "Jumping Jacks",
+            "Squats",
+            "Burpees"
     };
 
     private String[] gamesType = {
-            "Physical Exercise",
-            "Planning",
+            "Memorization",
+            "Just get the Egg",
             "Speed",
-            "Just get the Egg"
+            "Planning"
+    };
+
+    private String[] mgamesType = {
+            "Walking around",
+            "Cardio exercise",
+            "Strengthening muscles",
+            "Cardio exercise"
     };
 
 
@@ -105,15 +127,6 @@ public class TabGames extends Fragment {
         generateUserList(rootview);
         initGamesScroll(rootview, gamesCardId);
 
-        View decorView = getActivity().getWindow().getDecorView();
-// Hide both the navigation bar and the status bar.
-// SYSTEM_UI_FLAG_FULLSCREEN is only available on Android 4.1 and higher, but as
-// a general rule, you should design your app to hide the status bar whenever you
-// hide the navigation bar.
-        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_FULLSCREEN;
-        decorView.setSystemUiVisibility(uiOptions);
-
         return rootview;
     }
 
@@ -123,8 +136,14 @@ public class TabGames extends Fragment {
 
 
     private void initGamesScroll(View rootview, int[] gamesCardId){
+        toColourSequence = (CardView) rootview.findViewById(R.id.games_card);
         toGraphics = (CardView) rootview.findViewById(R.id.games_card2);
         toSpelling = (CardView) rootview.findViewById(R.id.games_card3);
+
+        toSteps = (CardView) rootview.findViewById(R.id.mgame_card);
+        toJump = (CardView) rootview.findViewById(R.id.mgame_card2);
+        toSquat = (CardView) rootview.findViewById(R.id.mgame_card3);
+        toBurpees = (CardView) rootview.findViewById(R.id.mgame_card4);
 
         for (int i = 0; i < gamesCardId.length; i++){
             View gamesCardView = rootview.findViewById(gamesCardId[i]);
@@ -133,18 +152,16 @@ public class TabGames extends Fragment {
             gamesName.setText(gamesNames[i]);
 
             // Mental
-            //go to accelerometer game
             if(i == 0){
                 gamesCardView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(getActivity(), WalkingStepsGame.class);
+                        Intent intent = new Intent(getActivity(), ColorSequenceGame.class);
                         startActivity(intent);
                     }
                 });
             }
 
-            //go to bubble game
             if(i==1) {
                 toGraphics.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
@@ -172,26 +189,55 @@ public class TabGames extends Fragment {
                     .into(gamesImg);
         }
 
+
+        // physical games
         for (int i = 0; i < mgameCardId.length; i++) {
             View gamesCardView = rootview.findViewById(mgameCardId[i]);
             ImageView gamesImg = gamesCardView.findViewById(R.id.gameImg);
             TextView gamesName = gamesCardView.findViewById(R.id.game_name);
-            gamesName.setText(gamesNames[i]);
+            gamesName.setText(mgamesNames[i]);
             TextView gameType = gamesCardView.findViewById(R.id.game_type);
-            gameType.setText(gamesType[i]);
+            gameType.setText(mgamesType[i]);
 
             //go to color sequence game
             if(i==0) {
                 gamesCardView.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
-                        Intent intent = new Intent(getActivity(), ColorSequenceStartActivity.class);
+                        Intent intent = new Intent(getActivity(), WalkingStepsGame.class);
+                        startActivity(intent);
+                    }
+                });
+            }
+
+            if(i==1) {
+                toJump.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getActivity(), JumpingJacksGame.class);
+                        startActivity(intent);
+                    }
+                });
+            }
+
+            if(i==2) {
+                toSquat.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getActivity(), SquatGame.class);
+                        startActivity(intent);
+                    }
+                });
+            }
+
+            if(i==3) {
+                toBurpees.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getActivity(), BurpeesGame.class);
                         startActivity(intent);
                     }
                 });
             }
 
             Picasso.get()
-                    .load(gamesUrls[i])
+                    .load(mgamesUrls[i])
                     .placeholder(R.drawable.blue_plane)
                     .into(gamesImg);
         }
