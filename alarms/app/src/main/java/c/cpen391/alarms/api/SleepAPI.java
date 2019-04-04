@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import c.cpen391.alarms.models.Alarm;
+import c.cpen391.alarms.models.Compute;
 import c.cpen391.alarms.models.HighScore;
 import c.cpen391.alarms.models.Post;
 import c.cpen391.alarms.models.Prediction;
@@ -31,6 +32,9 @@ import retrofit2.http.Query;
 public interface SleepAPI {
     @GET("/alarms")
     Call<List<Alarm>> getAlarms(@Query("username") int userID);
+
+    @GET("/summary/")
+    Call<Compute> getSummary();
 
     @DELETE("/alarms/{id}/")
     Call<ResponseBody> deleteAlarm(@Path("id") int alarmID);

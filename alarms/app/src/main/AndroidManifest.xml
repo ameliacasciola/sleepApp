@@ -37,6 +37,8 @@
         <activity android:name=".tabs.CreateAlarm"/>
         <activity android:name=".games.WalkingStepsGame"/>
         <activity android:name=".games.JumpingJacksGame"/>
+        <activity android:name=".games.SquatGame"/>
+        <activity android:name=".games.BurpeesGame"/>
         <activity android:name=".games.ColorSequenceGame"/>
         <activity android:name=".games.ColorSequenceStartActivity"/>
         <activity android:name=".games.MainSpellingActivity"/>

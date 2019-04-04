@@ -34,6 +34,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:text="Do 20 squats to turn the alarm off!"
+        android:textStyle="bold"
         android:textColor="#D44A4A"
         android:textSize="20dp" />
 
@@ -42,7 +43,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Squats "
-        android:textSize="30dp"
+        android:textStyle="italic"
+        android:textSize="@dimen/_20sdp"
         android:textColor="#D44A4A"/>
 
     <TextView
@@ -51,6 +53,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="0"
+        android:textStyle="bold"
         android:textSize="40dp"
         android:textColor="#D44A4A"/>
 

@@ -37,6 +37,9 @@ import c.cpen391.alarms.api.SleepAPI;
 import c.cpen391.alarms.api.SleepClientInstance;
 import c.cpen391.alarms.custom.DateXAxisValueFormatter;
 import c.cpen391.alarms.custom.TrendGraph;
+import c.cpen391.alarms.models.Compute;
+import c.cpen391.alarms.models.HeartRate;
+import c.cpen391.alarms.models.Oxygen;
 import c.cpen391.alarms.models.Point;
 import c.cpen391.alarms.models.Prediction;
 import c.cpen391.alarms.models.SleepData;
@@ -47,12 +50,15 @@ import retrofit2.Response;
 public class TabTrends extends Fragment {
 
     private ViewPager mViewPager;
-    private TextView avgOxygen;
+    private TextView averageOxygen;
     private TextView averageHR;
     private TextView averagePeaks;
     private String[] iconLinks = {
             "https://cdn4.iconfinder.com/data/icons/material-design-4/614/3012_-_Trending_Up-512.png"
     };
+
+    private Oxygen avgOxygen;
+    private HeartRate avgHeartRate;
 
     private NavigationTabStrip mTopNavigationTabStrip;
 
@@ -201,10 +207,38 @@ public class TabTrends extends Fragment {
     }
 
     private void initUI(View rootview) {
+        final View baseView = rootview;
         mViewPager = (ViewPager) rootview.findViewById(R.id.vp);
         mTopNavigationTabStrip = (NavigationTabStrip) rootview.findViewById(R.id.nts_top);
 
+        SleepAPI service = SleepClientInstance.getRetrofitInstance().create(SleepAPI.class);
 
+        Call<Compute> call;
+        call = service.getSummary();
+        call.enqueue(new Callback<Compute>() {
+            @Override
+            public void onResponse(Call<Compute> call, Response<Compute> response) {
+                Compute summary = response.body();
+                Log.i("SUMMARY", Integer.toString(Math.round(summary.getAverageHR().getAverageHR())));
+                Log.i("SUMMARY", Integer.toString(Math.round(summary.getAverageOxy().getAverageOxygen())));
+                initSummary(baseView, summary);
+            }
+
+            @Override
+            public void onFailure(Call<Compute> call, Throwable t) {
+                Toast.makeText(getActivity(), "Error grabbing summary data, try again later", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void initSummary(View rootview, Compute summary){
+        averageOxygen = rootview.findViewById(R.id.oxygen_level);
+        averageHR = rootview.findViewById(R.id.heart_rate);
+        averagePeaks = rootview.findViewById(R.id.peaks);
+
+        averageOxygen.setText(Integer.toString(Math.round(summary.getAverageHR().getAverageHR())));
+        averageHR.setText(Integer.toString(Math.round(summary.getAverageOxy().getAverageOxygen())));
+        averagePeaks.setText(Integer.toString(5));
     }
 
     private void setUI(View rootview) {
