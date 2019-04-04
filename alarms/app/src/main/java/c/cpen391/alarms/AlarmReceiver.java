@@ -3,18 +3,18 @@ package c.cpen391.alarms;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.media.AudioManager;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.spotify.android.appremote.api.ConnectionParams;
 import com.spotify.android.appremote.api.Connector;
 import com.spotify.android.appremote.api.SpotifyAppRemote;
 
+import c.cpen391.alarms.games.BurpeesGame;
 import c.cpen391.alarms.games.ColorSequenceStartActivity;
 import c.cpen391.alarms.games.GraphicsActivity;
 import c.cpen391.alarms.games.JumpingJacksGame;
 import c.cpen391.alarms.games.MainSpellingActivity;
+import c.cpen391.alarms.games.SquatGame;
 import c.cpen391.alarms.games.WalkingStepsGame;
 
 public class AlarmReceiver extends BroadcastReceiver {
@@ -52,13 +52,19 @@ public class AlarmReceiver extends BroadcastReceiver {
             context.startActivity(jumpIntent);
         } else if (game.equals("Color Sequences")){
             Intent colorIntent = new Intent(context, ColorSequenceStartActivity.class);
-            context.startActivity(colorIntent);
             colorIntent.putExtra("isAlarm", true);
             colorIntent.putExtra("Volume", volume);
+            context.startActivity(colorIntent);
         } else if (game.equals("Burpees")){
-
+            Intent burpeeIntent = new Intent(context, BurpeesGame.class);
+            burpeeIntent.putExtra("isAlarm", true);
+            burpeeIntent.putExtra("Volume", volume);
+            context.startActivity(burpeeIntent);
         } else if (game.equals("Squats")){
-
+            Intent squatIntent = new Intent(context, SquatGame.class);
+            squatIntent.putExtra("isAlarm", true);
+            squatIntent.putExtra("Volume", volume);
+            context.startActivity(squatIntent);
         }
 
         ConnectionParams connectionParams =
@@ -73,7 +79,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                     @Override
                     public void onConnected(SpotifyAppRemote spotifyAppRemote) {
                         mSpotifyAppRemote = spotifyAppRemote;
-                        Log.e("SPOTIFY REMOTE", "Success, Onconnected" + mSpotifyAppRemote.isConnected());
+                        //Log.e("SPOTIFY REMOTE", "Success, Onconnected" + mSpotifyAppRemote.isConnected());
 
                         // Now you can start interacting with App Remote
                         mSpotifyAppRemote.getPlayerApi().play(track_uri);
@@ -82,7 +88,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
                     @Override
                     public void onFailure(Throwable throwable) {
-                        Log.e("SPOTIFY REMOTE", "Failure, Onconnected");
+                        //Log.e("SPOTIFY REMOTE", "Failure, Onconnected");
 
                         // Something went wrong when attempting to connect! Handle errors here
                     }

@@ -1,7 +1,6 @@
 package c.cpen391.alarms;
 
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AppCompatActivity;
@@ -44,7 +43,6 @@ public class home extends AppCompatActivity {
     public void onBackPressed() {
         Fragment tab = adapter.getItem(viewPager.getCurrentItem());
         if (viewPager.getCurrentItem() == 3 && tab != null){
-            Log.i("LEADERBOARD", "IS VISIBLE");
             SlidingUpPanelLayout leaderboard = ((TabGames)tab).getLeaderboard();
             if (leaderboard != null &&
                     (leaderboard.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED || leaderboard.getPanelState() == SlidingUpPanelLayout.PanelState.ANCHORED)) {
@@ -54,7 +52,6 @@ public class home extends AppCompatActivity {
             }
         }
         else {
-            Log.i("LEADERBOARD", "IS NOT VISIBLE");
             super.onBackPressed();
         }
     }

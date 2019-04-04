@@ -66,7 +66,7 @@ public class SwipeRecyclerViewAdapter  extends RecyclerSwipeAdapter<SwipeRecycle
 
         viewHolder.editIcon.setImageResource(R.drawable.ic_outline_edit_24px);
         viewHolder.editIcon.setColorFilter(ContextCompat.getColor(mContext, R.color.gray), PorterDuff.Mode.SRC_ATOP);
-        viewHolder.viewIcon.setImageResource(R.drawable.ic_outline_cancel_24px);
+        viewHolder.viewIcon.setImageResource(R.drawable.ic_outline_pageview_24px);
         viewHolder.viewIcon.setColorFilter(ContextCompat.getColor(mContext, R.color.white), PorterDuff.Mode.SRC_ATOP);
         viewHolder.deleteIcon.setImageResource(R.drawable.ic_outline_cancel_24px);
         viewHolder.deleteIcon.setColorFilter(ContextCompat.getColor(mContext, R.color.white), PorterDuff.Mode.SRC_ATOP);

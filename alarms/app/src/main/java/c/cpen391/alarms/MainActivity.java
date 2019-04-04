@@ -24,7 +24,6 @@ import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
 
-import static su.levenetc.android.textsurface.animations.Just.show;
 
 public class MainActivity extends AppCompatActivity {
 

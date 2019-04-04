@@ -3,7 +3,6 @@ package c.cpen391.alarms.tabs;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -133,7 +132,6 @@ public class TabAlarms extends Fragment {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                Log.e("RecyclerView", "onScrollStateChanged");
             }
 
             @Override

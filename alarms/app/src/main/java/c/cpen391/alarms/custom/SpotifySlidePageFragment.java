@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.roughike.swipeselector.SwipeItem;
@@ -29,9 +28,6 @@ import c.cpen391.alarms.R;
 import c.cpen391.alarms.api.AlarmPost;
 import c.cpen391.alarms.api.SleepAPI;
 import c.cpen391.alarms.api.SleepClientInstance;
-import c.cpen391.alarms.games.GraphicsActivity;
-import c.cpen391.alarms.games.MainSpellingActivity;
-import c.cpen391.alarms.games.WalkingStepsGame;
 import c.cpen391.alarms.home;
 import c.cpen391.alarms.models.Alarm;
 import c.cpen391.alarms.tabs.CreateAlarm;
@@ -41,18 +37,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import com.spotify.android.appremote.api.ConnectionParams;
 import com.spotify.android.appremote.api.Connector;
-import com.spotify.android.appremote.api.ContentApi;
 import com.spotify.android.appremote.api.SpotifyAppRemote;
 
 import com.spotify.protocol.client.CallResult;
-import com.spotify.protocol.client.Subscription;
 import com.spotify.protocol.types.ImageUri;
-import com.spotify.protocol.types.ListItem;
-import com.spotify.protocol.types.PlayerState;
-import com.spotify.protocol.types.Track;
-import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
 
 
 public class SpotifySlidePageFragment extends Fragment {

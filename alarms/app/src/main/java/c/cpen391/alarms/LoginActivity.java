@@ -19,16 +19,12 @@ import android.security.keystore.KeyProperties;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.appcompat.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.spotify.sdk.android.authentication.AuthenticationClient;
-import com.spotify.sdk.android.authentication.AuthenticationRequest;
-import com.spotify.sdk.android.authentication.AuthenticationResponse;
 
 import androidx.core.content.ContextCompat;
 import c.cpen391.alarms.models.UserObject;
@@ -205,7 +201,7 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         public void onAuthenticationError(int errorCode, CharSequence errString) {
             super.onAuthenticationError(errorCode, errString);
-            Log.d(TAG, "Error message " + errorCode + ": " + errString);
+            //Log.d(TAG, "Error message " + errorCode + ": " + errString);
             Toast.makeText(context, context.getString(R.string.authenticate_fingerprint), Toast.LENGTH_LONG).show();
         }
 
@@ -248,9 +244,9 @@ public class LoginActivity extends AppCompatActivity {
             try{
                 fingerprintManager.authenticate(cryptoObject, new CancellationSignal(), 0, this, null);
             }catch (SecurityException ex) {
-                Log.d(TAG, "An error occurred:\n" + ex.getMessage());
+                //Log.d(TAG, "An error occurred:\n" + ex.getMessage());
             } catch (Exception ex) {
-                Log.d(TAG, "An error occurred\n" + ex.getMessage());
+                //Log.d(TAG, "An error occurred\n" + ex.getMessage());
             }
         }
 

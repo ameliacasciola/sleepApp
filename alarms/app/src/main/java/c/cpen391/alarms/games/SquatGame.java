@@ -7,9 +7,12 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,16 +46,54 @@ public class SquatGame extends AppCompatActivity implements SensorEventListener{
     private Context context = this;
     private boolean first = true;
     private Button home;
+    private boolean isAlarm;
+    private boolean completed;
+    private Integer volume;
 
     private static final String CLIENT_ID = "e1cac6772536416882b7ee89591095ea";
     private static final String REDIRECT_URI = "http://localhost:8000/callback/";
     private SpotifyAppRemote mSpotifyAppRemote;
 
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        int keyCode = event.getKeyCode();
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_VOLUME_UP:
+            case KeyEvent.KEYCODE_VOLUME_DOWN:
+                return true;
+            default:
+                return super.dispatchKeyEvent(event);
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        completed = false;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.squat_game_main);
         mPref = ((CustomApplication)getApplicationContext()).getShared();
+
+        // Set Volume
+        AudioManager audio = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+
+        if (getIntent().hasExtra("Volume")){
+            volume = (Integer) getIntent().getSerializableExtra("Volume");
+            int mapped_volume = (((volume + 1) *15 )/10);
+            audio.setStreamVolume(audio.STREAM_MUSIC,
+                    mapped_volume,
+                    0);
+        } else {
+            audio.setStreamVolume(audio.STREAM_MUSIC,
+                    10,
+                    0);
+        }
+
+        if (getIntent().hasExtra("isAlarm")){
+            isAlarm = (boolean) getIntent().getSerializableExtra("isAlarm");
+        } else {
+            isAlarm = false;
+        }
 
         squat_steps = (TextView) findViewById(R.id.squat_steps);
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -130,8 +171,8 @@ public class SquatGame extends AppCompatActivity implements SensorEventListener{
                                 // Something went wrong when attempting to connect! Handle errors here
                             }
                         });
-
                 updateScoreFunc();
+                completed = true;
             }
         }
 
@@ -185,6 +226,17 @@ public class SquatGame extends AppCompatActivity implements SensorEventListener{
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy){
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        Log.i("SQUAT COMPLETED", Boolean.toString(completed));
+        Log.i("SQUAT A", Boolean.toString(isAlarm));
+        if (!completed && isAlarm) {
+            Toast.makeText(context.getApplicationContext(), "Complete the game to stop the alarm!", Toast.LENGTH_SHORT).show();
+        } else {
+            super.onBackPressed();
+        }
     }
 
 }

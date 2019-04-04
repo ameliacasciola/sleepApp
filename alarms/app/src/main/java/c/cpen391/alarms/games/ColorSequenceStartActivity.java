@@ -46,7 +46,7 @@ public class ColorSequenceStartActivity extends AppCompatActivity {
         start.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(context, ColorSequenceGame.class);
-                intent.putExtra("isAlarm", true);
+                intent.putExtra("isAlarm", isAlarm);
                 context.startActivity(intent);
             }
         });

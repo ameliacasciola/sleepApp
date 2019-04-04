@@ -7,9 +7,12 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,12 +50,51 @@ public class BurpeesGame extends AppCompatActivity implements SensorEventListene
     private static final String CLIENT_ID = "e1cac6772536416882b7ee89591095ea";
     private static final String REDIRECT_URI = "http://localhost:8000/callback/";
     private SpotifyAppRemote mSpotifyAppRemote;
+    private boolean completed;
+    private Integer volume;
+    private boolean isAlarm;
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        int keyCode = event.getKeyCode();
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_VOLUME_UP:
+            case KeyEvent.KEYCODE_VOLUME_DOWN:
+                return true;
+            default:
+                return super.dispatchKeyEvent(event);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        completed = false;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.burpees_game_main);
         mPref = ((CustomApplication)getApplicationContext()).getShared();
+
+        // Set Volume
+        AudioManager audio = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+
+        if (getIntent().hasExtra("Volume")){
+            volume = (Integer) getIntent().getSerializableExtra("Volume");
+            int mapped_volume = (((volume + 1) *15 )/10);
+            audio.setStreamVolume(audio.STREAM_MUSIC,
+                    mapped_volume,
+                    0);
+        } else {
+            audio.setStreamVolume(audio.STREAM_MUSIC,
+                    10,
+                    0);
+        }
+
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+
+        if (getIntent().hasExtra("isAlarm")){
+            isAlarm = (boolean) getIntent().getSerializableExtra("isAlarm");
+        } else {
+            isAlarm = false;
+        }
 
         burpees_steps = (TextView) findViewById(R.id.burpees_step);
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -132,6 +174,7 @@ public class BurpeesGame extends AppCompatActivity implements SensorEventListene
                         });
 
                 updateScoreFunc();
+                completed = true;
             }
         }
 
@@ -185,6 +228,15 @@ public class BurpeesGame extends AppCompatActivity implements SensorEventListene
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy){
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!completed && isAlarm) {
+            Toast.makeText(context.getApplicationContext(), "Complete the game to stop the alarm!", Toast.LENGTH_SHORT).show();
+        } else {
+            super.onBackPressed();
+        }
     }
 
 }
