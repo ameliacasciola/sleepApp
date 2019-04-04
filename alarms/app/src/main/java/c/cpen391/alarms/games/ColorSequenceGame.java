@@ -10,6 +10,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.spotify.android.appremote.api.ConnectionParams;
+import com.spotify.android.appremote.api.Connector;
+import com.spotify.android.appremote.api.SpotifyAppRemote;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -27,6 +31,13 @@ import retrofit2.Response;
 
 public class ColorSequenceGame extends AppCompatActivity {
     protected static CustomSharedPreference mPref;
+
+    private boolean isAlarm;
+
+    private boolean completed;
+    private static final String CLIENT_ID = "e1cac6772536416882b7ee89591095ea";
+    private static final String REDIRECT_URI = "http://localhost:8000/callback/";
+    private SpotifyAppRemote mSpotifyAppRemote;
 
     private Context context = this;
 
@@ -86,7 +97,6 @@ public class ColorSequenceGame extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sequence_game_main);
-
         mPref = ((CustomApplication)context.getApplicationContext()).getShared();
         guessedColors = new ArrayList<>();
         chosenColors = new ArrayList<>();
@@ -94,6 +104,13 @@ public class ColorSequenceGame extends AppCompatActivity {
         score = 10;
         right = false;
         wrongLetter = false;
+        completed = false;
+
+        if (getIntent().hasExtra("isAlarm")){
+            isAlarm = (boolean) getIntent().getSerializableExtra("isAlarm");
+        } else {
+            isAlarm = false;
+        }
 
         red = (Button) findViewById(R.id.red);
         orange = (Button) findViewById(R.id.orange);
@@ -174,6 +191,15 @@ public class ColorSequenceGame extends AppCompatActivity {
         imgSetDynamic.setImageResource(colors[nextColor]);
     }
 
+    @Override
+    public void onBackPressed() {
+        if (!completed && isAlarm) {
+            Toast.makeText(context.getApplicationContext(), "Complete the game to stop the alarm!", Toast.LENGTH_SHORT).show();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
     private void check() {
 
         imgSetDynamic.setImageResource(R.drawable.white_circle);
@@ -197,6 +223,33 @@ public class ColorSequenceGame extends AppCompatActivity {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
+
+                    ConnectionParams connectionParams =
+                            new ConnectionParams.Builder(CLIENT_ID)
+                                    .setRedirectUri(REDIRECT_URI)
+                                    .showAuthView(true)
+                                    .build();
+
+                    SpotifyAppRemote.connect(context, connectionParams,
+                            new Connector.ConnectionListener() {
+
+                                @Override
+                                public void onConnected(SpotifyAppRemote spotifyAppRemote) {
+                                    mSpotifyAppRemote = spotifyAppRemote;
+                                    Log.e("SPOTIFY REMOTE", "Success, Onconnected" + mSpotifyAppRemote.isConnected());
+
+                                    // Now you can start interacting with App Remote
+                                    mSpotifyAppRemote.getPlayerApi().pause();
+                                }
+
+                                @Override
+                                public void onFailure(Throwable throwable) {
+                                    Log.e("SPOTIFY REMOTE", "Failure, Onconnected");
+
+                                    // Something went wrong when attempting to connect! Handle errors here
+                                }
+                            });
+                    completed = true;
                     updateScoreFunc();
 
                     Intent intent = new Intent(context, c.cpen391.alarms.home.class);

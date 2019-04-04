@@ -62,6 +62,8 @@ public class JumpingJacksGame extends AppCompatActivity implements SensorEventLi
         if (getIntent().hasExtra("isAlarm")){
             isAlarm = (boolean) getIntent().getSerializableExtra("isAlarm");
         } else {
+
+
             isAlarm = false;
         }
         jj_steps = (TextView) findViewById(R.id.jj_steps);
