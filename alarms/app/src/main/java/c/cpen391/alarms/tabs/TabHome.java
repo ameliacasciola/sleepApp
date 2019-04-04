@@ -54,6 +54,8 @@ import c.cpen391.alarms.api.WeatherService;
 import c.cpen391.alarms.custom.CustomSuggestionsAdapter;
 import c.cpen391.alarms.custom.SuggestionsRecyclerTouchListener;
 import c.cpen391.alarms.custom.WeatherCard;
+import c.cpen391.alarms.games.ColorSequenceGame;
+import c.cpen391.alarms.games.ColorSequenceStartActivity;
 import c.cpen391.alarms.games.GraphicsActivity;
 import c.cpen391.alarms.games.JumpingJacksGame;
 import c.cpen391.alarms.games.MainSpellingActivity;
@@ -358,6 +360,16 @@ public class TabHome extends Fragment  {
                 gamesCardView.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
                         Intent intent = new Intent(getActivity(), JumpingJacksGame.class);
+                        startActivity(intent);
+                    }
+                });
+            }
+
+            //go to color sequence game
+            if(i==4) {
+                gamesCardView.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getActivity(), ColorSequenceStartActivity.class);
                         startActivity(intent);
                     }
                 });
