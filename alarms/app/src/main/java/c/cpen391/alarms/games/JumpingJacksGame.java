@@ -170,7 +170,7 @@ public class JumpingJacksGame extends AppCompatActivity implements SensorEventLi
         //completion of steping game, gets 100 points
         // upload to ../scores
         SleepAPI service = SleepClientInstance.getRetrofitInstance().create(SleepAPI.class);
-        Call<ResponseBody> call = service.scorePost(mPref.getUserID(), "Egg Run", 100);
+        Call<ResponseBody> call = service.scorePost(mPref.getUserID(), "Jumping Jacks", 20);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

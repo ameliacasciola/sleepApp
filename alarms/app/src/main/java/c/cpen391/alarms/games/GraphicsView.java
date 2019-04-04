@@ -43,7 +43,7 @@ public class GraphicsView extends View {
 
     private int maxSize = 300;
     private boolean started;
-    private boolean timerDone;
+    public static boolean timerDone;
 
     private int curScore;
     private int timeLeft;
@@ -163,6 +163,7 @@ public class GraphicsView extends View {
             canvas.drawText("Score: "+ curScore, max_x/2 - 200, max_y/2+100, paint);
 
             updateScoreFunc();
+            //goHome.setVisibility(View.GONE);
         }
 
         else {

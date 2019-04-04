@@ -38,7 +38,7 @@
         android:src="@drawable/gumgum_funfacts" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/homebutton"
         android:layout_width="338dp"
         android:layout_height="wrap_content"
         android:background="#FAA110"
