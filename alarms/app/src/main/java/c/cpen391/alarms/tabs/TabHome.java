@@ -45,6 +45,7 @@ import c.cpen391.alarms.custom.CustomSuggestionsAdapter;
 import c.cpen391.alarms.custom.SuggestionsRecyclerTouchListener;
 import c.cpen391.alarms.custom.WeatherCard;
 import c.cpen391.alarms.games.ColorSequenceGame;
+import c.cpen391.alarms.games.ColorSequenceStartActivity;
 import c.cpen391.alarms.games.GraphicsActivity;
 import c.cpen391.alarms.games.JumpingJacksGame;
 import c.cpen391.alarms.games.MainSpellingActivity;

@@ -118,8 +118,7 @@ public class JumpingJacksGame extends AppCompatActivity implements SensorEventLi
             jj_steps.setText(String.valueOf(step_count));
 
             if(step_count > 10 || step_count == 10){
-                setContentView(R.layout.jacks_game_done);
-                home = (Button) findViewById(R.id.home);
+                setContentView(R.layout.sequence_game_done);
 
                 running = false;
                 new Handler().postDelayed(new Runnable() {

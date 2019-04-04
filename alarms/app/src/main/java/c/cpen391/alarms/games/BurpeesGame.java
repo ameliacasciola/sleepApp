@@ -93,8 +93,7 @@ public class BurpeesGame extends AppCompatActivity implements SensorEventListene
             burpees_steps.setText(String.valueOf(step_count));
 
             if(step_count > 10 || step_count == 10){
-                setContentView(R.layout.steps_game_done);
-                home = (Button) findViewById(R.id.home);
+                setContentView(R.layout.sequence_game_done);
 
                 running = false;
                 new Handler().postDelayed(new Runnable() {
