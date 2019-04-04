@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+<<<<<<< HEAD
+=======
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -12,14 +14,17 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.Layout;
+import android.text.TextWatcher;
 import android.util.Log;
 
+>>>>>>> bf5480d9e0f1b0bc0a28958c833f765be9aa40fb
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +35,7 @@ import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.TextStyle;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -47,6 +53,8 @@ import c.cpen391.alarms.adapters.RecyclerViewAdapter;
 import c.cpen391.alarms.api.SleepAPI;
 import c.cpen391.alarms.api.SleepClientInstance;
 import c.cpen391.alarms.api.WeatherService;
+import c.cpen391.alarms.custom.CustomSuggestionsAdapter;
+import c.cpen391.alarms.custom.SuggestionsRecyclerTouchListener;
 import c.cpen391.alarms.custom.WeatherCard;
 import c.cpen391.alarms.games.ColorSequenceGame;
 import c.cpen391.alarms.games.ColorSequenceStartActivity;
@@ -56,6 +64,7 @@ import c.cpen391.alarms.games.MainSpellingActivity;
 import c.cpen391.alarms.games.WalkingStepsGame;
 import c.cpen391.alarms.home;
 import c.cpen391.alarms.models.Alarm;
+import c.cpen391.alarms.models.Game;
 import c.cpen391.alarms.models.WeatherResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -69,6 +78,11 @@ public class TabHome extends Fragment  {
     public static String AppId = "d759bba2b2a5a9470634fd12aaba0ffd";
     public static String lat = "49.25";
     public static String lon = "-123.12";
+
+    private CustomSuggestionsAdapter customSuggestionsAdapter;
+    private List<Game> suggestions = new ArrayList<>();
+    private MaterialSearchBar searchBar;
+
     private int currentTempMin;
     private int currentTempMax;
 
@@ -87,20 +101,25 @@ public class TabHome extends Fragment  {
     };
 
     private String[] gamesNames = {
-            "Egg Run",
-            "Get Eggy With It",
-            "The Egg Did It",
-            "Where did the Egg Go"
+            "Eggs-cercise",
+            "Bubble Pop",
+            "Eggcellent Spelling",
+            "Jumping Jacks",
+            "Color Sequences",
+            "Squats",
+            "Burpees",
     };
 
     private String[] gamesType = {
             "Physical Exercise",
-            "Planning",
             "Speed",
-            "Just get the Egg"
+            "Fun Spelling Test",
+            "Physical Exercise",
+            "Memorization",
+            "Physical Exercise",
+            "Physical Exercise"
     };
 
-    private MaterialSearchBar searchBar;
     private RecyclerViewAdapter adapter;
     private RecyclerView recyclerView;
     ProgressDialog progressDoalog;
@@ -117,6 +136,8 @@ public class TabHome extends Fragment  {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Context c = getActivity().getApplicationContext();
+        customSuggestionsAdapter = new CustomSuggestionsAdapter(inflater);
+
         final View rootview = inflater.inflate(R.layout.home_page, container, false);
 
         greetings = rootview.findViewById(R.id.greeting);
@@ -166,8 +187,68 @@ public class TabHome extends Fragment  {
         searchBar.setHint("Search");
         searchBar.setSpeechMode(true);
         searchBar.setCardViewElevation(0);
+        searchBar.setMaxSuggestionCount(5);
         searchBar.setPlaceHolderColor(Color.parseColor("#A9A9A9"));
 
+
+        if (suggestions.size() == 0) {
+            for (int i = 0; i < gamesNames.length; i++) {
+                suggestions.add(new Game(gamesNames[i], gamesType[i]));
+            }
+        }
+        customSuggestionsAdapter.setSuggestions(suggestions);
+        searchBar.setCustomSuggestionAdapter(customSuggestionsAdapter);
+
+
+        final RecyclerView searchrv = rootview.findViewById(R.id.mt_recycler);
+
+        searchrv.addOnItemTouchListener(new SuggestionsRecyclerTouchListener(getContext(), searchrv, new SuggestionsRecyclerTouchListener.ClickListener() {
+
+            @Override
+            public void onClick(View view, int position) {
+                String game = ((TextView) searchrv.findViewHolderForAdapterPosition(position).itemView.findViewById(R.id.title)).getText().toString();
+                searchBar.setText(game);
+                Context context = getContext();
+
+                if (game.equals("Eggs-cercise")){
+                    Intent newIntent = new Intent(context, WalkingStepsGame.class);
+                    context.startActivity(newIntent);
+                } else if(game.equals("Bubble Pop")){
+                    Intent bubbleIntent = new Intent(context, GraphicsActivity.class);
+                    context.startActivity(bubbleIntent);
+                } else if (game.equals("Eggcellent Spelling")){
+                    Intent spellIntent = new Intent(context, MainSpellingActivity.class);
+                    context.startActivity(spellIntent);
+                } else if (game.equals("Jumping Jacks")){
+                    Intent jumpIntent = new Intent(context, JumpingJacksGame.class);
+                    context.startActivity(jumpIntent);
+                }
+
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+                searchBar.setText(suggestions.get(position).getGameName());
+            }
+        }));
+        searchBar.addTextChangeListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                Log.d("LOG_TAG", getClass().getSimpleName() + " text changed " + searchBar.getText());
+                // send the entered text to our filter and let it manage everything
+                customSuggestionsAdapter.getFilter().filter(searchBar.getText());
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+
+        });
 
         WeatherCard mCustomLayout = (WeatherCard) rootview.findViewById(R.id.weatherCard_bg);
         Picasso.get().load(cardUrls[2]).into(mCustomLayout);
@@ -182,6 +263,16 @@ public class TabHome extends Fragment  {
         displayForecast(rootview);
         initGamesScroll(rootview, gamesCardId);
         initAlarmsList(rootview);
+
+        View decorView = getActivity().getWindow().getDecorView();
+// Hide both the navigation bar and the status bar.
+// SYSTEM_UI_FLAG_FULLSCREEN is only available on Android 4.1 and higher, but as
+// a general rule, you should design your app to hide the status bar whenever you
+// hide the navigation bar.
+        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN;
+        decorView.setSystemUiVisibility(uiOptions);
+
         return rootview;
     }
 
